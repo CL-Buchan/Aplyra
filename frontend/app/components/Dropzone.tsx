@@ -4,13 +4,20 @@ import clsx from 'clsx';
 export default function Dropzone({
 	file,
 	error,
-	loading,
+	loading = false,
+	size = 'sm',
 	onFileSelect,
 }: DropzoneProps) {
+	const sizeMap = {
+		sm: 'min-w-100 min-h-50',
+		md: 'min-w-150 min-h-100',
+		lg: 'min-w-200 min-h-150',
+	};
 	return (
 		<div
 			className={clsx(
-				'relative min-w-100 min-h-50 flex justify-center items-center border border-dashed rounded-xl',
+				'relative flex justify-center items-center border border-dashed rounded-xl',
+				sizeMap[size],
 				error
 					? 'border-red-600 bg-red-600/5'
 					: 'border-white/20 bg-white/5',

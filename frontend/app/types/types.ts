@@ -1,6 +1,7 @@
 export interface DropzoneProps {
-	file?: File;
-	error?: string;
-	loading?: boolean;
+	file: File | undefined;
+	error: string;
+	loading: boolean;
+	size?: 'sm' | 'md' | 'lg';
 	onFileSelect: (file: File | undefined) => void;
 }
