@@ -1,36 +1,24 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Welcome to Trove
 
-## Getting Started
+## Who are we?
 
-First, run the development server:
+Trove is a central job tracking application to store applications, review application details, statuses and more.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+See current features for Trove:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Add applied jobs and their details
+- Update statuses to know what has succeeded or is unsuccessful
+- Look at detailed insights through a quick-view panel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Here are some upcoming features:
 
-## Learn More
+- OAuth login using Google, Outlook or Apple mail
+- Pulls job details from mail accounts ie. Apple, Google, Outlook
+- AI review functionality - matches current skills with applied jobs to give you a detailed success rate
+- Cover letter or resume assistant - parse your PDF, Docx or Txt file and our assistant will do the rest
 
-To learn more about Next.js, take a look at the following resources:
+## Accessing the Repo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
