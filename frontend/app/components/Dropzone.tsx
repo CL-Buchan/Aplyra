@@ -16,11 +16,11 @@ export default function Dropzone({
 	return (
 		<div
 			className={clsx(
-				'relative flex justify-center items-center border border-dashed rounded-xl',
+				'relative flex justify-center items-center border border-dashed rounded-xl transition-colors duration-300 ease-in-out tracking-tight font-sans',
 				sizeMap[size],
 				error
-					? 'border-red-600 bg-red-600/5'
-					: 'border-white/20 bg-white/5',
+					? 'border-red-600 bg-red-600/5 hover:bg-red-600/10'
+					: 'border-white/20 bg-white/5 hover:bg-white/10',
 			)}>
 			<input
 				type='file'
