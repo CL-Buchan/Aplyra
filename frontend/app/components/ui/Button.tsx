@@ -1,27 +1,32 @@
+import { ButtonProps } from '@/app/types/types';
+
 export default function Button({
-	text = 'Add Text',
 	children,
 	variant = 'primary',
-}: {
-	text?: string;
-	children?: React.ReactNode;
-	variant?: 'primary' | 'secondary';
-}) {
+	onClick,
+}: ButtonProps) {
 	let style = '';
 	switch (variant) {
+		case 'none':
+			style = '';
+			break;
 		case 'primary':
-			style = 'bg-black/5 dark:bg-white/10';
+			style =
+				'bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20';
 			break;
 		case 'secondary':
-			style = 'bg-black text-white dark:bg-white dark:text-black';
+			style =
+				'bg-black hover:bg-black/80 text-white dark:bg-white hover:bg-white/80 dark:text-black ';
 			break;
 		default:
 			break;
 	}
 
 	return (
-		<button className={`py-1.25 px-10 rounded-2xl tracking-tight ${style}`}>
-			{children ?? text}
+		<button
+			onClick={onClick}
+			className={`py-1.25 px-10 rounded-2xl tracking-tight transition-colors duration-300 ease-in-out ${style}`}>
+			{children ?? 'Add Text'}
 		</button>
 	);
 }

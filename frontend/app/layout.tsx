@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import Nav from './components/ui/Nav';
 import './globals.css';
 import './styles/main.scss';
+import { Toaster } from 'sonner';
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
 				<div className='w-full flex-1 flex flex-col justify-center items-center'>
 					{children}
 				</div>
+				<Toaster />
 			</body>
 		</html>
 	);

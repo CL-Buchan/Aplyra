@@ -1,3 +1,33 @@
+// Text elements
+h1 {
+	font-size: 36px;
+
+	@media (min-width: 768px) {
+		font-size: 60px;
+	}
+
+	@media (min-width: 1024px) {
+		font-size: 96px;
+	}
+}
+
+h2 {
+	font-size: 20px;
+
+	@media (min-width: 768px) {
+		font-size: 30px;
+	}
+
+	@media (min-width: 1024px) {
+		font-size: 48px;
+	}
+}
+
+p {
+	letter-spacing: var(--tracking-tight);
+}
+
+// Components
 .card {
 	display: flex;
 	flex-direction: row;
