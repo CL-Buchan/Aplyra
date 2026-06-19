@@ -4,8 +4,10 @@ import clsx from 'clsx';
 export default function Dropzone({
 	file,
 	error,
+	success,
 	loading = false,
 	size = 'sm',
+	disabled,
 	onFileSelect,
 }: DropzoneProps) {
 	const sizeMap = {
@@ -16,15 +18,18 @@ export default function Dropzone({
 	return (
 		<div
 			className={clsx(
-				'relative flex justify-center items-center border border-dashed rounded-xl transition-colors duration-300 ease-in-out tracking-tight font-sans',
+				'relative w-full flex justify-center items-center border border-dashed rounded-xl transition-colors duration-300 ease-in-out tracking-tight font-sans',
 				sizeMap[size],
 				error
 					? 'border-red-600 bg-red-600/5 hover:bg-red-600/10'
-					: 'border-white/20 bg-white/5 hover:bg-white/10',
+					: success
+						? 'border-green-600 bg-green-600/5 hover:bg-green-600/10'
+						: 'border-white bg-white/5 hover:bg-white/10',
 			)}>
 			<input
 				type='file'
 				name='dropzone'
+				disabled={disabled}
 				accept='.pdf, .docx'
 				className='inset-0 absolute opacity-0'
 				onChange={(e) => onFileSelect(e.target.files?.[0])}
