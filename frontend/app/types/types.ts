@@ -1,3 +1,5 @@
+type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
+
 export interface DropzoneProps {
 	file: File | undefined;
 	error: string;
@@ -17,4 +19,14 @@ export interface ButtonProps {
 export interface BackButtonNavProps {
 	route?: string;
 	children: React.ReactNode;
+}
+
+export interface CardProps {
+	size?: 'sm' | 'md' | 'lg';
+	title?: string;
+	description?: string;
+	children?: React.ReactNode;
+	backgroundHexColour?: string;
+	borderHexColour?: string;
+	opacity?: frequentOpacityValues;
 }

@@ -28,32 +28,35 @@ export default function UploadPage() {
 
 	return (
 		<BackButtonNav>
-			<div className='w-full h-full card card--col card--center'>
-				<div className='max-w-[50%] flex flex-col gap-10'>
-					<div>
-						<h2 className='tracking-tighter'>Upload File</h2>
-						<p>
-							Take advantage of our AI model and file below, have
-							our model review your document and return detailed,
-							job-ready overview to help you on your journey.
-						</p>
-					</div>
+			<main className='w-full flex flex-col flex-1 items-center justify-center font-sans bg-zinc-50 dark:bg-black'>
+				<div className='w-full h-full card card--col card--center'>
+					<div className='max-w-[50%] flex flex-col gap-10'>
+						<div>
+							<h2 className='tracking-tighter'>Upload File</h2>
+							<p>
+								Take advantage of our AI model and file below,
+								have our model review your document and return
+								detailed, job-ready overview to help you on your
+								journey.
+							</p>
+						</div>
 
-					<div className='w-full flex flex-col items-center gap-10'>
-						<Dropzone
-							file={file}
-							error={error}
-							success={success}
-							loading={loading}
-							disabled={disabled}
-							onFileSelect={handleFileUpload}
-						/>
+						<div className='w-full flex flex-col items-center gap-10'>
+							<Dropzone
+								file={file}
+								error={error}
+								success={success}
+								loading={loading}
+								disabled={disabled}
+								onFileSelect={handleFileUpload}
+							/>
 
-						{success && <CheckCircle color='green' />}
-						{error && <XCircle color='red' />}
+							{success && <CheckCircle color='green' />}
+							{error && <XCircle color='red' />}
+						</div>
 					</div>
 				</div>
-			</div>
+			</main>
 		</BackButtonNav>
 	);
 }
