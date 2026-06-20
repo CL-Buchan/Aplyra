@@ -1,10 +1,24 @@
+import { PillProps } from '@/app/types/types';
+
 export default function Pill({
 	text = 'Default',
 	variant = 'primary',
-}: {
-	text: string;
-	variant?: 'primary' | 'secondary';
-}) {
+	hexColour = 'FFFFFF',
+	opacity = '100%',
+}: PillProps) {
+	const styleMap: Record<string, { bg: string; border: string }> = {
+		'5%': { bg: '0D', border: '33' },
+		'10%': { bg: '1A', border: '4D' },
+		'25%': { bg: '40', border: '66' },
+		'50%': { bg: '80', border: 'B3' },
+		'100%': { bg: 'FF', border: 'FF' },
+	};
+
+	const { bg: bgOpacity, border: borderOpacity } = styleMap[opacity] ?? {
+		bg: 'FF',
+		border: 'FF',
+	};
+
 	let style = '';
 	switch (variant) {
 		case 'primary':
@@ -20,7 +34,11 @@ export default function Pill({
 
 	return (
 		<div
-			className={`py-px px-5 rounded-xl uppercase tracking-tight ${style}`}>
+			style={{
+				backgroundColor: `#${hexColour}${bgOpacity}`,
+				borderColor: `#${hexColour}${borderOpacity}`,
+			}}
+			className={`max-w-fit py-px px-5 rounded-xl uppercase tracking-tight ${style}`}>
 			{text}
 		</div>
 	);

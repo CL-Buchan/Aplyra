@@ -6,8 +6,7 @@ export default function Card({
 	title,
 	description,
 	children,
-	backgroundHexColour = 'FFFFFF',
-	borderHexColour = 'FFFFFF',
+	hexColour = 'FFFFFF',
 	opacity = '5%',
 }: CardProps) {
 	const opacityMap: Record<string, { bg: string; border: string }> = {
@@ -24,9 +23,9 @@ export default function Card({
 	};
 
 	const sizeMap: Record<string, string> = {
-		sm: 'w-[300px] h-[100px]',
-		md: 'w-[400px] h-[200px]',
-		lg: 'w-[500px] h-[300px]',
+		sm: 'h-[100px]',
+		md: 'h-[200px]',
+		lg: 'h-[300px]',
 	};
 
 	const cardSize = sizeMap[size] ?? sizeMap['sm'];
@@ -34,10 +33,10 @@ export default function Card({
 	return (
 		<div
 			style={{
-				backgroundColor: `#${backgroundHexColour}${bgOpacity}`,
-				borderColor: `#${borderHexColour}${borderOpacity}`,
+				backgroundColor: `#${hexColour}${bgOpacity}`,
+				borderColor: `#${hexColour}${borderOpacity}`,
 			}}
-			className={`p-10 flex flex-col justify-censter items-start gap-2.5 border rounded-2xl opacity-[${opacity}] ${cardSize}`}>
+			className={`w-full p-10 flex flex-col justify-censter items-start gap-2.5 border rounded-2xl opacity-[${opacity}] ${cardSize}`}>
 			{title && (
 				<div>
 					<h1>{title}</h1>

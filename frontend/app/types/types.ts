@@ -26,7 +26,13 @@ export interface CardProps {
 	title?: string;
 	description?: string;
 	children?: React.ReactNode;
-	backgroundHexColour?: string;
-	borderHexColour?: string;
+	hexColour?: string;
+	opacity?: frequentOpacityValues;
+}
+
+export interface PillProps {
+	text: string;
+	variant?: 'primary' | 'secondary';
+	hexColour?: string;
 	opacity?: frequentOpacityValues;
 }
