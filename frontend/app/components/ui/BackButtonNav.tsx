@@ -5,18 +5,14 @@ import Button from './Button';
 import { useRouter } from 'next/navigation';
 import { BackButtonNavProps } from '@/app/types/types';
 
-export default function BackButtonNav({ route = '/', children }: BackButtonNavProps) {
+export default function BackButton({ route = '/' }: BackButtonNavProps) {
 	const router = useRouter();
 
 	return (
-		<div className='inset-0 absolute p-10'>
-			<Button variant='none' onClick={() => router.push(route)}>
-				<div className='flex items-center gap-2.5 hover:text-white/50 transition-colors duration-300 ease-in-out'>
-					<ArrowLeft /> Back
-				</div>
-			</Button>
-
-			{children}
-		</div>
+		<Button variant='none' onClick={() => router.push(route)}>
+			<div className='flex items-center gap-2.5 hover:text-white/50 transition-colors duration-300 ease-in-out'>
+				<ArrowLeft /> Back
+			</div>
+		</Button>
 	);
 }

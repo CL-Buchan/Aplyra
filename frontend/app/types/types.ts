@@ -19,7 +19,6 @@ export interface ButtonProps {
 
 export interface BackButtonNavProps {
 	route?: string;
-	children: React.ReactNode;
 }
 
 export interface CardProps {

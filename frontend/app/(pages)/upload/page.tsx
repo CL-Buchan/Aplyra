@@ -27,8 +27,10 @@ export default function UploadPage() {
 	};
 
 	return (
-		<BackButtonNav>
-			<main className='w-full flex flex-col flex-1 items-center justify-center font-sans bg-zinc-50 dark:bg-black'>
+		<div className='p-10 flex-1 w-full flex flex-col justify-start font-sans text-zinc-50 bg-black'>
+			<BackButtonNav />
+
+			<main className='flex-1 h-full flex flex-col items-center justify-center'>
 				<div className='w-full h-full card card--col card--center'>
 					<div className='max-w-[50%] flex flex-col gap-10'>
 						<div>
@@ -57,6 +59,6 @@ export default function UploadPage() {
 					</div>
 				</div>
 			</main>
-		</BackButtonNav>
+		</div>
 	);
 }
