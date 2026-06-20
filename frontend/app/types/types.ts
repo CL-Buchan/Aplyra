@@ -1,5 +1,6 @@
 type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
 
+// -- Prop types --
 export interface DropzoneProps {
 	file: File | undefined;
 	error: string;

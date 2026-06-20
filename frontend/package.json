@@ -10,6 +10,7 @@
 		"test": "vitest"
 	},
 	"dependencies": {
+		"@supabase/ssr": "^0.12.0",
 		"@supabase/supabase-js": "^2.108.2",
 		"@untitledui/icons": "^0.0.22",
 		"clsx": "^2.1.1",
