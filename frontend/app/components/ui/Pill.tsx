@@ -1,10 +1,11 @@
+import { invertTextColour } from '@/app/helpers/invertTextColour';
 import { PillProps } from '@/app/types/types';
 
 export default function Pill({
 	text = 'Default',
 	variant = 'primary',
 	hexColour = 'FFFFFF',
-	opacity = '100%',
+	opacity = '25%',
 }: PillProps) {
 	const styleMap: Record<string, { bg: string; border: string }> = {
 		'5%': { bg: '0D', border: '33' },
@@ -19,6 +20,9 @@ export default function Pill({
 		border: 'FF',
 	};
 
+	const opacityValue = Number(opacity.trim().replace('%', ''));
+	const textColour = invertTextColour(hexColour, opacityValue);
+
 	let style = '';
 	switch (variant) {
 		case 'primary':
@@ -26,7 +30,7 @@ export default function Pill({
 				'bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/20';
 			break;
 		case 'secondary':
-			style = 'bg-black text-white dark:bg-white dark:text-black';
+			style = 'bg-black dark:bg-white';
 			break;
 		default:
 			break;
@@ -35,6 +39,7 @@ export default function Pill({
 	return (
 		<div
 			style={{
+				color: `#${textColour}`,
 				backgroundColor: `#${hexColour}${bgOpacity}`,
 				borderColor: `#${hexColour}${borderOpacity}`,
 			}}

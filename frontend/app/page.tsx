@@ -24,7 +24,6 @@ export default function Home() {
 		<div className='w-full flex flex-col flex-1 items-center justify-center font-sans bg-zinc-50 dark:bg-black'>
 			<main className='max-w-200 py-25 flex flex-col justify-start items-center gap-25'>
 				<div className='card card--col card--center'>
-					<Pill text='Welcome' />
 					<h1 className='tracking-tighter font-semibold text-transparent bg-linear-90 from-10% from-gray-500 via-50% via-white to-gray-800 to-100% bg-clip-text'>
 						Welcome, to Trove
 					</h1>
@@ -47,18 +46,21 @@ export default function Home() {
 					</div>
 				</div>
 
-				<div className='w-full flex flex-row justify-center items-start gap-10'>
-					{/* Image placeholder */}
-					<div className='min-h-full h-50 w-50 bg-white/10 rounded-xl' />
-					<div className='flex-1 card card--col'>
-						<h2 className='tracking-tighter'>Our Features</h2>
-						<ul className='h-full space-y-7 list-disc list-inside'>
-							{features.map((text, index) => (
-								<li key={index} className='uppercase'>
-									{text}
-								</li>
-							))}
-						</ul>
+				<div className='w-full flex flex-col justify-center items-center gap-10'>
+					<Pill hexColour='00ff00' text='Features' />
+					<div className='w-full flex flex-row justify-center items-start gap-10'>
+						{/* Image placeholder */}
+						<div className='min-h-full h-50 w-50 bg-white/10 rounded-xl' />
+						<div className='flex-1 card card--col'>
+							<h2 className='tracking-tighter'>Our Features</h2>
+							<ul className='h-full space-y-7 list-disc list-inside'>
+								{features.map((text, index) => (
+									<li key={index} className='uppercase'>
+										{text}
+									</li>
+								))}
+							</ul>
+						</div>
 					</div>
 				</div>
 
