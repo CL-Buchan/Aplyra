@@ -3,6 +3,10 @@
 :root {
 	--background: #ffffff;
 	--foreground: #171717;
+	--muted: #4e4e4e;
+
+	/* Brand styles */
+	--brand-blue: #0000ff;
 }
 
 @theme inline {
@@ -10,6 +14,8 @@
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
+	--color-muted: var(--muted);
+	--color-brand-blue: var(--brand-blue);
 }
 
 @layer base {

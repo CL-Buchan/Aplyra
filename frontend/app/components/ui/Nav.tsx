@@ -16,8 +16,8 @@ export default function Nav() {
 	const pathname = usePathname();
 
 	return (
-		<div className='relative mt-10 w-full flex justify-center'>
-			<nav className='fixed px-10 py-1.5 rounded-2xl backdrop-blur-md z-10'>
+		<div className='relative w-full flex justify-center pt-10 z-50'>
+			<nav className='fixed px-10 py-2 rounded-3xl bg-white/5 backdrop-blur-md z-10'>
 				<ul className='flex flex-row gap-10'>
 					{links.map(({ text, route }, index) => (
 						<li

@@ -1,3 +1,5 @@
+'use client';
+
 import { Key01, User01 } from '@untitledui/icons';
 import { FormProps } from '../types/types';
 import Button from './ui/Button';
@@ -7,6 +9,8 @@ export default function Form({
 	description,
 	inputs,
 	bttnText,
+	onSubmit,
+	setFormData,
 }: FormProps) {
 	return (
 		<div className='flex flex-col justify-center items-center gap-5'>
@@ -17,7 +21,9 @@ export default function Form({
 				</div>
 			)}
 
-			<form className='flex flex-col justify-center items-center gap-5'>
+			<form
+				onSubmit={onSubmit}
+				className='flex flex-col justify-center items-center gap-5'>
 				{inputs && inputs.length > 0 ? (
 					inputs.map(({ type, label, name, placeholder }, index) => (
 						<div key={index} className='flex flex-col gap-1.25'>
@@ -38,6 +44,12 @@ export default function Form({
 									type={type}
 									name={name}
 									placeholder={placeholder}
+									onChange={(e) =>
+										setFormData((prev) => ({
+											...prev,
+											[e.target.name]: e.target.value,
+										}))
+									}
 									className='text-black dark:text-white'
 								/>
 							</div>

@@ -1,8 +1,26 @@
 import { SetStateAction } from 'react';
 
 type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
+export type Content = { path: string; imgDesc: string };
 
 // -- Prop types --
+export interface CarouselProps {
+	children?: React.ReactNode;
+	content: Content[];
+	title?: string;
+	description?: string;
+	styles?: { imageHeight?: number; imageWidth?: number };
+}
+
+export interface RadialGlowProps {
+	height?: number;
+	width?: number;
+	positionX?: number;
+	positionY?: number;
+	className?: string;
+	hexColour?: string;
+}
+
 export interface FormProps {
 	title?: string;
 	description?: string;
@@ -14,6 +32,8 @@ export interface FormProps {
 	}[];
 	styles?: { borderHexColour?: string; backgroundHexColour?: string };
 	bttnText?: string;
+	onSubmit: () => void;
+	setFormData: React.Dispatch<SetStateAction<LoginFormData | SignupFormData>>;
 }
 
 export interface DropzoneProps {
@@ -27,9 +47,12 @@ export interface DropzoneProps {
 }
 
 export interface ButtonProps {
+	redirectTo?: string;
+	text?: string;
 	type?: 'button' | 'submit' | 'reset';
 	children?: React.ReactNode;
 	variant?: 'none' | 'primary' | 'secondary';
+	className?: string;
 	onClick?: () => void;
 }
 
@@ -52,8 +75,18 @@ export interface PillProps {
 }
 
 // Providers
-
 export interface AppContextProviderProps {
 	state: string[];
 	setState: React.Dispatch<SetStateAction<string[]>>;
+}
+
+// Data types
+export interface LoginFormData {
+	username: string;
+	password: string;
+}
+
+export interface SignupFormData extends LoginFormData {
+	name: string;
+	acceptsPrivacyPolicy: boolean;
 }

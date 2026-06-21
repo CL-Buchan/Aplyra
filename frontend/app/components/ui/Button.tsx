@@ -1,10 +1,18 @@
+'use client';
+
+import { invertTextColour } from '@/app/helpers/invertTextColour';
 import { ButtonProps } from '@/app/types/types';
+import clsx from 'clsx';
+import Link from 'next/link';
 
 export default function Button({
+	redirectTo,
+	text,
 	type = 'button',
 	children,
 	variant = 'primary',
 	onClick,
+	className,
 }: ButtonProps) {
 	let style = '';
 	switch (variant) {
@@ -23,12 +31,42 @@ export default function Button({
 			break;
 	}
 
+	// Get brand colour and invert text colouring accordingly
+	const brandColours: Record<string, string> = { 'brand-blue': '#0000ff' };
+
+	const isDarkMode = getComputedStyle(window).
+	
+	window.matchMedia(
+		'(prefers-color-scheme: dark)',
+	).matches;
+
+	console.log(isDarkMode);
+	const textColour = className
+		? brandColours[className?.split('bg-')[1] ?? ''].split('#')[1]
+		: isDarkMode
+			? 'FFFFFF'
+			: '000000';
+	const invertedTextColour = invertTextColour(textColour, 100);
+
 	return (
 		<button
 			type={type}
 			onClick={onClick}
-			className={`w-full py-1.25 px-10 rounded-2xl tracking-tight transition-colors duration-300 ease-in-out ${style}`}>
-			{children ?? 'Add Text'}
+			className={clsx(
+				`w-fit py-1.25 px-10 rounded-2xl tracking-tight transition-colors duration-300 ease-in-out`,
+				className ? className : style,
+			)}>
+			{children ? (
+				children
+			) : redirectTo && text ? (
+				<Link style={{ color: invertedTextColour }} href={redirectTo}>
+					{text}
+				</Link>
+			) : text ? (
+				<p>{text}</p>
+			) : (
+				'Add text'
+			)}
 		</button>
 	);
 }
