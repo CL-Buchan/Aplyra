@@ -6,8 +6,7 @@ export default function Card({
 	title,
 	description,
 	children,
-	hexColour = 'FFFFFF',
-	opacity = '5%',
+	styles: { hexColour = 'FFFFFF', opacity = '5%' } = {},
 }: CardProps) {
 	const opacityMap: Record<string, { bg: string; border: string }> = {
 		'5%': { bg: '0D', border: '33' },

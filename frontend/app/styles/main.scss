@@ -1,6 +1,10 @@
+:root {
+}
+
 // Text elements
 h1 {
 	font-size: 36px;
+	letter-spacing: -0.05em;
 
 	@media (min-width: 768px) {
 		font-size: 60px;
@@ -13,6 +17,7 @@ h1 {
 
 h2 {
 	font-size: 20px;
+	letter-spacing: -0.05em;
 
 	@media (min-width: 768px) {
 		font-size: 30px;
@@ -25,6 +30,19 @@ h2 {
 
 p {
 	letter-spacing: var(--tracking-tight);
+}
+
+// Elements
+input {
+	width: 18.75rem;
+	padding-left: 10px;
+	padding-right: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+input:focus {
+	outline: none;
 }
 
 // Components

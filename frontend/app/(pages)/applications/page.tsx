@@ -9,6 +9,7 @@ export default function Applications() {
 					<Pill text='10 Jobs' />
 					<h2>Your Applications</h2>
 				</div>
+
 				<div className='w-full'>
 					<Card size='sm' />
 				</div>

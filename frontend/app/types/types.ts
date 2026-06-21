@@ -1,6 +1,21 @@
+import { SetStateAction } from 'react';
+
 type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
 
 // -- Prop types --
+export interface FormProps {
+	title?: string;
+	description?: string;
+	inputs: {
+		type: string;
+		label: string;
+		name: string;
+		placeholder: string;
+	}[];
+	styles?: { borderHexColour?: string; backgroundHexColour?: string };
+	bttnText?: string;
+}
+
 export interface DropzoneProps {
 	file: File | undefined;
 	error: string;
@@ -12,6 +27,7 @@ export interface DropzoneProps {
 }
 
 export interface ButtonProps {
+	type?: 'button' | 'submit' | 'reset';
 	children?: React.ReactNode;
 	variant?: 'none' | 'primary' | 'secondary';
 	onClick?: () => void;
@@ -26,13 +42,18 @@ export interface CardProps {
 	title?: string;
 	description?: string;
 	children?: React.ReactNode;
-	hexColour?: string;
-	opacity?: frequentOpacityValues;
+	styles?: { hexColour?: string; opacity?: frequentOpacityValues };
 }
 
 export interface PillProps {
 	text: string;
 	variant?: 'primary' | 'secondary';
-	hexColour?: string;
-	opacity?: frequentOpacityValues;
+	styles?: { hexColour?: string; opacity?: frequentOpacityValues };
+}
+
+// Providers
+
+export interface AppContextProviderProps {
+	state: string[];
+	setState: React.Dispatch<SetStateAction<string[]>>;
 }

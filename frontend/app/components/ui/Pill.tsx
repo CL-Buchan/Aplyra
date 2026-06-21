@@ -4,8 +4,7 @@ import { PillProps } from '@/app/types/types';
 export default function Pill({
 	text = 'Default',
 	variant = 'primary',
-	hexColour = 'FFFFFF',
-	opacity = '25%',
+	styles: { hexColour = 'FFFFFF', opacity = '25%' } = {},
 }: PillProps) {
 	const styleMap: Record<string, { bg: string; border: string }> = {
 		'5%': { bg: '0D', border: '33' },

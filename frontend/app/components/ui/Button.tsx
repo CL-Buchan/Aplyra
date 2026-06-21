@@ -1,6 +1,7 @@
 import { ButtonProps } from '@/app/types/types';
 
 export default function Button({
+	type = 'button',
 	children,
 	variant = 'primary',
 	onClick,
@@ -24,8 +25,9 @@ export default function Button({
 
 	return (
 		<button
+			type={type}
 			onClick={onClick}
-			className={`py-1.25 px-10 rounded-2xl tracking-tight transition-colors duration-300 ease-in-out ${style}`}>
+			className={`w-full py-1.25 px-10 rounded-2xl tracking-tight transition-colors duration-300 ease-in-out ${style}`}>
 			{children ?? 'Add Text'}
 		</button>
 	);
