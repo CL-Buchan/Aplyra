@@ -10,6 +10,7 @@ export interface CarouselProps {
 	title?: string;
 	description?: string;
 	styles?: { imageHeight?: number; imageWidth?: number };
+	textPosition?: 'top' | 'bottom';
 }
 
 export interface RadialGlowProps {

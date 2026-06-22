@@ -1,26 +1,58 @@
+'use client';
+
+import { hexToRgb } from '@/app/helpers/hexToRgb';
 import { invertTextColour } from '@/app/helpers/invertTextColour';
 import { PillProps } from '@/app/types/types';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Pill({
 	text = 'Default',
 	variant = 'primary',
 	styles: { hexColour = 'FFFFFF', opacity = '25%' } = {},
 }: PillProps) {
-	const styleMap: Record<string, { bg: string; border: string }> = {
-		'5%': { bg: '0D', border: '33' },
-		'10%': { bg: '1A', border: '4D' },
-		'25%': { bg: '40', border: '66' },
-		'50%': { bg: '80', border: 'B3' },
-		'100%': { bg: 'FF', border: 'FF' },
-	};
+	const [formattedWords, setFormattedWords] = useState<string[]>([]);
+	const [newText, setNewText] = useState('');
+	const runTimes = useRef(0);
 
-	const { bg: bgOpacity, border: borderOpacity } = styleMap[opacity] ?? {
-		bg: 'FF',
-		border: 'FF',
-	};
+	// Clean text before any methods
+	text = text.trim();
 
+	const { r, g, b } = hexToRgb(hexColour);
 	const opacityValue = Number(opacity.trim().replace('%', ''));
 	const textColour = invertTextColour(hexColour, opacityValue);
+	const { r: borderR, g: borderG, b: borderB } = hexToRgb(textColour);
+
+	// Capitalise the start of each letter - run effect once on render
+	useEffect(() => {
+		const formatWords = () => {
+			const words = text.split(' ');
+			console.log(words);
+
+			if (runTimes.current === 0) {
+				for (const text of words) {
+					const wordLen = text.length;
+					const capitalisedWord =
+						text.slice(0, 1).toUpperCase() +
+						text.slice(1, wordLen).toLowerCase();
+					setFormattedWords((prev) => [...prev, capitalisedWord]);
+				}
+			}
+
+			runTimes.current = 1;
+		};
+
+		formatWords();
+	}, []);
+
+	useEffect(() => {
+		const setText = () => {
+			const formattedWordStr = formattedWords.join(' ');
+			console.log(formattedWordStr);
+			setNewText(formattedWordStr);
+		};
+
+		setText();
+	}, [formattedWords]);
 
 	let style = '';
 	switch (variant) {
@@ -39,11 +71,11 @@ export default function Pill({
 		<div
 			style={{
 				color: `#${textColour}`,
-				backgroundColor: `#${hexColour}${bgOpacity}`,
-				borderColor: `#${hexColour}${borderOpacity}`,
+				backgroundColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
+				borderColor: `rgba(${borderR}, ${borderG}, ${borderB}, 0.5)`,
 			}}
-			className={`max-w-fit py-px px-5 rounded-xl uppercase tracking-tight ${style}`}>
-			{text}
+			className={`max-h-fit max-w-fit py-px px-5 flex items-center rounded-xl tracking-tight ${style}`}>
+			{newText}
 		</div>
 	);
 }

@@ -7,11 +7,13 @@ import { AppContextProvider } from './providers/AppContext';
 import RadialGlow from './components/ui/RadialGlow';
 import Carousel from './components/Carousel';
 import { Content } from './types/types';
+import { Paperclip } from '@untitledui/icons';
 
 export default function Home() {
 	const moreInfoElement = useRef<HTMLElement | null>(null);
 	const topGlowRef = useRef<HTMLDivElement | null>(null);
 	const bottomGlowRef = useRef<HTMLDivElement | null>(null);
+	const backdropImages = useRef<HTMLImageElement | null>(null);
 
 	useEffect(() => {
 		moreInfoElement.current = document.getElementById('more-information');
@@ -20,7 +22,12 @@ export default function Home() {
 	// Scroll effect listener - background (radials) move slower than the content
 	useEffect(() => {
 		const handleScroll = () => {
-			if (!topGlowRef.current || !bottomGlowRef.current) return;
+			if (
+				!topGlowRef.current ||
+				!bottomGlowRef.current ||
+				!backdropImages.current
+			)
+				return;
 
 			const speed = 0.3;
 			const scrollYPosition = window.scrollY;
@@ -28,6 +35,7 @@ export default function Home() {
 
 			const parallaxItemSpeed = scrollYPosition * speed;
 			topGlowRef.current.style.transform = `translateY(${parallaxItemSpeed}px)`;
+			backdropImages.current.style.transform = `translateY(${parallaxItemSpeed}px)`;
 			bottomGlowRef.current.style.transform = `translateY(-${parallaxItemSpeed}px)`;
 		};
 
@@ -54,7 +62,7 @@ export default function Home() {
 
 				{/* Main content */}
 				<main className='max-w-200 py-20 flex flex-col justify-start items-center gap-15 z-20'>
-					<div className='py-31.25 card card--col card--center'>
+					<div className='relative py-31.25 card card--col card--center'>
 						<div className='flex flex-col'>
 							<h1 className='text-muted tracking-tight font-semibold'>
 								Job hunting is overwhelming.
@@ -77,10 +85,35 @@ export default function Home() {
 							redirectTo=''
 							text='Join the Waitlist'
 						/>
+
+						{/* Icon for background */}
+						<Paperclip
+							className='right-0 bottom-0 absolute z-0 translate-x-125 translate-y-50'
+							opacity={0.025}
+							height={800}
+							width={800}
+						/>
 					</div>
 
 					<div className='py-31.25 w-full flex flex-col justify-center items-center gap-10'>
-						<Carousel content={[]} />
+						<Carousel textPosition='top' content={[]}>
+							<div className='w-full flex flex-row justify-between items-end'>
+								<h2 className='text-3xl!'>
+									Simplify. Track. <br />
+									<span className='text-5xl! tracking-tighter! font-semibold'>
+										Apply for More
+									</span>
+								</h2>
+
+								<Pill
+									text='Limited Spots'
+									styles={{
+										hexColour: '0000FF',
+										opacity: '100%',
+									}}
+								/>
+							</div>
+						</Carousel>
 					</div>
 
 					<div className='py-31.25'>

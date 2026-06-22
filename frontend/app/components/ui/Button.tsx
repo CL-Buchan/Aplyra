@@ -4,6 +4,7 @@ import { invertTextColour } from '@/app/helpers/invertTextColour';
 import { ButtonProps } from '@/app/types/types';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 
 export default function Button({
 	redirectTo,
@@ -14,6 +15,8 @@ export default function Button({
 	onClick,
 	className,
 }: ButtonProps) {
+	const isDarkMode = useRef(false);
+
 	let style = '';
 	switch (variant) {
 		case 'none':
@@ -34,13 +37,12 @@ export default function Button({
 	// Get brand colour and invert text colouring accordingly
 	const brandColours: Record<string, string> = { 'brand-blue': '#0000ff' };
 
-	const isDarkMode = getComputedStyle(window).
-	
-	window.matchMedia(
-		'(prefers-color-scheme: dark)',
-	).matches;
+	useEffect(() => {
+		isDarkMode.current = window.matchMedia(
+			'(prefers-color-scheme: dark)',
+		).matches;
+	}, []);
 
-	console.log(isDarkMode);
 	const textColour = className
 		? brandColours[className?.split('bg-')[1] ?? ''].split('#')[1]
 		: isDarkMode
