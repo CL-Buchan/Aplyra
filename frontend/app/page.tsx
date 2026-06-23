@@ -24,14 +24,13 @@ export default function Home() {
 	const topGlowRef = useRef<HTMLDivElement | null>(null);
 	const bottomGlowRef = useRef<HTMLDivElement | null>(null);
 	const backdropImages = useRef<HTMLImageElement | null>(null);
-
-	const [textVariants, setTextVariants] = useState('organised.');
-	const [variantIndex, setVariantIndex] = useState(0);
 	const [email, setEmail] = useState('');
 	const [status, setStatus] = useState<
 		'idle' | 'loading' | 'success' | 'error'
 	>('idle');
 	const [errorMessage, setErrorMessage] = useState('');
+	const [textVariants, setTextVariants] = useState('organised.');
+	const [variantIndex, setVariantIndex] = useState(0);
 
 	useEffect(() => {
 		moreInfoElement.current = document.getElementById('more-information');
