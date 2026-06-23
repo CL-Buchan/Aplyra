@@ -2,18 +2,26 @@
 
 import Pill from './components/ui/Pill';
 import Button from './components/ui/Button';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AppContextProvider } from './providers/AppContext';
 import RadialGlow from './components/ui/RadialGlow';
 import Carousel from './components/Carousel';
 import { Content } from './types/types';
 import { Paperclip } from '@untitledui/icons';
 
+// Images
+import Image1 from '@/public/assets/img-1.png';
+import Image2 from '@/public/assets/img-2.png';
+import Image3 from '@/public/assets/img-3.png';
+
 export default function Home() {
 	const moreInfoElement = useRef<HTMLElement | null>(null);
 	const topGlowRef = useRef<HTMLDivElement | null>(null);
 	const bottomGlowRef = useRef<HTMLDivElement | null>(null);
 	const backdropImages = useRef<HTMLImageElement | null>(null);
+
+	const [textVariants, setTextVariants] = useState('organised.');
+	const [variantIndex, setVariantIndex] = useState(0);
 
 	useEffect(() => {
 		moreInfoElement.current = document.getElementById('more-information');
@@ -47,11 +55,27 @@ export default function Home() {
 
 	// Images to pass to carousel
 	const images: Content[] = [
-		{ path: '', imgDesc: '' },
-		{ path: '', imgDesc: '' },
-		{ path: '', imgDesc: '' },
-		{ path: '', imgDesc: '' },
+		{ path: Image1.src, imgDesc: 'Image-1' },
+		{ path: Image2.src, imgDesc: 'Image-2' },
+		{ path: Image3.src, imgDesc: 'Image-3' },
 	];
+
+	const variants = ['agile.', 'ready.', 'collected.'];
+
+	useEffect(() => {
+		const alterateWords = () => {
+			setInterval(() => {
+				setVariantIndex((prev) => {
+					const nextIndex =
+						prev === variants.length - 1 ? 0 : prev + 1;
+					setTextVariants(variants[nextIndex]);
+					return nextIndex;
+				});
+			}, 5000);
+		};
+
+		alterateWords();
+	}, []);
 
 	return (
 		<AppContextProvider>
@@ -69,7 +93,9 @@ export default function Home() {
 							</h1>
 							<h1 className='tracking-tighter font-semibold'>
 								Trove keeps you{' '}
-								<span className='underline'>organised.</span>
+								<span className='underline'>
+									{textVariants}
+								</span>
 							</h1>
 						</div>
 
@@ -89,14 +115,14 @@ export default function Home() {
 						{/* Icon for background */}
 						<Paperclip
 							className='right-0 bottom-0 absolute z-0 translate-x-125 translate-y-50'
-							opacity={0.025}
+							opacity={0.125}
 							height={800}
 							width={800}
 						/>
 					</div>
 
 					<div className='py-31.25 w-full flex flex-col justify-center items-center gap-10'>
-						<Carousel textPosition='top' content={[]}>
+						<Carousel textPosition='top' content={images}>
 							<div className='w-full flex flex-row justify-between items-end'>
 								<h2 className='text-3xl!'>
 									Simplify. Track. <br />
@@ -114,24 +140,6 @@ export default function Home() {
 								/>
 							</div>
 						</Carousel>
-					</div>
-
-					<div className='py-31.25'>
-						<div
-							id='more-information'
-							className='w-full card card--col card--start banner-card backdrop-blur-3xl'>
-							<h2 className='tracking-tighter'>
-								More Information
-							</h2>
-							<p>
-								Lorem ipsum dolor sit amet, consectetur
-								adipisicing elit. Adipisci necessitatibus
-								provident ullam excepturi distinctio quia
-								voluptas ratione alias saepe dolore odit,
-								possimus quasi sunt a numquam, quas fugit
-								molestias consequuntur.
-							</p>
-						</div>
 					</div>
 				</main>
 			</div>

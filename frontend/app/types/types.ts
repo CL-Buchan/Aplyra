@@ -1,7 +1,8 @@
+import { StaticImageData } from 'next/image';
 import { SetStateAction } from 'react';
 
 type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
-export type Content = { path: string; imgDesc: string };
+export type Content = { path: string | StaticImageData; imgDesc: string };
 
 // -- Prop types --
 export interface CarouselProps {

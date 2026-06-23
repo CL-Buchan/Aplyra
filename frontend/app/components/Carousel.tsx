@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { CarouselProps } from '../types/types';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowNarrowLeft, ArrowNarrowRight } from '@untitledui/icons';
 
 export default function Carousel({
@@ -22,17 +22,22 @@ export default function Carousel({
 		const container = document.getElementById('carousel_container');
 		if (!container) return;
 
-		const setContainerDimensions = () => {
-			const remainingWidth =
-				(container.getBoundingClientRect().width - 24 * 2) / 3;
-			console.log('rem width: ', remainingWidth);
+		// Watch for changes in container width/dimensions
+		const observer = new ResizeObserver((entries) => {
+			console.log('reporting container change');
+			const width = entries[0].contentRect.width;
+			const remainingWidth = (width ?? 0) - 24 * 2;
 			setContainerWidth(remainingWidth);
-		};
+		});
 
-		setContainerDimensions();
+		observer.observe(container);
+
+		return () => {
+			observer.disconnect();
+		};
 	}, []);
 
-	const elementWidth = containerWidth ?? 0 - (24 * 2) / 3;
+	const elementWidth = containerWidth / 3;
 
 	// Placeholder cards
 	const placeholders = [1, 2, 3];
@@ -59,7 +64,7 @@ export default function Carousel({
 					className='text-muted'
 					style={{ minWidth: '24px' }}
 				/>
-				<div className='flex- 1 flex flex-row items-center gap-5'>
+				<div className='flex-1 flex flex-row items-center gap-5'>
 					{content && content.length > 0
 						? content.map(({ path, imgDesc }, index) => (
 								<Image
@@ -69,8 +74,15 @@ export default function Carousel({
 									height={imageHeight}
 									width={elementWidth}
 									onClick={() => setSelectedIndex(index)}
+									style={{
+										height: imageHeight,
+										width: elementWidth,
+									}}
 									className={clsx(
-										selectedIndex === index ? '' : '',
+										`object-cover overflow-hidden rounded-2xl transition-all duration-300 ease-in-out opacity-50 z-20`,
+										selectedIndex === index
+											? 'scale-110 opacity-100 shadow-2xl shadow-white'
+											: '',
 									)}
 								/>
 							))
@@ -83,9 +95,9 @@ export default function Carousel({
 										width: elementWidth,
 									}}
 									className={clsx(
-										'bg-gray-500 rounded-2xl transition-all duration-300 ease-in-out opacity-50',
+										'bg-gray-500 rounded-2xl transition-all duration-300 ease-in-out opacity-50 z-20',
 										selectedIndex === index
-											? 'scale-110 opacity-100'
+											? 'scale-110 opacity-100 shadow shadow-white'
 											: '',
 									)}
 								/>
