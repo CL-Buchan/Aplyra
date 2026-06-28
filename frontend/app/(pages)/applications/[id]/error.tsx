@@ -1,6 +1,6 @@
 'use client';
 
-import BackButtonNav from '@/app/components/ui/BackButtonNav';
+import BackButtonNav from '@/app/components/ui/BackButton';
 
 export default function Error() {
 	return (

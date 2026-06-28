@@ -27,10 +27,7 @@ export type ApplicationUpdatePayload = {
 	closed: boolean;
 };
 
-export type StatusConfig = {
-	label: string;
-	hexColour: string;
-};
+export type StatusConfig = { label: string; hexColour: string };
 
 export const STATUS_CONFIG: Record<ApplicationStatus, StatusConfig> = {
 	Applied: { label: 'Applied', hexColour: '0000FF' },

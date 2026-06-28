@@ -1,7 +1,8 @@
 'use client';
 
 import Dropzone from '@/app/components/Dropzone';
-import BackButtonNav from '@/app/components/ui/BackButtonNav';
+import BackButton from '@/app/components/ui/BackButton';
+import Wrapper from '@/app/components/Wrapper';
 import { CheckCircle, XCircle } from '@untitledui/icons';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -27,9 +28,7 @@ export default function UploadPage() {
 	};
 
 	return (
-		<div className='p-10 flex-1 w-full flex flex-col justify-start font-sans text-zinc-50 bg-black'>
-			<BackButtonNav />
-
+		<Wrapper>
 			<main className='flex-1 h-full flex flex-col items-center justify-center'>
 				<div className='w-full h-full card card--col card--center'>
 					<div className='max-w-[50%] flex flex-col gap-10'>
@@ -59,6 +58,6 @@ export default function UploadPage() {
 					</div>
 				</div>
 			</main>
-		</div>
+		</Wrapper>
 	);
 }

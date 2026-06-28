@@ -1,5 +1,5 @@
 import ApplicationEditForm from '@/app/components/applications/ApplicationEditForm';
-import BackButtonNav from '@/app/components/ui/BackButtonNav';
+import BackButtonNav from '@/app/components/ui/BackButton';
 import Pill from '@/app/components/ui/Pill';
 import {
 	formatRelativeDate,
@@ -56,12 +56,16 @@ export default async function ApplicationDetail({
 							}}
 						/>
 					</div>
-					<p className='text-sm text-muted'>Application #{application.id}</p>
+					<p className='text-sm text-muted'>
+						Application #{application.id}
+					</p>
 				</div>
 
 				<div className='grid w-full grid-cols-1 gap-8 lg:grid-cols-2'>
 					<section className='flex flex-col gap-6 rounded-2xl border border-black/10 bg-white/60 p-6 dark:border-white/15 dark:bg-white/5'>
-						<h3 className='text-lg font-semibold tracking-tight'>Overview</h3>
+						<h3 className='text-lg font-semibold tracking-tight'>
+							Overview
+						</h3>
 
 						<div className='flex flex-col gap-4 text-sm'>
 							<div className='flex items-center gap-2'>
@@ -79,7 +83,9 @@ export default async function ApplicationDetail({
 						<div className='flex flex-col gap-3 border-t border-black/10 pt-4 text-sm dark:border-white/10'>
 							<div className='flex justify-between gap-4'>
 								<span className='text-muted'>Applied</span>
-								<span>{formatRelativeDate(application.applied_at)}</span>
+								<span>
+									{formatRelativeDate(application.applied_at)}
+								</span>
 							</div>
 							<div className='flex justify-between gap-4'>
 								<span className='text-muted'>Closing</span>
@@ -91,8 +97,12 @@ export default async function ApplicationDetail({
 								</span>
 							</div>
 							<div className='flex justify-between gap-4'>
-								<span className='text-muted'>Listing status</span>
-								<span>{application.closed ? 'Closed' : 'Open'}</span>
+								<span className='text-muted'>
+									Listing status
+								</span>
+								<span>
+									{application.closed ? 'Closed' : 'Open'}
+								</span>
 							</div>
 						</div>
 					</section>

@@ -1,7 +1,7 @@
 'use client';
 
 import Form from '@/app/components/Form';
-import BackButton from '@/app/components/ui/BackButtonNav';
+import BackButton from '@/app/components/ui/BackButton';
 import { formInputs } from '@/app/data/data';
 import { createClient } from '@/app/services/supabase/client';
 import { SignupFormData } from '@/app/types/types';

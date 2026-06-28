@@ -62,7 +62,7 @@ export default function Button({
 			type={type}
 			onClick={onClick}
 			className={clsx(
-				`w-fit min-h-[32px] px-[16px] border border-[] rounded-[7px] tracking-tight transition-colors duration-300 ease-in-out`,
+				`w-fit min-h-[32px] px-[16px] rounded-[7px] tracking-tight transition-colors duration-300 ease-in-out`,
 				className ? className : style,
 			)}>
 			{children ? (
