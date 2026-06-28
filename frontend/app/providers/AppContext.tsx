@@ -4,10 +4,10 @@ import { AppContextProviderProps } from '../types/types';
 const AppContext = createContext<AppContextProviderProps | null>(null);
 
 function AppContextProvider({ children }: { children: React.ReactNode }) {
-	const [state, setState] = useState<string[]>([]);
+	const [userLoggedIn, setUserLoggedIn] = useState(false);
 
 	return (
-		<AppContext.Provider value={{ state, setState }}>
+		<AppContext.Provider value={{ userLoggedIn, setUserLoggedIn }}>
 			{children}
 		</AppContext.Provider>
 	);

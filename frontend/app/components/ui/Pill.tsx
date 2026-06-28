@@ -26,7 +26,6 @@ export default function Pill({
 	useEffect(() => {
 		const formatWords = () => {
 			const words = text.split(' ');
-			console.log(words);
 
 			if (runTimes.current === 0) {
 				for (const text of words) {
@@ -47,7 +46,6 @@ export default function Pill({
 	useEffect(() => {
 		const setText = () => {
 			const formattedWordStr = formattedWords.join(' ');
-			console.log(formattedWordStr);
 			setNewText(formattedWordStr);
 		};
 

@@ -16,6 +16,8 @@
 	--font-mono: var(--font-geist-mono);
 	--color-muted: var(--muted);
 	--color-brand-blue: var(--brand-blue);
+	--color-surface: #101010;
+	--color-border: rgba(255, 255, 255, 0.1);
 }
 
 @layer base {
@@ -38,4 +40,34 @@ body {
 	background: var(--background);
 	color: var(--foreground);
 	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Elements */
+
+label {
+	color: #999999;
+}
+
+textarea {
+	padding: 9px 16px;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: 7px;
+}
+
+textarea:focus {
+	outline: none;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+	color: #595959;
+}
+
+input[type="date"].has-value::-webkit-datetime-edit {
+	color: #ffffff;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+	filter: invert(35%);
+	cursor: pointer;
 }

@@ -4,6 +4,27 @@ type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
 export type Content = { path: string; imgDesc: string };
 
 // -- Prop types --
+export interface InputProps {
+	type: 'date' | 'text' | 'textarea';
+	placeholder?: string;
+	className?: string;
+}
+
+export interface IndicatorCircleProps {
+	colour: 'green' | 'purple' | 'red' | 'blue';
+	height?: number;
+	width?: number;
+}
+
+export interface ModalProps {
+	header?: { title?: string; description?: string };
+	body?: { children?: React.ReactNode };
+	footer?: { buttons?: { text: string }[]; children?: React.ReactNode };
+	children?: React.ReactNode;
+	onClose: () => void;
+	isOpen: boolean;
+}
+
 export interface CarouselProps {
 	children?: React.ReactNode;
 	content: Content[];
@@ -22,7 +43,7 @@ export interface RadialGlowProps {
 	hexColour?: string;
 }
 
-export interface FormProps {
+export interface FormProps<T> {
 	title?: string;
 	description?: string;
 	inputs: {
@@ -34,7 +55,7 @@ export interface FormProps {
 	styles?: { borderHexColour?: string; backgroundHexColour?: string };
 	bttnText?: string;
 	onSubmit: () => void;
-	setFormData: React.Dispatch<SetStateAction<LoginFormData | SignupFormData>>;
+	setFormData: React.Dispatch<SetStateAction<T>>;
 }
 
 export interface DropzoneProps {
@@ -77,8 +98,8 @@ export interface PillProps {
 
 // Providers
 export interface AppContextProviderProps {
-	state: string[];
-	setState: React.Dispatch<SetStateAction<string[]>>;
+	userLoggedIn: boolean;
+	setUserLoggedIn: React.Dispatch<SetStateAction<boolean>>;
 }
 
 // Data types

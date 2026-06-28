@@ -4,14 +4,14 @@ import { Key01, User01 } from '@untitledui/icons';
 import { FormProps } from '../types/types';
 import Button from './ui/Button';
 
-export default function Form({
+export default function Form<T>({
 	title,
 	description,
 	inputs,
 	bttnText,
 	onSubmit,
 	setFormData,
-}: FormProps) {
+}: FormProps<T>) {
 	return (
 		<div className='flex flex-col justify-center items-center gap-5'>
 			{(title || description) && (
@@ -22,7 +22,10 @@ export default function Form({
 			)}
 
 			<form
-				onSubmit={onSubmit}
+				onSubmit={(e) => {
+					e.preventDefault();
+					onSubmit();
+				}}
 				className='flex flex-col justify-center items-center gap-5'>
 				{inputs && inputs.length > 0 ? (
 					inputs.map(({ type, label, name, placeholder }, index) => (

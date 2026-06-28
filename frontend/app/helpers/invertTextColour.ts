@@ -14,7 +14,6 @@ export function invertTextColour(hex: string, amount: number) {
 			new Array(valuesToReplace).map(
 				() => (prev: string) => values.push(...prev, '0'),
 			);
-			console.log('values: ', values);
 		}
 
 		throw new Error('Hex is not a complete value');

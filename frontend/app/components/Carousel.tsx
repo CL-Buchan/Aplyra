@@ -25,7 +25,6 @@ export default function Carousel({
 		const setContainerDimensions = () => {
 			const remainingWidth =
 				(container.getBoundingClientRect().width - 24 * 2) / 3;
-			console.log('rem width: ', remainingWidth);
 			setContainerWidth(remainingWidth);
 		};
 

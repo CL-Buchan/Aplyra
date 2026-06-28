@@ -4,6 +4,7 @@ import Nav from './components/ui/Nav';
 import './globals.css';
 import './styles/main.scss';
 import { Toaster } from 'sonner';
+import { AppContextProvider } from './providers/AppContext';
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 
@@ -26,7 +27,7 @@ export default function RootLayout({
 			lang='en'
 			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth scrollbar-none`}>
 			<body className='min-h-full flex flex-col'>
-					<Nav />
+				<Nav />
 
 				<div className='w-full flex-1 flex flex-col justify-center items-center'>
 					{children}

@@ -3,6 +3,7 @@
 import { invertTextColour } from '@/app/helpers/invertTextColour';
 import { ButtonProps } from '@/app/types/types';
 import clsx from 'clsx';
+import { convertServerPatchToFullTree } from 'next/dist/client/components/segment-cache/navigation';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
@@ -24,18 +25,22 @@ export default function Button({
 			break;
 		case 'primary':
 			style =
-				'bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20';
+				'bg-black/5 hover:bg-black/10 dark:bg-[#FFFFFF] dark:hover:bg-[#FFFFFF]/80 text-[#000000]';
 			break;
 		case 'secondary':
 			style =
-				'bg-black hover:bg-black/80 text-white dark:bg-white hover:bg-white/80 dark:text-black ';
+				'bg-[#1A1A1A] hover:bg-[#1A1A1A]/80 border border-[#FFFFFF]/10 text-[#888888]';
 			break;
 		default:
 			break;
 	}
 
 	// Get brand colour and invert text colouring accordingly
-	const brandColours: Record<string, string> = { 'brand-blue': '#0000ff' };
+	const brandColours: Record<string, string> = {
+		'brand-blue': '#0000ff',
+		'bttn-primary-bg': '#FFFFFF',
+		'bttn-ghost-bg': '#1A1A1A',
+	};
 
 	useEffect(() => {
 		isDarkMode.current = window.matchMedia(
@@ -43,8 +48,10 @@ export default function Button({
 		).matches;
 	}, []);
 
-	const textColour = className
-		? brandColours[className?.split('bg-')[1] ?? ''].split('#')[1]
+	const bgKey = className?.split('bg-')[1] ?? '';
+	const brandHex = brandColours[bgKey];
+	const textColour = brandHex
+		? brandHex.split('#')[1].split(']')[0]
 		: isDarkMode
 			? 'FFFFFF'
 			: '000000';
@@ -55,7 +62,7 @@ export default function Button({
 			type={type}
 			onClick={onClick}
 			className={clsx(
-				`w-fit py-1.25 px-10 rounded-2xl tracking-tight transition-colors duration-300 ease-in-out`,
+				`w-fit min-h-[32px] px-[16px] border border-[] rounded-[7px] tracking-tight transition-colors duration-300 ease-in-out`,
 				className ? className : style,
 			)}>
 			{children ? (
