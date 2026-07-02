@@ -1,18 +1,18 @@
-import { ModalProps } from '@/app/types/types';
+import { FormModalProps } from '@/app/types/types';
 import Button from './Button';
 import { X } from '@untitledui/icons';
 import Divider from './Divider';
 import Indicator from '../Indicator';
 import clsx from 'clsx';
 
-export default function Modal({
+export default function FormModal({
 	header: { title = 'Add title', description = 'Add description' } = {},
 	body,
 	footer: { buttons = [] } = {},
 	children,
 	onClose,
 	isOpen,
-}: ModalProps) {
+}: FormModalProps) {
 	if (!children || (body && !body?.children))
 		throw new Error('Modal body neeeds content - add child elements');
 

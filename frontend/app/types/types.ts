@@ -17,12 +17,15 @@ export interface IndicatorCircleProps {
 }
 
 export interface ModalProps {
+	onClose: () => void;
+	isOpen: boolean;
+}
+
+export interface FormModalProps extends ModalProps {
 	header?: { title?: string; description?: string };
 	body?: { children?: React.ReactNode };
 	footer?: { buttons?: { text: string }[]; children?: React.ReactNode };
 	children?: React.ReactNode;
-	onClose: () => void;
-	isOpen: boolean;
 }
 
 export interface CarouselProps {

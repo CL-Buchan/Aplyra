@@ -1,7 +1,6 @@
 'use client';
 
 import Dropzone from '@/app/components/Dropzone';
-import BackButton from '@/app/components/ui/BackButton';
 import Wrapper from '@/app/components/Wrapper';
 import { CheckCircle, XCircle } from '@untitledui/icons';
 import { useState } from 'react';
