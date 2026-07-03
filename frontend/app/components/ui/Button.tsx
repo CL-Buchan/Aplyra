@@ -15,6 +15,7 @@ export default function Button({
 	variant = 'primary',
 	onClick,
 	className,
+	disabled = false,
 }: ButtonProps) {
 	const isDarkMode = useRef(false);
 
@@ -61,8 +62,10 @@ export default function Button({
 		<button
 			type={type}
 			onClick={onClick}
+			disabled={disabled}
 			className={clsx(
 				`w-fit min-h-[32px] px-[16px] rounded-[7px] tracking-tight transition-colors duration-300 ease-in-out`,
+				disabled && 'opacity-50 cursor-not-allowed',
 				className ? className : style,
 			)}>
 			{children ? (

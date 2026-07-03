@@ -60,7 +60,7 @@ export default function Applications() {
 						</Button>
 
 						{applications.length === 0 ? (
-							<div className='flex w-full flex-col items-start gap-6 rounded-2xl border border-black/10 bg-white/60 p-10 dark:border-white/15 dark:bg-white/5'>
+							<div className='w-full flex flex-col items-center gap-6 rounded-2xl border border-black/10 bg-white/60 p-10 dark:border-white/15 dark:bg-white/5'>
 								<p className='text-muted'>
 									No applications yet. Upload a document or
 									add your first job to start tracking.
@@ -88,7 +88,10 @@ export default function Applications() {
 				)} */}
 				</main>
 
-				<ApplicationModal />
+				<ApplicationModal
+					onClose={() => setModalOpen(!modalOpen)}
+					isOpen={modalOpen}
+				/>
 			</div>
 		</Wrapper>
 	);

@@ -37,6 +37,9 @@ export default function Login() {
 			toast.error('Could not log user in!');
 			return;
 		}
+
+		// Reset the values once logged in
+		setLoginData({ username: '', password: '' });
 	};
 
 	return (
@@ -52,6 +55,7 @@ export default function Login() {
 							onSubmit={handleLogin}
 							inputs={formInputs}
 							bttnText='Login'
+							formData={loginData}
 							setFormData={setLoginData}
 						/>
 					</div>

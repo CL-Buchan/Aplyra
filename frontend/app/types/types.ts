@@ -1,31 +1,55 @@
-import { SetStateAction } from 'react';
+import { ChangeEvent, SetStateAction } from 'react';
 
 type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
 export type Content = { path: string; imgDesc: string };
 
 // -- Prop types --
-export interface InputProps {
-	type: 'date' | 'text' | 'textarea';
-	placeholder?: string;
-	className?: string;
+export interface JobApplication {
+	role?: string;
+	company?: string;
+	location?: string;
+	status?: string;
+	appliedDate?: string | Date;
+	closingDate?: string | Date;
+	jobDescription?: string;
 }
 
+export interface InputProps {
+	type: 'date' | 'text' | 'textarea';
+	name?: string;
+	placeholder?: string;
+	className?: string;
+	value?: string;
+	onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+}
+
+type IndicatorColours = 'green' | 'grey' | 'red' | 'blue';
+
 export interface IndicatorCircleProps {
-	colour: 'green' | 'purple' | 'red' | 'blue';
+	colour?: IndicatorColours;
 	height?: number;
 	width?: number;
 }
 
-export interface ModalProps {
+export interface IndicatorProps {
+	colour?: IndicatorColours;
+}
+
+export interface Modal {
 	onClose: () => void;
 	isOpen: boolean;
 }
 
-export interface FormModalProps extends ModalProps {
+export interface ModalProps extends Modal {
 	header?: { title?: string; description?: string };
 	body?: { children?: React.ReactNode };
-	footer?: { buttons?: { text: string }[]; children?: React.ReactNode };
+	footer?: {
+		element?: React.ReactNode;
+		buttons?: { text: string; onClick?: () => void; disabled?: boolean }[];
+		children?: React.ReactNode;
+	};
 	children?: React.ReactNode;
+	isInputsFilled?: boolean;
 }
 
 export interface CarouselProps {
@@ -58,6 +82,7 @@ export interface FormProps<T> {
 	styles?: { borderHexColour?: string; backgroundHexColour?: string };
 	bttnText?: string;
 	onSubmit: () => void;
+	formData: T;
 	setFormData: React.Dispatch<SetStateAction<T>>;
 }
 
@@ -79,10 +104,15 @@ export interface ButtonProps {
 	variant?: 'none' | 'primary' | 'secondary';
 	className?: string;
 	onClick?: () => void;
+	disabled?: boolean;
 }
 
 export interface BackButtonNavProps {
 	route?: string;
+}
+
+export interface NavProps {
+	initialUser: { email: string } | null;
 }
 
 export interface CardProps {

@@ -17,8 +17,8 @@ export default function IndicatorCircle({
 		case 'blue':
 			circleColour = '#5C8FF7';
 			break;
-		case 'purple':
-			circleColour = '#A78BFA';
+		case 'grey':
+			circleColour = '#4e4e4e';
 			break;
 		default:
 			break;

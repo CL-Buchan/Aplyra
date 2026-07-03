@@ -10,6 +10,7 @@ export default function Form<T>({
 	inputs,
 	bttnText,
 	onSubmit,
+	formData,
 	setFormData,
 }: FormProps<T>) {
 	return (
@@ -47,6 +48,11 @@ export default function Form<T>({
 									type={type}
 									name={name}
 									placeholder={placeholder}
+									value={String(
+										(formData as Record<string, unknown>)[
+											name
+										] ?? '',
+									)}
 									onChange={(e) =>
 										setFormData((prev) => ({
 											...prev,

@@ -1,18 +1,18 @@
-import { FormModalProps } from '@/app/types/types';
+import { ModalProps } from '@/app/types/types';
 import Button from './Button';
 import { X } from '@untitledui/icons';
 import Divider from './Divider';
-import Indicator from '../Indicator';
 import clsx from 'clsx';
 
-export default function FormModal({
+export default function Modal({
 	header: { title = 'Add title', description = 'Add description' } = {},
 	body,
-	footer: { buttons = [] } = {},
+	footer: { element, buttons = [] } = {},
 	children,
 	onClose,
 	isOpen,
-}: FormModalProps) {
+	isInputsFilled = false,
+}: ModalProps) {
 	if (!children || (body && !body?.children))
 		throw new Error('Modal body neeeds content - add child elements');
 
@@ -67,7 +67,8 @@ export default function FormModal({
 				{/* Footer */}
 				{buttons && buttons.length > 0 && (
 					<div className='px-[24px] py-[20px] w-full flex justify-between items-center'>
-						<Indicator />
+						{/* Optional insert for a element if choosen - ie. Indicator component */}
+						{element}
 
 						{buttons && buttons.length !== 0 ? (
 							<div className='flex items-center gap-[8px]'>
@@ -75,7 +76,14 @@ export default function FormModal({
 									const variant =
 										index === 0 ? 'secondary' : 'primary';
 									return (
-										<Button key={index} variant={variant}>
+										<Button
+											key={index}
+											variant={variant}
+											onClick={button.onClick}
+											disabled={
+												button.disabled ??
+												(index !== 0 && !isInputsFilled)
+											}>
 											{button.text}
 										</Button>
 									);

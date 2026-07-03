@@ -86,6 +86,7 @@ export default function SignUp() {
 							onSubmit={handleSignup}
 							inputs={formInputs}
 							bttnText='Sign Up'
+							formData={signupData}
 							setFormData={setSignupData}
 						/>
 					</div>
