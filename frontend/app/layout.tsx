@@ -30,7 +30,8 @@ export default async function RootLayout({
 	return (
 		<html
 			lang='en'
-			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth scrollbar-none`}>
+			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth scrollbar-none`}
+			data-scroll-behavior='smooth'>
 			<body className='min-h-full flex flex-col'>
 				<Nav initialUser={user ? { email: user.email ?? '' } : null} />
 

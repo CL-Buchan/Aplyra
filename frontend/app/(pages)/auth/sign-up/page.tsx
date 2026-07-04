@@ -5,7 +5,7 @@ import BackButton from '@/app/components/ui/BackButton';
 import { formInputs } from '@/app/data/data';
 import { createClient } from '@/app/services/supabase/client';
 import { SignupFormData } from '@/app/types/types';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function SignUp() {
@@ -54,7 +54,7 @@ export default function SignUp() {
 			email: signupData.username.trim().toLowerCase(),
 			password: signupData.password.trim(),
 			options: {
-				emailRedirectTo: `${window.location.origin}/api/supabase/auth`,
+				emailRedirectTo: `${window.location.origin}/`,
 			},
 		});
 

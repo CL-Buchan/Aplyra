@@ -2,12 +2,17 @@
 
 import Pill from './components/ui/Pill';
 import Button from './components/ui/Button';
-import { useEffect, useRef } from 'react';
+import Input from './components/ui/Input';
+import { useEffect, useRef, useState } from 'react';
 import { AppContextProvider } from './providers/AppContext';
 import RadialGlow from './components/ui/RadialGlow';
 import Carousel from './components/Carousel';
 import { Content } from './types/types';
 import { Paperclip } from '@untitledui/icons';
+import posthog from 'posthog-js';
+import { createClient } from './services/supabase/client';
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function Home() {
 	const moreInfoElement = useRef<HTMLElement | null>(null);
@@ -15,8 +20,29 @@ export default function Home() {
 	const bottomGlowRef = useRef<HTMLDivElement | null>(null);
 	const backdropImages = useRef<HTMLImageElement | null>(null);
 
+	const [email, setEmail] = useState('');
+	const [status, setStatus] = useState<
+		'idle' | 'loading' | 'success' | 'error'
+	>('idle');
+	const [errorMessage, setErrorMessage] = useState('');
+
 	useEffect(() => {
 		moreInfoElement.current = document.getElementById('more-information');
+
+		if (!moreInfoElement.current) return;
+
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) {
+					posthog.capture('landing_more_info_viewed');
+					observer.disconnect();
+				}
+			},
+			{ threshold: 0.5 },
+		);
+		observer.observe(moreInfoElement.current);
+
+		return () => observer.disconnect();
 	}, []);
 
 	// Scroll effect listener - background (radials) move slower than the content
@@ -44,6 +70,38 @@ export default function Home() {
 		// Removes the cleanup function
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
+
+	async function handleWaitlistSubmit() {
+		if (status === 'loading') return;
+
+		if (!EMAIL_REGEX.test(email)) {
+			setStatus('error');
+			setErrorMessage('Enter a valid email address.');
+			return;
+		}
+
+		setStatus('loading');
+		const supabase = createClient();
+		const { error } = await supabase
+			.from('waitlist')
+			.insert({ email });
+
+		if (error) {
+			posthog.capture('waitlist_signup_failed', {
+				reason: error.code === '23505' ? 'duplicate' : 'unknown',
+			});
+			setStatus('error');
+			setErrorMessage(
+				error.code === '23505'
+					? "You're already on the list!"
+					: 'Something went wrong, please try again.',
+			);
+			return;
+		}
+
+		posthog.capture('waitlist_signup');
+		setStatus('success');
+	}
 
 	// Images to pass to carousel
 	const images: Content[] = [
@@ -74,12 +132,15 @@ export default function Home() {
 						</div>
 
 						<Button
-							onClick={() =>
+							onClick={() => {
+								posthog.capture('waitlist_cta_clicked', {
+									location: 'hero',
+								});
 								moreInfoElement.current?.scrollIntoView({
 									behavior: 'smooth',
 									block: 'center',
-								})
-							}
+								});
+							}}
 							variant='secondary'
 							className='mt-5 bg-brand-blue'
 							redirectTo=''
@@ -119,18 +180,61 @@ export default function Home() {
 					<div className='py-31.25'>
 						<div
 							id='more-information'
-							className='w-full card card--col card--start banner-card backdrop-blur-3xl'>
+							className='w-full card card--col card--start banner-card backdrop-blur-3xl gap-5'>
 							<h2 className='tracking-tighter'>
-								More Information
+								Be first through the door.
 							</h2>
 							<p>
-								Lorem ipsum dolor sit amet, consectetur
-								adipisicing elit. Adipisci necessitatibus
-								provident ullam excepturi distinctio quia
-								voluptas ratione alias saepe dolore odit,
-								possimus quasi sunt a numquam, quas fugit
-								molestias consequuntur.
+								Trove is in the works — one place to track
+								every application, follow-up, and offer,
+								instead of a spreadsheet you forget to update.
+								Join the waitlist and we&apos;ll email you the
+								moment early access opens.
 							</p>
+
+							{status === 'success' ? (
+								<p className='text-brand-blue font-semibold'>
+									You&apos;re on the list — we&apos;ll be in
+									touch.
+								</p>
+							) : (
+								<form
+									onSubmit={(e) => {
+										e.preventDefault();
+										handleWaitlistSubmit();
+									}}
+									className='w-full flex flex-col sm:flex-row items-start sm:items-center gap-2.5'>
+									<Input
+										type='email'
+										name='waitlist-email'
+										placeholder='you@example.com'
+										value={email}
+										onChange={(e) => {
+											setEmail(e.target.value);
+											if (status === 'error') {
+												setStatus('idle');
+											}
+										}}
+									/>
+									<Button
+										type='submit'
+										variant='secondary'
+										className='bg-brand-blue shrink-0'
+										disabled={status === 'loading'}
+										text={
+											status === 'loading'
+												? 'Joining...'
+												: 'Join the Waitlist'
+										}
+									/>
+								</form>
+							)}
+
+							{status === 'error' && (
+								<p className='text-red-500 text-sm'>
+									{errorMessage}
+								</p>
+							)}
 						</div>
 					</div>
 				</main>

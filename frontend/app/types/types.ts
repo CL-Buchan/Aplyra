@@ -15,7 +15,7 @@ export interface JobApplication {
 }
 
 export interface InputProps {
-	type: 'date' | 'text' | 'textarea';
+	type: 'date' | 'text' | 'email' | 'textarea';
 	name?: string;
 	placeholder?: string;
 	className?: string;

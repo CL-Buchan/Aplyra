@@ -38,10 +38,21 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 
 		setLoading(true);
 		const supabase = createClient();
+
+		const {
+			data: { user },
+		} = await supabase.auth.getUser();
+
+		if (!user) {
+			setLoading(false);
+			return console.error('You must be logged in to add applications.');
+		}
+
 		const { error } = await supabase
 			.from('applications')
 			.insert(
 				applications.map((application: JobApplication) => ({
+					user_id: user.id,
 					role: application.role,
 					company_id: 0,
 					applied_at: application.appliedDate,
