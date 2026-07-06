@@ -4,6 +4,13 @@ type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
 export type Content = { path: string; imgDesc: string };
 
 // -- Prop types --
+export interface LoadingSpinnerProps {
+	colour?: string;
+	cy?: number | string;
+	cx?: number | string;
+	r?: number;
+}
+
 export interface JobApplication {
 	role?: string;
 	company?: string;
@@ -84,6 +91,7 @@ export interface FormProps<T> {
 	onSubmit: () => void;
 	formData: T;
 	setFormData: React.Dispatch<SetStateAction<T>>;
+	isLoading: boolean;
 }
 
 export interface DropzoneProps {
@@ -105,6 +113,7 @@ export interface ButtonProps {
 	className?: string;
 	onClick?: () => void;
 	disabled?: boolean;
+	isLoading?: boolean;
 }
 
 export interface BackButtonNavProps {

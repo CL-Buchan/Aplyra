@@ -2,6 +2,7 @@
 
 import Form from '@/app/components/Form';
 import BackButton from '@/app/components/ui/BackButton';
+import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 import { formInputs } from '@/app/data/data';
 import { createClient } from '@/app/services/supabase/client';
 import { SignupFormData } from '@/app/types/types';
@@ -15,12 +16,15 @@ export default function SignUp() {
 		name: '',
 		acceptsPrivacyPolicy: false,
 	});
+	const [isLoading, setLoading] = useState(false);
 
 	const supabase = createClient();
 
 	const emailHosts = ['gmail', 'outlook', 'icloud', 'yahoo', 'student'];
 
 	const handleSignup = async () => {
+		setLoading(true);
+
 		if (!signupData.username.trim()) {
 			toast.error('Enter username');
 			return;
@@ -53,9 +57,7 @@ export default function SignUp() {
 		const { error } = await supabase.auth.signUp({
 			email: signupData.username.trim().toLowerCase(),
 			password: signupData.password.trim(),
-			options: {
-				emailRedirectTo: `${window.location.origin}/`,
-			},
+			options: { emailRedirectTo: `${window.location.origin}/` },
 		});
 
 		if (error) {
@@ -70,6 +72,8 @@ export default function SignUp() {
 			name: '',
 			acceptsPrivacyPolicy: false,
 		});
+
+		setLoading(false);
 		return;
 	};
 
@@ -88,6 +92,7 @@ export default function SignUp() {
 							bttnText='Sign Up'
 							formData={signupData}
 							setFormData={setSignupData}
+							isLoading={isLoading}
 						/>
 					</div>
 

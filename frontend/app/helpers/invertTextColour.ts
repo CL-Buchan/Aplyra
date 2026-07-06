@@ -1,28 +1,10 @@
+import { calculateBrightnessScore } from './calculateBrightnessScore';
 import { hexToRgb } from './hexToRgb';
 
 export function invertTextColour(hex: string, amount: number) {
-	if (!hex) throw new Error('Hex colour value was not provided correctly');
-	if (hex.includes('#'))
-		throw new Error('Pass the hex colour code without the # symbol');
-
-	// Add missing values if str is similar to 00f
-	if (hex.length !== 6) {
-		if (hex.startsWith('0')) {
-			const valuesToReplace = 6 - hex.length;
-			const values: string[] = [];
-
-			new Array(valuesToReplace).map(
-				() => (prev: string) => values.push(...prev, '0'),
-			);
-		}
-
-		throw new Error('Hex is not a complete value');
-	}
-
-	const { r, g, b } = hexToRgb(hex);
-
 	// Convert to brightness based on luminance formula - ITU-R BT.601 formula
-	const brightnessScore = r * 0.299 + g * 0.587 + b * 0.114;
+	const brightnessScore = calculateBrightnessScore(hex);
+	const { r, g, b } = hexToRgb(hex);
 
 	// Check the brightness midway point
 	const colour =

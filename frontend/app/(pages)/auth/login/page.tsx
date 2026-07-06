@@ -13,11 +13,14 @@ export default function Login() {
 		username: '',
 		password: '',
 	});
+	const [isLoading, setLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
 
 	const supabase = createClient();
 
 	const handleLogin = async () => {
+		setLoading(true);
+
 		if (!loginData.username) {
 			toast.error('Please enter username');
 			return;
@@ -40,6 +43,9 @@ export default function Login() {
 
 		// Reset the values once logged in
 		setLoginData({ username: '', password: '' });
+
+		setLoading(false);
+		return;
 	};
 
 	return (

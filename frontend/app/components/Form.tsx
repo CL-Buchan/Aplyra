@@ -12,6 +12,7 @@ export default function Form<T>({
 	onSubmit,
 	formData,
 	setFormData,
+	isLoading,
 }: FormProps<T>) {
 	return (
 		<div className='flex flex-col justify-center items-center gap-5'>
@@ -68,7 +69,9 @@ export default function Form<T>({
 					<p>No form inputs</p>
 				)}
 
-				<Button type='submit'>{bttnText ?? 'Add text'}</Button>
+				<Button isLoading={isLoading} type='submit'>
+					{bttnText ?? 'Add text'}
+				</Button>
 			</form>
 		</div>
 	);
