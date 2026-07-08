@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { CarouselProps } from '../types/global.types';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowNarrowLeft, ArrowNarrowRight } from '@untitledui/icons';
 
 export default function Carousel({

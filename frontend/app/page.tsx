@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from 'react';
 import { AppContextProvider } from './providers/AppContext';
 import RadialGlow from './components/ui/RadialGlow';
 import Carousel from './components/Carousel';
-import { Content } from './types/global.types';
 import { Paperclip } from '@untitledui/icons';
 import posthog from 'posthog-js';
 import { createClient } from './services/supabase/client';
@@ -102,12 +101,12 @@ export default function Home() {
 	}
 
 	// Images to pass to carousel
-	const images: Content[] = [
-		{ path: '', imgDesc: '' },
-		{ path: '', imgDesc: '' },
-		{ path: '', imgDesc: '' },
-		{ path: '', imgDesc: '' },
-	];
+	// const images: Content[] = [
+	// 	{ path: '', imgDesc: '' },
+	// 	{ path: '', imgDesc: '' },
+	// 	{ path: '', imgDesc: '' },
+	// 	{ path: '', imgDesc: '' },
+	// ];
 
 	return (
 		<AppContextProvider>
