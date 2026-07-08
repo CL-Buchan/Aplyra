@@ -7,25 +7,19 @@ from models import ParsedDocument
 
 router = APIRouter()
 
-# MIME types the browser reports for each format. We validate against these
-# so we fail fast with a clear error instead of crashing mid-parse.
+# MIME types the browser reports for each format
 PDF_TYPE = "application/pdf"
 DOCX_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
 
 @router.post("/parse/document", response_model=ParsedDocument)
 async def parse_document(file: UploadFile):
-    # Declaring the parameter as UploadFile tells FastAPI this endpoint
-    # expects multipart/form-data with a field named "file".
     if file.content_type not in (PDF_TYPE, DOCX_TYPE):
-        # 415 = Unsupported Media Type. HTTPException short-circuits the
-        # request and sends this status + message back to the client.
         raise HTTPException(
             status_code=415,
             detail=f"Unsupported file type: {file.content_type}. Upload a PDF or .docx.",
         )
-
-    # .read() is async because the upload may still be streaming in.
+    
     contents = await file.read()
 
     if file.content_type == PDF_TYPE:

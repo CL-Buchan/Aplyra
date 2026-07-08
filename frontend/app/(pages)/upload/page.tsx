@@ -13,17 +13,43 @@ export default function UploadPage() {
 	const [error, setError] = useState('');
 	const [disabled, setDisabled] = useState(false);
 
-	const handleFileUpload = (file: File | undefined) => {
+	const handleFileUpload = async (file: File | undefined) => {
+		setError('');
+		setSuccess(false);
+		setDisabled(true);
 		setLoading(true);
+		// For access on the client ie. filename
+		setFile(file);
 
-		if (file && file?.name) {
-			setFile(file);
-			setSuccess(true);
-			toast.success(`${file?.name} was uploaded successfully`);
-			setDisabled(true);
+		if (!file) {
+			setError('Could not set file');
+			setDisabled(false);
+			setLoading(false);
+			return;
 		}
 
-		setLoading(false);
+		// Add the uploaded file to the formdata object
+		// to send as multipart/form-data to py endpoint
+		const formData = new FormData();
+		formData.append('file', file);
+
+		try {
+			const resp = await fetch('/api/upload', {
+				method: 'POST',
+				body: formData,
+			});
+			if (!resp.ok) return setError('Error sending file');
+
+			setSuccess(true);
+			toast.success(`${file.name} was uploaded successfully`);
+		} catch (error) {
+			return setError(
+				error instanceof Error ? error.message : `${error}`,
+			);
+		} finally {
+			setDisabled(false);
+			setLoading(false);
+		}
 	};
 
 	return (
