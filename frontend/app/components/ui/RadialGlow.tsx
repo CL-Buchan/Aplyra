@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { RadialGlowProps } from '@/app/types/types';
+import { RadialGlowProps } from '@/app/types/global.types';
 import clsx from 'clsx';
 
 const RadialGlow = forwardRef<HTMLDivElement, RadialGlowProps>(

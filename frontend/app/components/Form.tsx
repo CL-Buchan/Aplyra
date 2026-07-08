@@ -1,17 +1,19 @@
 'use client';
 
 import { Key01, User01 } from '@untitledui/icons';
-import { FormProps } from '../types/types';
+import { FormProps } from '../types/global.types';
 import Button from './ui/Button';
 
-export default function Form({
+export default function Form<T>({
 	title,
 	description,
 	inputs,
 	bttnText,
 	onSubmit,
+	formData,
 	setFormData,
-}: FormProps) {
+	isLoading,
+}: FormProps<T>) {
 	return (
 		<div className='flex flex-col justify-center items-center gap-5'>
 			{(title || description) && (
@@ -22,7 +24,10 @@ export default function Form({
 			)}
 
 			<form
-				onSubmit={onSubmit}
+				onSubmit={(e) => {
+					e.preventDefault();
+					onSubmit();
+				}}
 				className='flex flex-col justify-center items-center gap-5'>
 				{inputs && inputs.length > 0 ? (
 					inputs.map(({ type, label, name, placeholder }, index) => (
@@ -44,6 +49,11 @@ export default function Form({
 									type={type}
 									name={name}
 									placeholder={placeholder}
+									value={String(
+										(formData as Record<string, unknown>)[
+											name
+										] ?? '',
+									)}
 									onChange={(e) =>
 										setFormData((prev) => ({
 											...prev,
@@ -59,7 +69,9 @@ export default function Form({
 					<p>No form inputs</p>
 				)}
 
-				<Button type='submit'>{bttnText ?? 'Add text'}</Button>
+				<Button isLoading={isLoading} type='submit'>
+					{bttnText ?? 'Add text'}
+				</Button>
 			</form>
 		</div>
 	);

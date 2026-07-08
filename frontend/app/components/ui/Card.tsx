@@ -1,4 +1,4 @@
-import { CardProps } from '@/app/types/types';
+import { CardProps } from '@/app/types/global.types';
 import clsx from 'clsx';
 
 export default function Card({

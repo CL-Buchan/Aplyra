@@ -2,7 +2,7 @@
 
 import { hexToRgb } from '@/app/helpers/hexToRgb';
 import { invertTextColour } from '@/app/helpers/invertTextColour';
-import { PillProps } from '@/app/types/types';
+import { PillProps } from '@/app/types/global.types';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Pill({
@@ -26,7 +26,6 @@ export default function Pill({
 	useEffect(() => {
 		const formatWords = () => {
 			const words = text.split(' ');
-			console.log(words);
 
 			if (runTimes.current === 0) {
 				for (const text of words) {
@@ -47,7 +46,6 @@ export default function Pill({
 	useEffect(() => {
 		const setText = () => {
 			const formattedWordStr = formattedWords.join(' ');
-			console.log(formattedWordStr);
 			setNewText(formattedWordStr);
 		};
 

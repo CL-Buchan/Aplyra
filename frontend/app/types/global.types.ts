@@ -1,10 +1,65 @@
 import { StaticImageData } from 'next/image';
-import { SetStateAction } from 'react';
+import { ChangeEvent, SetStateAction } from 'react';
 
 type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
 export type Content = { path: string | StaticImageData; imgDesc: string };
 
 // -- Prop types --
+export interface LoadingSpinnerProps {
+	colour?: string;
+	cy?: number | string;
+	cx?: number | string;
+	r?: number;
+}
+
+export interface JobApplication {
+	role?: string;
+	company?: string;
+	location?: string;
+	status?: string;
+	appliedDate?: string | Date;
+	closingDate?: string | Date;
+	jobDescription?: string;
+}
+
+export interface InputProps {
+	type: 'date' | 'text' | 'email' | 'textarea';
+	name?: string;
+	placeholder?: string;
+	className?: string;
+	value?: string;
+	onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+}
+
+type IndicatorColours = 'green' | 'grey' | 'red' | 'blue';
+
+export interface IndicatorCircleProps {
+	colour?: IndicatorColours;
+	height?: number;
+	width?: number;
+}
+
+export interface IndicatorProps {
+	colour?: IndicatorColours;
+}
+
+export interface Modal {
+	onClose: () => void;
+	isOpen: boolean;
+}
+
+export interface ModalProps extends Modal {
+	header?: { title?: string; description?: string };
+	body?: { children?: React.ReactNode };
+	footer?: {
+		element?: React.ReactNode;
+		buttons?: { text: string; onClick?: () => void; disabled?: boolean }[];
+		children?: React.ReactNode;
+	};
+	children?: React.ReactNode;
+	isInputsFilled?: boolean;
+}
+
 export interface CarouselProps {
 	children?: React.ReactNode;
 	content: Content[];
@@ -23,7 +78,7 @@ export interface RadialGlowProps {
 	hexColour?: string;
 }
 
-export interface FormProps {
+export interface FormProps<T> {
 	title?: string;
 	description?: string;
 	inputs: {
@@ -35,7 +90,9 @@ export interface FormProps {
 	styles?: { borderHexColour?: string; backgroundHexColour?: string };
 	bttnText?: string;
 	onSubmit: () => void;
-	setFormData: React.Dispatch<SetStateAction<LoginFormData | SignupFormData>>;
+	formData: T;
+	setFormData: React.Dispatch<SetStateAction<T>>;
+	isLoading: boolean;
 }
 
 export interface DropzoneProps {
@@ -56,10 +113,16 @@ export interface ButtonProps {
 	variant?: 'none' | 'primary' | 'secondary';
 	className?: string;
 	onClick?: () => void;
+	disabled?: boolean;
+	isLoading?: boolean;
 }
 
 export interface BackButtonNavProps {
 	route?: string;
+}
+
+export interface NavProps {
+	initialUser: { email: string } | null;
 }
 
 export interface CardProps {
@@ -78,8 +141,8 @@ export interface PillProps {
 
 // Providers
 export interface AppContextProviderProps {
-	state: string[];
-	setState: React.Dispatch<SetStateAction<string[]>>;
+	userLoggedIn: boolean;
+	setUserLoggedIn: React.Dispatch<SetStateAction<boolean>>;
 }
 
 // Data types

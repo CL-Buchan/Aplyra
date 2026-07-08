@@ -1,7 +1,7 @@
 'use client';
 
 import Dropzone from '@/app/components/Dropzone';
-import BackButtonNav from '@/app/components/ui/BackButtonNav';
+import Wrapper from '@/app/components/Wrapper';
 import { CheckCircle, XCircle } from '@untitledui/icons';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -13,23 +13,47 @@ export default function UploadPage() {
 	const [error, setError] = useState('');
 	const [disabled, setDisabled] = useState(false);
 
-	const handleFileUpload = (file: File | undefined) => {
+	const handleFileUpload = async (file: File | undefined) => {
+		setError('');
+		setSuccess(false);
+		setDisabled(true);
 		setLoading(true);
+		// For access on the client ie. filename
+		setFile(file);
 
-		if (file && file?.name) {
-			setFile(file);
-			setSuccess(true);
-			toast.success(`${file?.name} was uploaded successfully`);
-			setDisabled(true);
+		if (!file) {
+			setError('Could not set file');
+			setDisabled(false);
+			setLoading(false);
+			return;
 		}
 
-		setLoading(false);
+		// Add the uploaded file to the formdata object
+		// to send as multipart/form-data to py endpoint
+		const formData = new FormData();
+		formData.append('file', file);
+
+		try {
+			const resp = await fetch('/api/upload', {
+				method: 'POST',
+				body: formData,
+			});
+			if (!resp.ok) return setError('Error sending file');
+
+			setSuccess(true);
+			toast.success(`${file.name} was uploaded successfully`);
+		} catch (error) {
+			return setError(
+				error instanceof Error ? error.message : `${error}`,
+			);
+		} finally {
+			setDisabled(false);
+			setLoading(false);
+		}
 	};
 
 	return (
-		<div className='p-10 flex-1 w-full flex flex-col justify-start font-sans text-zinc-50 bg-black'>
-			<BackButtonNav />
-
+		<Wrapper>
 			<main className='flex-1 h-full flex flex-col items-center justify-center'>
 				<div className='w-full h-full card card--col card--center'>
 					<div className='max-w-[50%] flex flex-col gap-10'>
@@ -59,6 +83,6 @@ export default function UploadPage() {
 					</div>
 				</div>
 			</main>
-		</div>
+		</Wrapper>
 	);
 }

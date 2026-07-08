@@ -3,7 +3,7 @@
 import { ArrowLeft } from '@untitledui/icons';
 import Button from './Button';
 import { useRouter } from 'next/navigation';
-import { BackButtonNavProps } from '@/app/types/types';
+import { BackButtonNavProps } from '@/app/types/global.types';
 
 export default function BackButton({ route = '/' }: BackButtonNavProps) {
 	const router = useRouter();
