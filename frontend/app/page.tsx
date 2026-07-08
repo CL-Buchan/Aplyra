@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from 'react';
 import { AppContextProvider } from './providers/AppContext';
 import RadialGlow from './components/ui/RadialGlow';
 import Carousel from './components/Carousel';
-import { Content } from './types/global.types';
 import { Paperclip } from '@untitledui/icons';
 import posthog from 'posthog-js';
 import { createClient } from './services/supabase/client';
@@ -18,6 +17,7 @@ import Image1 from '@/public/assets/img-1.png';
 import Image2 from '@/public/assets/img-2.png';
 import Image3 from '@/public/assets/img-3.png';
 import Input from './components/ui/Input';
+import { Content } from './types/global.types';
 
 export default function Home() {
 	const moreInfoElement = useRef<HTMLElement | null>(null);

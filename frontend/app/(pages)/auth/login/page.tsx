@@ -14,30 +14,38 @@ export default function Login() {
 		password: '',
 	});
 	const [isLoading, setLoading] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
+	const [error, setError] = useState('');
 
 	const supabase = createClient();
 
 	const handleLogin = async () => {
+		setError('');
 		setLoading(true);
 
+		let errorMsg = '';
 		if (!loginData.username) {
-			toast.error('Please enter username');
+			errorMsg = 'Please enter username';
+			setError(errorMsg);
+			toast.error(errorMsg);
 			return;
 		}
 		if (!loginData.password) {
-			toast.error('Please enter password');
+			errorMsg = 'Please enter password';
+			setError(errorMsg);
+			toast.error(errorMsg);
 			return;
 		}
 
 		// Log user in using credentials - w/ password
-		const { data, error } = await supabase.auth.signInWithPassword({
+		const { error } = await supabase.auth.signInWithPassword({
 			email: loginData.username,
 			password: loginData.password,
 		});
 
 		if (error) {
-			toast.error('Could not log user in!');
+			errorMsg = 'User could not be logged in';
+			setError(errorMsg);
+			toast.error(errorMsg);
 			return;
 		}
 
@@ -65,6 +73,8 @@ export default function Login() {
 							setFormData={setLoginData}
 							isLoading={isLoading}
 						/>
+
+						{error && <p className='mt-5 text-red-500'>{error}</p>}
 					</div>
 
 					<div className='flex flex-col items-center gap-1'>
