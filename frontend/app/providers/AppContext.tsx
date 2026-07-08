@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { AppContextProviderProps } from '../types/types';
+import { AppContextProviderProps } from '../types/global.types';
 
 const AppContext = createContext<AppContextProviderProps | null>(null);
 

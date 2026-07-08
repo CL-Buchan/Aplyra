@@ -6,7 +6,7 @@ import Button from '@/app/components/ui/Button';
 import Pill from '@/app/components/ui/Pill';
 import Wrapper from '@/app/components/Wrapper';
 import { createClient } from '@/app/services/supabase/client';
-import { ApplicationWithCompany } from '@/app/types/applications';
+import { ApplicationWithCompany } from '@/app/types/application.types';
 import { useEffect, useState } from 'react';
 
 export default function Applications() {

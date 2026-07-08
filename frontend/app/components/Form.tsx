@@ -1,7 +1,7 @@
 'use client';
 
 import { Key01, User01 } from '@untitledui/icons';
-import { FormProps } from '../types/types';
+import { FormProps } from '../types/global.types';
 import Button from './ui/Button';
 
 export default function Form<T>({

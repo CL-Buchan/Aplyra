@@ -1,4 +1,4 @@
-import { IndicatorProps } from '../types/types';
+import { IndicatorProps } from '../types/global.types';
 import IndicatorCircle from './ui/IndicatorCircle';
 
 export default function Indicator({ colour = 'red' }: IndicatorProps) {

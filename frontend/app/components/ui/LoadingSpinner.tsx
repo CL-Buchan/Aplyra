@@ -1,4 +1,4 @@
-import { LoadingSpinnerProps } from '@/app/types/types';
+import { LoadingSpinnerProps } from '@/app/types/global.types';
 
 export default function LoadingSpinner({
 	colour,

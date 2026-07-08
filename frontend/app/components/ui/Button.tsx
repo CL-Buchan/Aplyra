@@ -1,12 +1,11 @@
 'use client';
 
 import { invertTextColour } from '@/app/helpers/invertTextColour';
-import { ButtonProps } from '@/app/types/types';
+import { ButtonProps } from '@/app/types/global.types';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import LoadingSpinner from './LoadingSpinner';
-import { invertColour } from '@/app/helpers/invertColour';
 
 export default function Button({
 	redirectTo,
@@ -68,14 +67,10 @@ export default function Button({
 			? 'FFFFFF'
 			: '000000';
 	const invertedTextColour = invertTextColour(textColour, 100);
-	console.log('style', style);
 	const bgColour = isDarkMode
 		? style?.split('dark:bg-[')[1]?.split(']')[0].replace('#', '')
 		: style?.split('bg-[')[1]?.split(']')[0].replace('#', '');
-	console.log('bg colour:', bgColour);
-	console.log(className ? brandHex : bgColour);
 	const hex = className ? brandHex : bgColour;
-	console.log('hex value:', hex);
 
 	return (
 		<button

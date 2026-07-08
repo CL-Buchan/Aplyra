@@ -1,4 +1,4 @@
-import { ModalProps } from '@/app/types/types';
+import { ModalProps } from '@/app/types/global.types';
 import Button from './Button';
 import { X } from '@untitledui/icons';
 import Divider from './Divider';

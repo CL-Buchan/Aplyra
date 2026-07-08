@@ -1,4 +1,4 @@
-import { DropzoneProps } from '../types/types';
+import { DropzoneProps } from '../types/global.types';
 import clsx from 'clsx';
 
 export default function Dropzone({

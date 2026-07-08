@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { JobApplication, ModalProps } from '@/app/types/types';
+import { JobApplication, ModalProps } from '@/app/types/global.types';
 import Indicator from '../Indicator';
 import Input from '../ui/Input';
 import Modal from '../ui/Modal';

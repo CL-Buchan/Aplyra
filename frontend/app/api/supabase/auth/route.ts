@@ -9,6 +9,11 @@ export async function GET(request: NextRequest) {
 		'type',
 	) as EmailOtpType | null;
 
+	// Console logs
+	console.log('code: ', code);
+	console.log('tokenhash: ', tokenHash);
+	console.log('type: ', type);
+
 	const supabase = await createClient();
 
 	// OAuth / PKCE sign-in callbacks arrive with `code`

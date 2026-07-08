@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/app/services/supabase/server';
-import { ApplicationUpdatePayload } from '@/app/types/applications';
+import { ApplicationUpdatePayload } from '@/app/types/application.types';
 import { revalidatePath } from 'next/cache';
 
 export async function updateApplication(
@@ -14,7 +14,10 @@ export async function updateApplication(
 	} = await supabase.auth.getUser();
 
 	if (!user) {
-		return { success: false, error: 'You must be logged in to update an application.' };
+		return {
+			success: false,
+			error: 'You must be logged in to update an application.',
+		};
 	}
 
 	const { data: existing, error: fetchError } = await supabase

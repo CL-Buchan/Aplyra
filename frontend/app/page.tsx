@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AppContextProvider } from './providers/AppContext';
 import RadialGlow from './components/ui/RadialGlow';
 import Carousel from './components/Carousel';
-import { Content } from './types/types';
+import { Content } from './types/global.types';
 import { Paperclip } from '@untitledui/icons';
 import posthog from 'posthog-js';
 import { createClient } from './services/supabase/client';
@@ -82,9 +82,7 @@ export default function Home() {
 
 		setStatus('loading');
 		const supabase = createClient();
-		const { error } = await supabase
-			.from('waitlist')
-			.insert({ email });
+		const { error } = await supabase.from('waitlist').insert({ email });
 
 		if (error) {
 			posthog.capture('waitlist_signup_failed', {
@@ -185,11 +183,11 @@ export default function Home() {
 								Be first through the door.
 							</h2>
 							<p>
-								Trove is in the works — one place to track
-								every application, follow-up, and offer,
-								instead of a spreadsheet you forget to update.
-								Join the waitlist and we&apos;ll email you the
-								moment early access opens.
+								Trove is in the works — one place to track every
+								application, follow-up, and offer, instead of a
+								spreadsheet you forget to update. Join the
+								waitlist and we&apos;ll email you the moment
+								early access opens.
 							</p>
 
 							{status === 'success' ? (

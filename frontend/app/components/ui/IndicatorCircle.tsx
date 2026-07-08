@@ -1,4 +1,4 @@
-import { IndicatorCircleProps } from '@/app/types/types';
+import { IndicatorCircleProps } from '@/app/types/global.types';
 
 export default function IndicatorCircle({
 	colour,

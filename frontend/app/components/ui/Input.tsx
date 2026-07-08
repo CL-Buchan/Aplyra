@@ -1,6 +1,6 @@
 'use client';
 
-import { InputProps } from '@/app/types/types';
+import { InputProps } from '@/app/types/global.types';
 import clsx from 'clsx';
 
 export default function Input({

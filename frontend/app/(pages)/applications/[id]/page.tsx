@@ -9,7 +9,7 @@ import { createClient } from '@/app/services/supabase/server';
 import {
 	ApplicationWithCompany,
 	getStatusConfig,
-} from '@/app/types/applications';
+} from '@/app/types/application.types';
 import { Building07, MarkerPin01 } from '@untitledui/icons';
 import { notFound } from 'next/navigation';
 

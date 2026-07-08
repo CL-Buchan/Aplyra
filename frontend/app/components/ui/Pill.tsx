@@ -2,7 +2,7 @@
 
 import { hexToRgb } from '@/app/helpers/hexToRgb';
 import { invertTextColour } from '@/app/helpers/invertTextColour';
-import { PillProps } from '@/app/types/types';
+import { PillProps } from '@/app/types/global.types';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Pill({

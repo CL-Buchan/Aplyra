@@ -2,10 +2,9 @@
 
 import Form from '@/app/components/Form';
 import BackButton from '@/app/components/ui/BackButton';
-import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 import { formInputs } from '@/app/data/data';
 import { createClient } from '@/app/services/supabase/client';
-import { SignupFormData } from '@/app/types/types';
+import { SignupFormData } from '@/app/types/global.types';
 import { useState } from 'react';
 import { toast } from 'sonner';
 

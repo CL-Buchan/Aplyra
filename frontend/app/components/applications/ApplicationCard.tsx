@@ -7,15 +7,12 @@ import {
 import {
 	ApplicationWithCompany,
 	getStatusConfig,
-} from '@/app/types/applications';
+} from '@/app/types/application.types';
 import { Building07, MarkerPin01 } from '@untitledui/icons';
 import clsx from 'clsx';
 import Link from 'next/link';
 
-const urgencyAccent: Record<
-	ReturnType<typeof getUrgencyLevel>,
-	string
-> = {
+const urgencyAccent: Record<ReturnType<typeof getUrgencyLevel>, string> = {
 	none: 'border-l-transparent',
 	soon: 'border-l-amber-500',
 	overdue: 'border-l-red-500',
@@ -51,7 +48,10 @@ export default function ApplicationCard({
 				</h3>
 				<Pill
 					text={statusConfig.label}
-					styles={{ hexColour: statusConfig.hexColour, opacity: '25%' }}
+					styles={{
+						hexColour: statusConfig.hexColour,
+						opacity: '25%',
+					}}
 				/>
 			</div>
 
@@ -71,7 +71,12 @@ export default function ApplicationCard({
 			<div className='mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs tracking-tight text-muted'>
 				<span>{formatRelativeDate(application.applied_at)}</span>
 				<span aria-hidden='true'>·</span>
-				<span>{getClosingInsight(application.closing_date, application.closed)}</span>
+				<span>
+					{getClosingInsight(
+						application.closing_date,
+						application.closed,
+					)}
+				</span>
 			</div>
 		</Link>
 	);

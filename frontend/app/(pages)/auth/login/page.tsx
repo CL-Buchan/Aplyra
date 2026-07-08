@@ -4,7 +4,7 @@ import Form from '@/app/components/Form';
 import BackButton from '@/app/components/ui/BackButton';
 import { formInputs } from '@/app/data/data';
 import { createClient } from '@/app/services/supabase/client';
-import { LoginFormData } from '@/app/types/types';
+import { LoginFormData } from '@/app/types/global.types';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -63,6 +63,7 @@ export default function Login() {
 							bttnText='Login'
 							formData={loginData}
 							setFormData={setLoginData}
+							isLoading={isLoading}
 						/>
 					</div>
 

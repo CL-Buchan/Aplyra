@@ -8,7 +8,7 @@ import {
 	ApplicationUpdatePayload,
 	ApplicationWithCompany,
 	getStatusConfig,
-} from '@/app/types/applications';
+} from '@/app/types/application.types';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState, useTransition } from 'react';
 import { toast } from 'sonner';
@@ -58,7 +58,9 @@ export default function ApplicationEditForm({
 			onSubmit={handleSubmit}
 			className='flex w-full flex-col gap-6 rounded-2xl border border-black/10 bg-white/60 p-6 dark:border-white/15 dark:bg-white/5'>
 			<div>
-				<h3 className='text-lg font-semibold tracking-tight'>Manage application</h3>
+				<h3 className='text-lg font-semibold tracking-tight'>
+					Manage application
+				</h3>
 				<p className='mt-1 text-sm text-muted'>
 					Update status and key details for this role.
 				</p>
@@ -69,7 +71,10 @@ export default function ApplicationEditForm({
 				<select
 					value={formData.status}
 					onChange={(event) =>
-						setFormData((prev) => ({ ...prev, status: event.target.value }))
+						setFormData((prev) => ({
+							...prev,
+							status: event.target.value,
+						}))
 					}
 					className='rounded-xl border border-black/10 bg-transparent px-4 py-2.5 dark:border-white/15'>
 					{APPLICATION_STATUSES.map((status) => (
@@ -86,7 +91,10 @@ export default function ApplicationEditForm({
 					type='text'
 					value={formData.role}
 					onChange={(event) =>
-						setFormData((prev) => ({ ...prev, role: event.target.value }))
+						setFormData((prev) => ({
+							...prev,
+							role: event.target.value,
+						}))
 					}
 					required
 					className='rounded-xl border border-black/10 bg-transparent px-4 py-2.5 dark:border-white/15'
@@ -128,14 +136,20 @@ export default function ApplicationEditForm({
 					type='checkbox'
 					checked={formData.closed}
 					onChange={(event) =>
-						setFormData((prev) => ({ ...prev, closed: event.target.checked }))
+						setFormData((prev) => ({
+							...prev,
+							closed: event.target.checked,
+						}))
 					}
 					className='size-4 rounded border-black/10 dark:border-white/15'
 				/>
 				<span className='font-medium'>Mark as closed</span>
 			</label>
 
-			<Button type='submit' text={isPending ? 'Saving…' : 'Save changes'} />
+			<Button
+				type='submit'
+				text={isPending ? 'Saving…' : 'Save changes'}
+			/>
 		</form>
 	);
 }

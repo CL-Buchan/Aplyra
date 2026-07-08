@@ -1,7 +1,7 @@
 'use client';
 
 import { createClient } from '@/app/services/supabase/client';
-import { NavProps } from '@/app/types/types';
+import { NavProps } from '@/app/types/global.types';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
