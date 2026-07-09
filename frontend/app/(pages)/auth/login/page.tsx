@@ -51,7 +51,6 @@ export default function Login() {
 
 		// Reset the values once logged in
 		setLoginData({ username: '', password: '' });
-
 		setLoading(false);
 		return;
 	};

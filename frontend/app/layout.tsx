@@ -24,12 +24,6 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
 	const supabase = await createClient();
 
-	// Auth flow - only is code is detected inside the params
-	const urlHasCodeQuery = new URLSearchParams('code');
-	if (urlHasCodeQuery) {
-		await fetch('api/supabase/auth');
-	}
-
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();

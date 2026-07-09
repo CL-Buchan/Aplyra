@@ -56,7 +56,9 @@ export default function SignUp() {
 		const { error } = await supabase.auth.signUp({
 			email: signupData.username.trim().toLowerCase(),
 			password: signupData.password.trim(),
-			options: { emailRedirectTo: `${window.location.origin}/` },
+			options: {
+				emailRedirectTo: `${window.location.origin}/api/supabase/auth`,
+			},
 		});
 
 		if (error) {
