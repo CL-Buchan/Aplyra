@@ -45,8 +45,8 @@ export default function Applications() {
 
 	return (
 		<Wrapper>
-			<div className='w-full flex flex-col flex-1 items-center justify-center font-sans bg-zinc-50 dark:bg-black'>
-				<main className='relative max-w-200 py-25 flex flex-col justify-start items-start gap-[50px] w-full px-6'>
+			<div className='w-full flex flex-col flex-1 items-center justify-center font-sans'>
+				<main className='relative max-w-200 py-25 flex flex-col justify-start items-start gap-12.5 w-full px-6'>
 					<div>
 						<Pill
 							text={`${jobCount} ${jobCount === 1 ? 'Job' : 'Jobs'}`}
@@ -54,7 +54,7 @@ export default function Applications() {
 						<h2>Your Applications</h2>
 					</div>
 
-					<div className='w-full flex flex-col justify-start items-end gap-[14px]'>
+					<div className='w-full flex flex-col justify-start items-end gap-30'>
 						<Button onClick={() => setModalOpen(true)}>
 							Add job
 						</Button>

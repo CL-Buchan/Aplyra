@@ -36,7 +36,7 @@ export default async function RootLayout({
 			<body className='min-h-full flex flex-col'>
 				<Nav initialUser={user ? { email: user.email ?? '' } : null} />
 
-				<div className='w-full flex-1 flex flex-col justify-center items-center'>
+				<div className='w-full mt-10 flex-1 flex flex-col justify-center items-center'>
 					{children}
 				</div>
 

@@ -3,6 +3,7 @@ import Button from './Button';
 import { X } from '@untitledui/icons';
 import Divider from './Divider';
 import clsx from 'clsx';
+import LoadingSpinner from './LoadingSpinner';
 
 export default function Modal({
 	header: { title = 'Add title', description = 'Add description' } = {},
@@ -12,6 +13,7 @@ export default function Modal({
 	onClose,
 	isOpen,
 	isInputsFilled = false,
+	isLoading,
 }: ModalProps) {
 	if (!children || (body && !body?.children))
 		throw new Error('Modal body neeeds content - add child elements');
@@ -84,15 +86,23 @@ export default function Modal({
 												button.disabled ??
 												(index !== 0 && !isInputsFilled)
 											}>
-											{button.text}
+											{isLoading ? (
+												<LoadingSpinner />
+											) : (
+												button.text
+											)}
 										</Button>
 									);
 								})}
 							</div>
 						) : (
 							<div className='flex items-center gap-[8px]'>
-								<Button variant='secondary'>Submit</Button>
-								<Button>Submit</Button>
+								<Button variant='secondary'>
+									{isLoading ? <LoadingSpinner /> : 'Submit'}
+								</Button>
+								<Button>
+									{isLoading ? <LoadingSpinner /> : 'Submit'}
+								</Button>
 							</div>
 						)}
 					</div>

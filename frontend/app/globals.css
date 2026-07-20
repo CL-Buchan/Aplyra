@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 
 :root {
-	--background: #ffffff;
-	--foreground: #171717;
+	--background: var(--color-zinc-50);
+	--foreground: #000000;
 	--muted: #4e4e4e;
 
 	/* Brand styles */
@@ -31,8 +31,8 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--background: #0a0a0a;
-		--foreground: #ededed;
+		--background: #000000;
+		--foreground: var(--color-zinc-50);
 	}
 }
 
@@ -59,15 +59,15 @@ textarea:focus {
 	outline: none;
 }
 
-input[type="date"]::-webkit-datetime-edit {
+input[type='date']::-webkit-datetime-edit {
 	color: #595959;
 }
 
-input[type="date"].has-value::-webkit-datetime-edit {
+input[type='date'].has-value::-webkit-datetime-edit {
 	color: #ffffff;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+input[type='date']::-webkit-calendar-picker-indicator {
 	filter: invert(35%);
 	cursor: pointer;
 }

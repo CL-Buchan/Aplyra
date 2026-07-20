@@ -1,3 +1,4 @@
+import { CheckCircle, XCircle } from '@untitledui/icons';
 import { DropzoneProps } from '../types/global.types';
 import clsx from 'clsx';
 
@@ -36,16 +37,22 @@ export default function Dropzone({
 			/>
 
 			{error ? (
-				<p className='text-red-500'>{error}</p>
+				<div className='flex items-center gap-2.5'>
+					<p className='text-red-500'>{error}</p>
+					<XCircle color='red' width={20} height={20} />
+				</div>
 			) : loading ? (
 				<p>Loading...</p>
 			) : file ? (
-				<p>
-					<span className='text-green-500'>{file.name}</span> was
-					uploaded
-				</p>
+				<div>
+					<p>
+						<span className='text-green-500'>{file.name}</span> was
+						uploaded
+					</p>
+					<CheckCircle color='green' width={20} height={20} />
+				</div>
 			) : (
-				<p>No file chosen, Select a file</p>
+				<p>No file chosen, Select a .pdf or .docx file</p>
 			)}
 		</div>
 	);

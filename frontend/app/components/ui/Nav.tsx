@@ -28,6 +28,7 @@ export default function Nav({ initialUser }: NavProps) {
 	const pathname = usePathname();
 	const isInitialAuthEvent = useRef(true);
 	const supabase = createClient();
+	const isMobile = 
 
 	useEffect(() => {
 		const {
@@ -79,16 +80,16 @@ export default function Nav({ initialUser }: NavProps) {
 	}
 
 	return (
-		<div className='relative w-full flex justify-center pt-10 z-50'>
+		<div className='relative w-full flex justify-center mt-10 z-50'>
 			{userLoggedIn ? (
-				<div className='fixed flex flex-row justify-center items-center gap-20'>
+				<div className='fixed flex flex-col md:flex-row justify-center items-center gap-20'>
 					<nav className='px-10 py-2 rounded-3xl bg-white/5 backdrop-blur-md z-10'>
-						<ul className='flex flex-row gap-10'>
+						<ul className='flex flex-col md:flex-row gap-10'>
 							{links.map(({ text, route }) => (
 								<li
 									key={route}
 									className={clsx(
-										'px-5 py-0.5 rounded-2xl',
+										'px-5 py-0.5 rounded-2xl text-center',
 										pathname === route
 											? 'bg-white/10 backdrop-blur-md'
 											: '',
@@ -108,7 +109,7 @@ export default function Nav({ initialUser }: NavProps) {
 				</div>
 			) : (
 				<nav className='fixed px-10 py-2 rounded-3xl bg-white/5 backdrop-blur-md z-10'>
-					<ul className='flex flex-row gap-10'>
+					<ul className='flex flex-col md:flex-row gap-10'>
 						{links.map(({ text, route }) => (
 							<li
 								key={route}

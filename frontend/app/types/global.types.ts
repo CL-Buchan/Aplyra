@@ -2,6 +2,7 @@ import { StaticImageData } from 'next/image';
 import { ChangeEvent, SetStateAction } from 'react';
 
 type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
+
 export type Content = { path: string | StaticImageData; imgDesc: string };
 
 // -- Prop types --
@@ -58,6 +59,7 @@ export interface ModalProps extends Modal {
 	};
 	children?: React.ReactNode;
 	isInputsFilled?: boolean;
+	isLoading?: boolean;
 }
 
 export interface CarouselProps {
@@ -154,4 +156,13 @@ export interface LoginFormData {
 export interface SignupFormData extends LoginFormData {
 	name: string;
 	acceptsPrivacyPolicy: boolean;
+}
+
+export interface LetterRequest {
+	job_description: string;
+	cv_text: string;
+}
+
+export interface LetterResponse {
+	letter: string;
 }

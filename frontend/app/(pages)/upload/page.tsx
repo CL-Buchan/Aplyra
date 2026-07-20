@@ -2,12 +2,13 @@
 
 import Dropzone from '@/app/components/Dropzone';
 import Wrapper from '@/app/components/Wrapper';
-import { CheckCircle, XCircle } from '@untitledui/icons';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function UploadPage() {
 	const [file, setFile] = useState<File>();
+	const [parsedDocumentString, setParsedDocumentString] = useState('');
+	const [generatedLetter, setGeneratedLetter] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [error, setError] = useState('');
@@ -40,8 +41,33 @@ export default function UploadPage() {
 			});
 			if (!resp.ok) return setError('Error sending file');
 
+			const parsedDocument = await resp.json();
+			if (!parsedDocument) {
+				setError('Document was not successfully returned');
+				return;
+			}
+
+			setParsedDocumentString(parsedDocument);
 			setSuccess(true);
 			toast.success(`${file.name} was uploaded successfully`);
+		} catch (error) {
+			return setError(
+				error instanceof Error ? error.message : `${error}`,
+			);
+		} finally {
+			setDisabled(false);
+			setLoading(false);
+		}
+	};
+
+	const handleCoverLetterGeneration = async () => {
+		setError('');
+		setSuccess(false);
+		setDisabled(true);
+		setLoading(true);
+
+		try {
+			const resp = await fetch('/api/generate');
 		} catch (error) {
 			return setError(
 				error instanceof Error ? error.message : `${error}`,
@@ -76,9 +102,6 @@ export default function UploadPage() {
 								disabled={disabled}
 								onFileSelect={handleFileUpload}
 							/>
-
-							{success && <CheckCircle color='green' />}
-							{error && <XCircle color='red' />}
 						</div>
 					</div>
 				</div>

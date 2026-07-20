@@ -47,6 +47,7 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 			setLoading(false);
 			return console.error('You must be logged in to add applications.');
 		}
+		console.log('id:', user.id);
 
 		const { error } = await supabase
 			.from('applications')
@@ -66,6 +67,7 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 			);
 		setLoading(false);
 
+		console.log(error);
 		if (error) return console.error(error);
 
 		setApplications([]);
@@ -96,7 +98,8 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 			}}
 			onClose={onClose}
 			isOpen={isOpen}
-			isInputsFilled={isInputsFilled}>
+			isInputsFilled={isInputsFilled}
+			isLoading={isLoading}>
 			<div className='bg-[#151515] flex flex-col gap-[14px]'>
 				<div className='w-full flex flex-col items-start gap-[6px]'>
 					<label htmlFor='role'>Role</label>

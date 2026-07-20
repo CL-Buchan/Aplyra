@@ -1,12 +1,14 @@
+'use client';
+
 import BackButton from './ui/BackButton';
 
-type Props = { children: React.ReactNode };
+type Props = { children: React.ReactNode; route?: string };
 
-export default function Wrapper({ children }: Props) {
+export default function Wrapper({ children, route }: Props) {
+	const previousRoute = window.history.back();
 	return (
-		<div className='p-10 flex-1 w-full flex flex-col justify-start font-sans text-zinc-50 bg-black'>
-			<BackButton />
-
+		<div className='my-10 max-w-250 flex-1 w-full flex flex-col justify-start font-sans text-zinc-50 bg-black'>
+			<BackButton route={(route || '') ?? previousRoute} />
 			{children}
 		</div>
 	);
