@@ -135,6 +135,19 @@ export interface NavProps {
 	initialUser: { email: string } | null;
 }
 
+export interface SidebarProps {
+	initialUser: { email: string } | null;
+}
+
+export interface BreadcrumbItem {
+	label: string;
+	href?: string;
+}
+
+export interface BreadcrumbProps {
+	items: BreadcrumbItem[];
+}
+
 export interface CardProps {
 	size?: 'sm' | 'md' | 'lg';
 	title?: string;

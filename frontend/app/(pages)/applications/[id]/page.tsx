@@ -1,4 +1,5 @@
 import ApplicationEditForm from '@/app/components/applications/ApplicationEditForm';
+import Breadcrumb from '@/app/components/ui/Breadcrumb';
 import Pill from '@/app/components/ui/Pill';
 import Wrapper from '@/app/components/Wrapper';
 import {
@@ -45,13 +46,16 @@ export default async function ApplicationDetail({
 	const location = application.company?.location;
 
 	return (
-		<Wrapper>
+		<Wrapper hideBackButton>
 			<div className='w-full flex flex-col flex-1 items-center justify-center font-sans'>
 				<main className='max-w-200 py-25 flex w-full flex-col justify-start items-start gap-10 px-6'>
 					<div className='flex flex-col w-full gap-1'>
-						<p className='text-sm text-muted'>
-							Application #{application.id}
-						</p>
+						<Breadcrumb
+							items={[
+								{ label: 'Applications', href: '/applications' },
+								{ label: role ?? 'Untitled role' },
+							]}
+						/>
 
 						<div className='flex flex-wrap justify-between items-center gap-3'>
 							<h2>{role ?? 'Untitled role'}</h2>

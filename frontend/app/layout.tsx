@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import Nav from './components/ui/Nav';
+import AppShell from './components/AppShell';
 import { createClient } from './services/supabase/server';
 import './globals.css';
 import './styles/main.scss';
@@ -34,11 +34,9 @@ export default async function RootLayout({
 			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth scrollbar-none`}
 			data-scroll-behavior='smooth'>
 			<body className='min-h-full flex flex-col'>
-				<Nav initialUser={user ? { email: user.email ?? '' } : null} />
-
-				<div className='w-full mt-10 flex-1 flex flex-col justify-center items-center'>
+				<AppShell initialUser={user ? { email: user.email ?? '' } : null}>
 					{children}
-				</div>
+				</AppShell>
 
 				<Toaster />
 			</body>
