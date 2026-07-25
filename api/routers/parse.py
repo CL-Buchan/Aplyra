@@ -19,7 +19,7 @@ async def parse_document(file: UploadFile):
             status_code=415,
             detail=f"Unsupported file type: {file.content_type}. Upload a PDF or .docx.",
         )
-    
+
     contents = await file.read()
 
     if file.content_type == PDF_TYPE:

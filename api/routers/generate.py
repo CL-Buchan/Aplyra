@@ -41,6 +41,7 @@ async def generate_letter(body: LetterRequest):
         raise HTTPException(status_code=502, detail=f"OpenRouter error: {response.text}")
 
     data = response.json()
+    print(data)
     
     try:
         letter = data["choices"][0]["message"]["content"]
