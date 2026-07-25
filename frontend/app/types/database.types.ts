@@ -10,23 +10,6 @@ export type Database = {
 	// Allows to automatically instantiate createClient with right options
 	// instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
 	__InternalSupabase: { PostgrestVersion: '14.5' };
-	graphql_public: {
-		Tables: { [_ in never]: never };
-		Views: { [_ in never]: never };
-		Functions: {
-			graphql: {
-				Args: {
-					extensions?: Json;
-					operationName?: string;
-					query?: string;
-					variables?: Json;
-				};
-				Returns: Json;
-			};
-		};
-		Enums: { [_ in never]: never };
-		CompositeTypes: { [_ in never]: never };
-	};
 	public: {
 		Tables: {
 			applications: {
@@ -36,6 +19,7 @@ export type Database = {
 					closing_date: string | null;
 					company_id: number | null;
 					id: number;
+					job_description: string | null;
 					role: string | null;
 					status: string | null;
 					user_id: string | null;
@@ -46,6 +30,7 @@ export type Database = {
 					closing_date?: string | null;
 					company_id?: number | null;
 					id?: number;
+					job_description?: string | null;
 					role?: string | null;
 					status?: string | null;
 					user_id?: string | null;
@@ -56,6 +41,7 @@ export type Database = {
 					closing_date?: string | null;
 					company_id?: number | null;
 					id?: number;
+					job_description?: string | null;
 					role?: string | null;
 					status?: string | null;
 					user_id?: string | null;
@@ -118,6 +104,12 @@ export type Database = {
 					id?: string;
 					name?: string | null;
 				};
+				Relationships: [];
+			};
+			waitlist: {
+				Row: { created_at: string; email: string; id: number };
+				Insert: { created_at?: string; email: string; id?: never };
+				Update: { created_at?: string; email?: string; id?: never };
 				Relationships: [];
 			};
 		};
@@ -248,7 +240,4 @@ export type CompositeTypes<
 		? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
 		: never;
 
-export const Constants = {
-	graphql_public: { Enums: {} },
-	public: { Enums: {} },
-} as const;
+export const Constants = { public: { Enums: {} } } as const;

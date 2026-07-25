@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 export default function UploadPage() {
 	const [file, setFile] = useState<File>();
-	const [parsedDocumentString, setParsedDocumentString] = useState('');
+	const [parsedLetterString, setParsedLetterString] = useState('');
 	const [generatedLetter, setGeneratedLetter] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
@@ -47,7 +47,7 @@ export default function UploadPage() {
 				return;
 			}
 
-			setParsedDocumentString(parsedDocument);
+			setParsedLetterString(parsedDocument);
 			setSuccess(true);
 			toast.success(`${file.name} was uploaded successfully`);
 		} catch (error) {
@@ -68,6 +68,20 @@ export default function UploadPage() {
 
 		try {
 			const resp = await fetch('/api/generate');
+			if (!resp) {
+				setError('Error attempting letter generation');
+				return;
+			}
+
+			const generatedLetter = await resp.json();
+			if (!generatedLetter) {
+				setError('Letter was not correctly generated');
+				return;
+			}
+
+			setGeneratedLetter(generatedLetter);
+			setSuccess(true);
+			toast.success('Letter was successfully generated');
 		} catch (error) {
 			return setError(
 				error instanceof Error ? error.message : `${error}`,

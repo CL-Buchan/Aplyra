@@ -13,6 +13,8 @@ export default function Form<T>({
 	formData,
 	setFormData,
 	isLoading,
+	isError,
+	errorMsg,
 }: FormProps<T>) {
 	return (
 		<div className='flex flex-col justify-center items-center gap-5'>
@@ -73,6 +75,10 @@ export default function Form<T>({
 					{bttnText ?? 'Add text'}
 				</Button>
 			</form>
+				
+			{isError && (
+				<p className='mt-5 text-red-500 text-center'>{errorMsg}</p>
+			)}
 		</div>
 	);
 }

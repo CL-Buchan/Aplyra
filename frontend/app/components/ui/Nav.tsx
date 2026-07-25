@@ -28,9 +28,7 @@ export default function Nav({ initialUser }: NavProps) {
 	const pathname = usePathname();
 	const isInitialAuthEvent = useRef(true);
 	const supabase = createClient();
-	const isMobile = 
-
-	useEffect(() => {
+	const isMobile = useEffect(() => {
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((event, session) => {

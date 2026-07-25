@@ -1,11 +1,17 @@
 import { StaticImageData } from 'next/image';
 import { ChangeEvent, SetStateAction } from 'react';
+import { Tables } from './database.types';
 
 type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
 
 export type Content = { path: string | StaticImageData; imgDesc: string };
 
 // -- Prop types --
+export interface ProfileEditformProps {
+	user: Tables<'users'>;
+	setUser: React.Dispatch<SetStateAction<Tables<'users'>>>;
+}
+
 export interface LoadingSpinnerProps {
 	colour?: string;
 	cy?: number | string;
@@ -95,6 +101,8 @@ export interface FormProps<T> {
 	formData: T;
 	setFormData: React.Dispatch<SetStateAction<T>>;
 	isLoading: boolean;
+	isError?: boolean;
+	errorMsg?: string;
 }
 
 export interface DropzoneProps {

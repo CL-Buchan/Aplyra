@@ -29,6 +29,10 @@ export default function ApplicationCard({
 		application.closed,
 	);
 	const companyName = application.company?.name ?? 'Unknown company';
+	const role = application.role
+		? application.role.slice(0, 1).toUpperCase() +
+			application.role.slice(1).toLowerCase()
+		: undefined;
 	const location = application.company?.location;
 
 	return (
@@ -44,7 +48,7 @@ export default function ApplicationCard({
 			)}>
 			<div className='flex items-start justify-between gap-4'>
 				<h3 className='text-lg font-semibold tracking-tight'>
-					{application.role ?? 'Untitled role'}
+					{role ?? 'Untitled role'}
 				</h3>
 				<Pill
 					text={statusConfig.label}

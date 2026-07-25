@@ -54,7 +54,7 @@ export default function Applications() {
 						<h2>Your Applications</h2>
 					</div>
 
-					<div className='w-full flex flex-col justify-start items-end gap-30'>
+					<div className='w-full flex flex-col justify-start items-end gap-10'>
 						<Button onClick={() => setModalOpen(true)}>
 							Add job
 						</Button>
@@ -82,10 +82,6 @@ export default function Applications() {
 							</div>
 						)}
 					</div>
-
-					{/* {error && (
-					<p className='w-full text-red-500 text-center'>{error}</p>
-				)} */}
 				</main>
 
 				<ApplicationModal

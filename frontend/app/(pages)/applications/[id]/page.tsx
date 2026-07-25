@@ -38,15 +38,23 @@ export default async function ApplicationDetail({
 	const application = data as ApplicationWithCompany;
 	const statusConfig = getStatusConfig(application.status);
 	const companyName = application.company?.name ?? 'Unknown company';
+	const role = application.role
+		? application.role.slice(0, 1).toUpperCase() +
+			application.role.slice(1).toLowerCase()
+		: undefined;
 	const location = application.company?.location;
 
 	return (
 		<Wrapper>
 			<div className='w-full flex flex-col flex-1 items-center justify-center font-sans'>
 				<main className='max-w-200 py-25 flex w-full flex-col justify-start items-start gap-10 px-6'>
-					<div className='flex flex-col w-full gap-2'>
-						<div className='flex flex-wrap items-center gap-3'>
-							<h2>{application.role ?? 'Untitled role'}</h2>
+					<div className='flex flex-col w-full gap-1'>
+						<p className='text-sm text-muted'>
+							Application #{application.id}
+						</p>
+
+						<div className='flex flex-wrap justify-between items-center gap-3'>
+							<h2>{role ?? 'Untitled role'}</h2>
 							<Pill
 								text={statusConfig.label}
 								styles={{
@@ -55,9 +63,6 @@ export default async function ApplicationDetail({
 								}}
 							/>
 						</div>
-						<p className='text-sm text-muted'>
-							Application #{application.id}
-						</p>
 					</div>
 
 					<div className='grid w-full grid-cols-1 gap-8 lg:grid-cols-2'>

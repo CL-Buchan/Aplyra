@@ -131,25 +131,29 @@ export default function ApplicationEditForm({
 				/>
 			</label>
 
-			<label className='flex items-center gap-3 text-sm'>
-				<input
-					type='checkbox'
-					checked={formData.closed}
-					onChange={(event) =>
-						setFormData((prev) => ({
-							...prev,
-							closed: event.target.checked,
-						}))
-					}
-					className='size-4 rounded border-black/10 dark:border-white/15'
-				/>
-				<span className='font-medium'>Mark as closed</span>
-			</label>
+			<div className='flex items-center justify-between gap-4'>
+				<label className='flex min-w-0 flex-1 items-center gap-3 text-sm'>
+					<input
+						type='checkbox'
+						checked={formData.closed}
+						onChange={(event) =>
+							setFormData((prev) => ({
+								...prev,
+								closed: event.target.checked,
+							}))
+						}
+						className='size-4 shrink-0 rounded border-black/10 dark:border-white/15'
+					/>
+					<span className='truncate font-medium'>Mark as closed</span>
+				</label>
 
-			<Button
-				type='submit'
-				text={isPending ? 'Saving…' : 'Save changes'}
-			/>
+				<div className='shrink-0'>
+					<Button
+						type='submit'
+						text={isPending ? 'Saving…' : 'Save changes'}
+					/>
+				</div>
+			</div>
 		</form>
 	);
 }
