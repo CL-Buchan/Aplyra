@@ -11,14 +11,10 @@ import {
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-type NavLink = {
-	text: string;
-	route: string;
-	icon?: typeof LayoutGrid02;
-};
+type NavLink = { text: string; route: string; icon?: typeof LayoutGrid02 };
 
 const navLinks: NavLink[] = [
 	{ text: 'Applications', route: '/applications', icon: LayoutGrid02 },
@@ -30,10 +26,11 @@ const guestLinks: NavLink[] = [
 	{ text: 'Sign Up', route: '/auth/sign-up' },
 ];
 
-export default function Sidebar({ initialUser }: SidebarProps) {
+export default function Sidebar({ initialUser, onHoverChange }: SidebarProps) {
 	const [email, setEmail] = useState(initialUser?.email ?? '');
 	const [userLoggedIn, setUserLoggedIn] = useState(!!initialUser);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isHovered, setIsHovered] = useState(false);
 	const pathname = usePathname();
 	const isInitialAuthEvent = useRef(true);
 	const supabase = createClient();
@@ -72,6 +69,28 @@ export default function Sidebar({ initialUser }: SidebarProps) {
 		return () => subscription.unsubscribe();
 	}, []);
 
+	useEffect(() => {
+		const sidebar = document.getElementById('sidebar');
+		if (!sidebar) return;
+
+		const handleMouseEnter = () => {
+			setIsHovered(true);
+			onHoverChange?.(true);
+		};
+		const handleMouseLeave = () => {
+			setIsHovered(false);
+			onHoverChange?.(false);
+		};
+
+		sidebar.addEventListener('mouseenter', handleMouseEnter);
+		sidebar.addEventListener('mouseleave', handleMouseLeave);
+
+		return () => {
+			sidebar.removeEventListener('mouseenter', handleMouseEnter);
+			sidebar.removeEventListener('mouseleave', handleMouseLeave);
+		};
+	}, [onHoverChange]);
+
 	async function signUserOut() {
 		setIsLoading(true);
 
@@ -81,20 +100,23 @@ export default function Sidebar({ initialUser }: SidebarProps) {
 		}
 
 		setIsLoading(false);
+
+		setTimeout(() => {
+			window.location.href = '/';
+		}, 900);
 	}
 
 	const links = userLoggedIn ? navLinks : guestLinks;
 
 	return (
-		<aside className='fixed top-6 bottom-6 left-6 z-50 flex w-60 flex-col justify-between rounded-3xl border border-white/10 bg-white/5 px-4 py-5 backdrop-blur-md shadow-[0_24px_60px_-8px_rgba(0,0,0,0.6)]'>
-			<div className='flex flex-col gap-6'>
-				<Link
-					href='/'
-					className='px-2.5 text-base font-semibold tracking-tighter text-white'>
-					Trove
-				</Link>
-
-				<ul className='flex flex-col gap-0.5'>
+		<aside
+			id='sidebar'
+			className={clsx(
+				`fixed top-6 bottom-6 left-6 z-50 flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-white/5 px-4 py-5 backdrop-blur-md shadow-[0_24px_60px_-8px_rgba(0,0,0,0.6)] transition-[width] duration-200 ease-in-out`,
+				isHovered ? 'w-60' : 'w-[68px]',
+			)}>
+			<div className='flex flex-col gap-7'>
+				<ul className='flex flex-col gap-5'>
 					{links.map(({ text, route, icon: Icon }) => {
 						const active = pathname === route;
 						return (
@@ -107,8 +129,10 @@ export default function Sidebar({ initialUser }: SidebarProps) {
 											? 'bg-white/10 font-medium text-white'
 											: 'text-[#888888] hover:bg-white/10 hover:text-white',
 									)}>
-									{Icon && <Icon width={18} height={18} />}
-									{text}
+									{Icon && (
+										<Icon width={18} height={18} className='shrink-0' />
+									)}
+									{isHovered && text}
 								</Link>
 							</li>
 						);
@@ -118,7 +142,13 @@ export default function Sidebar({ initialUser }: SidebarProps) {
 
 			{userLoggedIn && (
 				<div className='flex flex-col gap-2 border-t border-white/10 pt-4'>
-					<div className='flex items-center justify-between gap-2.5 rounded-[7px] px-2.5 py-2'>
+					<div
+						className={clsx(
+							'flex items-center gap-2 rounded-[7px] px-2.5 py-2',
+							isHovered
+								? 'flex-row justify-between'
+								: 'flex-col justify-center gap-4',
+						)}>
 						<Link
 							href='/user/profile'
 							className={clsx(
@@ -127,8 +157,14 @@ export default function Sidebar({ initialUser }: SidebarProps) {
 									? 'font-medium text-white'
 									: 'text-[#888888] hover:text-white',
 							)}>
-							<UserCircle width={18} height={18} className='shrink-0' />
-							<span className='truncate'>{email || 'Account'}</span>
+							<UserCircle
+								width={18}
+								height={18}
+								className='shrink-0'
+							/>
+							{isHovered && (
+								<span className='truncate'>{email}</span>
+							)}
 						</Link>
 
 						<button

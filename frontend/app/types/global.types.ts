@@ -137,6 +137,7 @@ export interface NavProps {
 
 export interface SidebarProps {
 	initialUser: { email: string } | null;
+	onHoverChange?: (isHovered: boolean) => void;
 }
 
 export interface BreadcrumbItem {

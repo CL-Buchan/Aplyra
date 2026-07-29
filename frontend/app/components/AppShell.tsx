@@ -5,25 +5,35 @@ import Sidebar from '@/app/components/ui/Sidebar';
 import { NavProps } from '@/app/types/global.types';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 type Props = NavProps & { children: React.ReactNode };
 
 export default function AppShell({ initialUser, children }: Props) {
 	const pathname = usePathname();
 	const isRoot = pathname === '/';
+	const [isSidebarHovered, setIsSidebarHovered] = useState(false);
 
 	return (
 		<>
 			{isRoot ? (
 				<Nav initialUser={initialUser} />
 			) : (
-				<Sidebar initialUser={initialUser} />
+				<Sidebar
+					initialUser={initialUser}
+					onHoverChange={setIsSidebarHovered}
+				/>
 			)}
 
 			<div
 				className={clsx(
-					'w-full flex-1 flex flex-col justify-center items-center',
-					isRoot ? 'mt-10' : 'py-10 pr-6 pl-72',
+					'w-full flex-1 flex flex-col justify-center items-center transition-[padding-left] duration-200 ease-in-out',
+					isRoot
+						? 'mt-10'
+						: clsx(
+								'py-10 pr-6',
+								isSidebarHovered ? 'pl-[288px]' : 'pl-[116px]',
+							),
 				)}>
 				{children}
 			</div>
