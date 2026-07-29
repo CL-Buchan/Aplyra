@@ -137,6 +137,8 @@ dist
 
 # Python
 .venv
+__pycache__/
+*.py[cod]
 
 # Mac OS
 .DS_Store
