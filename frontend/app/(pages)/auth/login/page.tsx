@@ -26,14 +26,12 @@ export default function Login() {
 		if (!loginData.username) {
 			errorMsg = 'Please enter username';
 			setError(errorMsg);
-			setLoading(false);
 			toast.error(errorMsg);
 			return;
 		}
 		if (!loginData.password) {
 			errorMsg = 'Please enter password';
 			setError(errorMsg);
-			setLoading(false);
 			toast.error(errorMsg);
 			return;
 		}
@@ -47,7 +45,6 @@ export default function Login() {
 		if (error) {
 			errorMsg = 'User could not be logged in';
 			setError(errorMsg);
-			setLoading(false);
 			toast.error(errorMsg);
 			return;
 		}
@@ -75,6 +72,8 @@ export default function Login() {
 							setFormData={setLoginData}
 							isLoading={isLoading}
 						/>
+
+						{error && <p className='mt-5 text-red-500'>{error}</p>}
 					</div>
 
 					<div className='flex flex-col items-center gap-1'>
