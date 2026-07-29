@@ -137,3 +137,6 @@ dist
 
 # Python
 .venv
+
+#Mac OS
+.DS_Store
