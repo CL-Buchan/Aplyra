@@ -1,42 +1,24 @@
-'use client';
-
 import ProfileEditForm from '@/app/components/profile/ProfileEditForm';
 import Pill from '@/app/components/ui/Pill';
 import Wrapper from '@/app/components/Wrapper';
-import { createClient } from '@/app/services/supabase/client';
-import { Tables } from '@/app/types/database.types';
-import { User } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
+import { createClient } from '@/app/services/supabase/server';
+import { redirect } from 'next/navigation';
 
-export default function UserProfile() {
-	const [authUser, setAuthUser] = useState<User>();
-	const [updatedUserData, setUpdatedUserData] = useState<Tables<'users'>>({
-		id: '',
-		name: null,
-		email: null,
-		created_at: null,
-	});
+export default async function UserProfile() {
+	const supabase = await createClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
 
-	useEffect(() => {
-		const getUser = async () => {
-			const supabase = createClient();
-			const { data, error } = await supabase.auth.getUser();
-			if (error) throw new Error('Cannot fetch user details');
+	if (!user) redirect('/auth/login');
 
-			setAuthUser(data.user);
+	const { data: userRow, error: userRowError } = await supabase
+		.from('users')
+		.select('*')
+		.eq('id', user.id)
+		.single();
 
-			const { data: userRow, error: userRowError } = await supabase
-				.from('users')
-				.select('*')
-				.eq('id', data.user.id)
-				.single();
-			if (userRowError) throw new Error('Cannot fetch user profile');
-
-			setUpdatedUserData(userRow);
-		};
-
-		getUser();
-	}, []);
+	if (userRowError) throw new Error('Cannot fetch user profile');
 
 	return (
 		<Wrapper>
@@ -47,11 +29,22 @@ export default function UserProfile() {
 						<h2>Profile</h2>
 					</div>
 
-					<div className='w-full flex justify-center items-center'>
-						<ProfileEditForm
-							user={updatedUserData}
-							setUser={setUpdatedUserData}
-						/>
+					<div className='w-full flex flex-col justify-center items-end gap-6'>
+						<p className='text-muted text-sm'>
+							Last updated: {userRow.created_at}
+						</p>
+
+						<div className='w-full flex justify-center items-center'>
+							<ProfileEditForm user={userRow} />
+						</div>
+					</div>
+
+					<div className='w-full flex justify-center'>
+						<p className='text-muted text-center'>
+							Stuck? <br />
+							Simply change your details by entering your new
+							username or email.
+						</p>
 					</div>
 				</main>
 			</div>

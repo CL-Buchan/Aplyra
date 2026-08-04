@@ -9,7 +9,6 @@ export type Content = { path: string | StaticImageData; imgDesc: string };
 // -- Prop types --
 export interface ProfileEditformProps {
 	user: Tables<'users'>;
-	setUser: React.Dispatch<SetStateAction<Tables<'users'>>>;
 }
 
 export interface LoadingSpinnerProps {
