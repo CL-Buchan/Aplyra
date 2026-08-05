@@ -4,6 +4,7 @@ import { createClient } from '@/app/services/supabase/server';
 
 export async function startLetterGeneration(
 	cvText: string,
+	jobDescription: string,
 ): Promise<{ id: number; error?: undefined } | { id?: undefined; error: string }> {
 	const supabase = await createClient();
 	const {
@@ -16,7 +17,12 @@ export async function startLetterGeneration(
 
 	const { data, error } = await supabase
 		.from('letters')
-		.insert({ user_id: user.id, cv_text: cvText, status: 'pending' })
+		.insert({
+			user_id: user.id,
+			cv_text: cvText,
+			job_description: jobDescription || null,
+			status: 'pending',
+		})
 		.select('id')
 		.single();
 

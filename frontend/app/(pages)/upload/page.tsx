@@ -2,6 +2,7 @@
 
 import { startLetterGeneration } from '@/app/(pages)/upload/actions';
 import Dropzone from '@/app/components/Dropzone';
+import Input from '@/app/components/ui/Input';
 import Wrapper from '@/app/components/Wrapper';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -10,6 +11,7 @@ import { toast } from 'sonner';
 export default function UploadPage() {
 	const router = useRouter();
 	const [file, setFile] = useState<File>();
+	const [jobDescription, setJobDescription] = useState('');
 	const [parsedLetterString, setParsedLetterString] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
@@ -72,7 +74,10 @@ export default function UploadPage() {
 			setDisabled(true);
 			setLoading(true);
 
-			const result = await startLetterGeneration(parsedLetterString);
+			const result = await startLetterGeneration(
+				parsedLetterString,
+				jobDescription,
+			);
 
 			if (result.error || !result.id) {
 				setError(result.error ?? 'Error attempting letter generation');
@@ -88,7 +93,7 @@ export default function UploadPage() {
 				body: JSON.stringify({
 					letterId: result.id,
 					cv_text: parsedLetterString,
-					job_description: '',
+					job_description: jobDescription,
 				}),
 			}).catch(() => {});
 
@@ -96,7 +101,7 @@ export default function UploadPage() {
 		};
 
 		generate();
-	}, [success, parsedLetterString, router]);
+	}, [success, parsedLetterString, jobDescription, router]);
 
 	return (
 		<Wrapper>
@@ -117,6 +122,21 @@ export default function UploadPage() {
 							</div>
 
 							<div className='w-full flex flex-col items-center gap-10'>
+								<label className='w-full flex flex-col gap-2 text-sm'>
+									<span>Job description (optional)</span>
+									<Input
+										type='textarea'
+										name='job_description'
+										placeholder='Paste the job description here to tailor your cover letter...'
+										value={jobDescription}
+										onChange={(event) =>
+											setJobDescription(
+												event.target.value,
+											)
+										}
+									/>
+								</label>
+
 								<Dropzone
 									file={file}
 									error={error}
