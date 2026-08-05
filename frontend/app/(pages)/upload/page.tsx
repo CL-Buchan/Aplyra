@@ -1,14 +1,16 @@
 'use client';
 
+import { startLetterGeneration } from '@/app/(pages)/upload/actions';
 import Dropzone from '@/app/components/Dropzone';
 import Wrapper from '@/app/components/Wrapper';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function UploadPage() {
+	const router = useRouter();
 	const [file, setFile] = useState<File>();
 	const [parsedLetterString, setParsedLetterString] = useState('');
-	const [generatedLetter, setGeneratedLetter] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [error, setError] = useState('');
@@ -41,13 +43,14 @@ export default function UploadPage() {
 			});
 			if (!resp.ok) return setError('Error sending file');
 
-			const parsedDocument = await resp.json();
-			if (!parsedDocument) {
+			const parsedDocument: { filename: string; text: string } =
+				await resp.json();
+			if (!parsedDocument?.text) {
 				setError('Document was not successfully returned');
 				return;
 			}
 
-			setParsedLetterString(parsedDocument);
+			setParsedLetterString(parsedDocument.text);
 			setSuccess(true);
 			toast.success(`${file.name} was uploaded successfully`);
 		} catch (error) {
@@ -60,66 +63,73 @@ export default function UploadPage() {
 		}
 	};
 
-	const handleCoverLetterGeneration = async () => {
-		setError('');
-		setSuccess(false);
-		setDisabled(true);
-		setLoading(true);
+	// Watches for a successfully parsed document, then kicks off generation
+	// and redirects to the letter's page before generation completes.
+	useEffect(() => {
+		if (!success || !parsedLetterString) return;
 
-		try {
-			const resp = await fetch('/api/generate');
-			if (!resp) {
-				setError('Error attempting letter generation');
+		const generate = async () => {
+			setDisabled(true);
+			setLoading(true);
+
+			const result = await startLetterGeneration(parsedLetterString);
+
+			if (result.error || !result.id) {
+				setError(result.error ?? 'Error attempting letter generation');
+				setDisabled(false);
+				setLoading(false);
 				return;
 			}
 
-			const generatedLetter = await resp.json();
-			if (!generatedLetter) {
-				setError('Letter was not correctly generated');
-				return;
-			}
+			// Fire and forget - the letter page polls for the result.
+			fetch('/api/generate', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					letterId: result.id,
+					cv_text: parsedLetterString,
+					job_description: '',
+				}),
+			}).catch(() => {});
 
-			setGeneratedLetter(generatedLetter);
-			setSuccess(true);
-			toast.success('Letter was successfully generated');
-		} catch (error) {
-			return setError(
-				error instanceof Error ? error.message : `${error}`,
-			);
-		} finally {
-			setDisabled(false);
-			setLoading(false);
-		}
-	};
+			router.push(`/letters/${result.id}`);
+		};
+
+		generate();
+	}, [success, parsedLetterString, router]);
 
 	return (
 		<Wrapper>
-			<main className='flex-1 h-full flex flex-col items-center justify-center'>
-				<div className='w-full h-full card card--col card--center'>
-					<div className='max-w-[50%] flex flex-col gap-10'>
-						<div>
-							<h2 className='tracking-tighter'>Upload File</h2>
-							<p>
-								Take advantage of our AI model and file below,
-								have our model review your document and return
-								detailed, job-ready overview to help you on your
-								journey.
-							</p>
-						</div>
+			<div className='w-full flex flex-col flex-1 items-center justify-center font-sans'>
+				<main className='relative max-w-200 py-25 flex flex-col justify-start items-start gap-12.5 w-full px-6'>
+					<div className='w-full h-full card card--col card--center'>
+						<div className='flex flex-col gap-10'>
+							<div>
+								<h2 className='tracking-tighter'>
+									Upload File
+								</h2>
+								<p>
+									Take advantage of our AI model and file
+									below, have our model review your document
+									and return detailed, job-ready overview to
+									help you on your journey.
+								</p>
+							</div>
 
-						<div className='w-full flex flex-col items-center gap-10'>
-							<Dropzone
-								file={file}
-								error={error}
-								success={success}
-								loading={loading}
-								disabled={disabled}
-								onFileSelect={handleFileUpload}
-							/>
+							<div className='w-full flex flex-col items-center gap-10'>
+								<Dropzone
+									file={file}
+									error={error}
+									success={success}
+									loading={loading}
+									disabled={disabled}
+									onFileSelect={handleFileUpload}
+								/>
+							</div>
 						</div>
 					</div>
-				</div>
-			</main>
+				</main>
+			</div>
 		</Wrapper>
 	);
 }

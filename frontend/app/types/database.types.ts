@@ -85,6 +85,47 @@ export type Database = {
 					},
 				];
 			};
+			letters: {
+				Row: {
+					id: number;
+					user_id: string;
+					job_description: string | null;
+					cv_text: string;
+					letter: string | null;
+					status: string;
+					error: string | null;
+					created_at: string;
+				};
+				Insert: {
+					id?: number;
+					user_id: string;
+					job_description?: string | null;
+					cv_text: string;
+					letter?: string | null;
+					status?: string;
+					error?: string | null;
+					created_at?: string;
+				};
+				Update: {
+					id?: number;
+					user_id?: string;
+					job_description?: string | null;
+					cv_text?: string;
+					letter?: string | null;
+					status?: string;
+					error?: string | null;
+					created_at?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'letters_user_id_fkey';
+						columns: ['user_id'];
+						isOneToOne: false;
+						referencedRelation: 'users';
+						referencedColumns: ['id'];
+					},
+				];
+			};
 			users: {
 				Row: {
 					created_at: string | null;

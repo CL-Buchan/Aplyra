@@ -100,14 +100,6 @@ export default function Home() {
 		setStatus('success');
 	}
 
-	// Images to pass to carousel
-	// const images: Content[] = [
-	// 	{ path: '', imgDesc: '' },
-	// 	{ path: '', imgDesc: '' },
-	// 	{ path: '', imgDesc: '' },
-	// 	{ path: '', imgDesc: '' },
-	// ];
-
 	return (
 		<AppContextProvider>
 			<div className='relative w-full flex flex-col flex-1 items-center justify-center font-sans'>

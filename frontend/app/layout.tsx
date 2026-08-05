@@ -33,7 +33,7 @@ export default async function RootLayout({
 			lang='en'
 			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth scrollbar-none`}
 			data-scroll-behavior='smooth'>
-			<body className='min-h-full flex'>
+			<body className='min-h-full flex flex-col overflow-x-hidden'>
 				<AppShell
 					initialUser={user ? { email: user.email ?? '' } : null}>
 					{children}

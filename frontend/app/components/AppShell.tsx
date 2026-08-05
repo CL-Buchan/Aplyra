@@ -32,7 +32,7 @@ export default function AppShell({ initialUser, children }: Props) {
 						? 'mt-10'
 						: clsx(
 								'py-10 pr-6',
-								isSidebarHovered ? 'pl-[288px]' : 'pl-[116px]',
+								isSidebarHovered ? 'pl-72' : 'pl-29',
 							),
 				)}>
 				{children}

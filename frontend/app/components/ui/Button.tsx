@@ -78,7 +78,7 @@ export default function Button({
 			onClick={onClick}
 			disabled={disabled}
 			className={clsx(
-				`w-fit min-h-[32px] px-[16px] rounded-[7px] tracking-tight transition-colors duration-300 ease-in-out`,
+				`w-fit min-h-8 px-4 rounded-[7px] tracking-tight transition-colors duration-300 ease-in-out`,
 				disabled && 'opacity-50 cursor-not-allowed',
 				className ? className : style,
 			)}>
