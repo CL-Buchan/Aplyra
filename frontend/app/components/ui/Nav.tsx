@@ -11,11 +11,7 @@ import Button from './Button';
 
 const publicLinks = [{ text: 'Home', route: '/' }];
 
-const authedLinks = [
-	{ text: 'Applications', route: '/dashboard/applications' },
-	{ text: 'Upload', route: '/dashboard/upload' },
-	{ text: 'Letters', route: '/dashboard/letters' },
-];
+const authedLinks = [{ text: 'Dashboard', route: '/dashboard/applications' }];
 
 const guestLinks = [
 	{ text: 'Login', route: '/auth/login' },
