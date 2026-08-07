@@ -4,12 +4,17 @@ import { startLetterGeneration } from '@/app/(pages)/upload/actions';
 import Dropzone from '@/app/components/Dropzone';
 import Input from '@/app/components/ui/Input';
 import Wrapper from '@/app/components/Wrapper';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-export default function UploadPage() {
+function UploadPageContent() {
 	const router = useRouter();
+	const searchParams = useSearchParams();
+	const applicationIdParam = searchParams.get('applicationId');
+	const applicationId = applicationIdParam
+		? Number(applicationIdParam)
+		: undefined;
 	const [file, setFile] = useState<File>();
 	const [jobDescription, setJobDescription] = useState('');
 	const [parsedLetterString, setParsedLetterString] = useState('');
@@ -77,6 +82,7 @@ export default function UploadPage() {
 			const result = await startLetterGeneration(
 				parsedLetterString,
 				jobDescription,
+				applicationId,
 			);
 
 			if (result.error || !result.id) {
@@ -101,7 +107,7 @@ export default function UploadPage() {
 		};
 
 		generate();
-	}, [success, parsedLetterString, jobDescription, router]);
+	}, [success, parsedLetterString, jobDescription, applicationId, router]);
 
 	return (
 		<Wrapper>
@@ -122,6 +128,15 @@ export default function UploadPage() {
 							</div>
 
 							<div className='w-full flex flex-col items-center gap-10'>
+								<Dropzone
+									file={file}
+									error={error}
+									success={success}
+									loading={loading}
+									disabled={disabled}
+									onFileSelect={handleFileUpload}
+								/>
+
 								<label className='w-full flex flex-col gap-2 text-sm'>
 									<span>Job description (optional)</span>
 									<Input
@@ -136,20 +151,19 @@ export default function UploadPage() {
 										}
 									/>
 								</label>
-
-								<Dropzone
-									file={file}
-									error={error}
-									success={success}
-									loading={loading}
-									disabled={disabled}
-									onFileSelect={handleFileUpload}
-								/>
 							</div>
 						</div>
 					</div>
 				</main>
 			</div>
 		</Wrapper>
+	);
+}
+
+export default function UploadPage() {
+	return (
+		<Suspense>
+			<UploadPageContent />
+		</Suspense>
 	);
 }

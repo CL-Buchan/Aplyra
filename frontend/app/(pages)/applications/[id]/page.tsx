@@ -1,5 +1,6 @@
 import ApplicationEditForm from '@/app/components/applications/ApplicationEditForm';
 import Breadcrumb from '@/app/components/ui/Breadcrumb';
+import Button from '@/app/components/ui/Button';
 import Pill from '@/app/components/ui/Pill';
 import Wrapper from '@/app/components/Wrapper';
 import {
@@ -59,13 +60,20 @@ export default async function ApplicationDetail({
 
 						<div className='flex flex-wrap justify-between items-center gap-3'>
 							<h2>{role ?? 'Untitled role'}</h2>
-							<Pill
-								text={statusConfig.label}
-								styles={{
-									hexColour: statusConfig.hexColour,
-									opacity: '25%',
-								}}
-							/>
+							<div className='flex items-center gap-3'>
+								<Pill
+									text={statusConfig.label}
+									styles={{
+										hexColour: statusConfig.hexColour,
+										opacity: '25%',
+									}}
+								/>
+								<Button
+									variant='secondary'
+									text='Generate cover letter'
+									redirectTo={`/upload?applicationId=${application.id}`}
+								/>
+							</div>
 						</div>
 					</div>
 

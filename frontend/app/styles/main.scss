@@ -91,16 +91,20 @@ input:focus {
 	}
 }
 
+.table-wrap {
+	overflow: hidden;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 16px;
+}
+
 table {
 	width: 100%;
-	overflow: hidden;
-	border: 1px solid var(--color-muted);
-	border-radius: 16px;
 	border-spacing: 0;
 
 	th,
 	td {
-		padding: 5px 10px;
+		padding: 12px 16px;
+		border: 1px solid rgba(255, 255, 255, 0.3);
 		border-top-width: 0;
 		border-left-width: 0;
 	}
