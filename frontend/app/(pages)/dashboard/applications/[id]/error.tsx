@@ -8,7 +8,7 @@ export default function Error() {
 			<p className='text-red-500'>
 				Something went wrong loading this application.
 			</p>
-			<BackButtonNav route='/applications' />
+			<BackButtonNav route='/dashboard/applications' />
 		</div>
 	);
 }

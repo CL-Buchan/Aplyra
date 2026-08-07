@@ -53,7 +53,7 @@ export async function linkLetterApplication(
 		return { success: false, error: 'Failed to link letter.' };
 	}
 
-	revalidatePath('/letters');
+	revalidatePath('/dashboard/letters');
 
 	return { success: true };
 }

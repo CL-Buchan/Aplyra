@@ -1,6 +1,6 @@
 'use client';
 
-import { linkLetterApplication } from '@/app/(pages)/letters/actions';
+import { linkLetterApplication } from '@/app/(pages)/dashboard/letters/actions';
 import Wrapper from '@/app/components/Wrapper';
 import { createClient } from '@/app/services/supabase/client';
 import { Tables } from '@/app/types/database.types';
@@ -38,8 +38,7 @@ export default function Letters() {
 			]);
 
 			if (lettersError) throw new Error('Cannot fetch letters');
-			if (applicationsError)
-				throw new Error('Cannot fetch applications');
+			if (applicationsError) throw new Error('Cannot fetch applications');
 
 			setLetters(letters ?? []);
 			setApplications(
@@ -129,7 +128,8 @@ export default function Letters() {
 																}>
 																{application.role ??
 																	'Untitled role'}
-																{application.company
+																{application
+																	.company
 																	?.name
 																	? ` — ${application.company.name}`
 																	: ''}

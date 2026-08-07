@@ -28,7 +28,7 @@ export async function updateUserProfile(
 		return { success: false, error: 'Failed to update profile.' };
 	}
 
-	revalidatePath('/user/profile');
+	revalidatePath('/dashboard/user/profile');
 
 	return { success: true };
 }

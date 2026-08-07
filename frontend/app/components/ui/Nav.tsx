@@ -12,8 +12,9 @@ import Button from './Button';
 const publicLinks = [{ text: 'Home', route: '/' }];
 
 const authedLinks = [
-	{ text: 'Applications', route: '/applications' },
-	{ text: 'Upload', route: '/upload' },
+	{ text: 'Applications', route: '/dashboard/applications' },
+	{ text: 'Upload', route: '/dashboard/upload' },
+	{ text: 'Letters', route: '/dashboard/letters' },
 ];
 
 const guestLinks = [
@@ -28,7 +29,8 @@ export default function Nav({ initialUser }: NavProps) {
 	const pathname = usePathname();
 	const isInitialAuthEvent = useRef(true);
 	const supabase = createClient();
-	const isMobile = useEffect(() => {
+
+	useEffect(() => {
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((event, session) => {

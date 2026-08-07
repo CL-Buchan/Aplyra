@@ -1,6 +1,6 @@
 'use client';
 
-import { updateApplication } from '@/app/(pages)/applications/actions';
+import { updateApplication } from '@/app/(pages)/dashboard/applications/actions';
 import Button from '@/app/components/ui/Button';
 import { toDateInputValue } from '@/app/helpers/applicationInsights';
 import {

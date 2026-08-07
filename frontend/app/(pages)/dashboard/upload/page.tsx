@@ -1,6 +1,6 @@
 'use client';
 
-import { startLetterGeneration } from '@/app/(pages)/upload/actions';
+import { startLetterGeneration } from '@/app/(pages)/dashboard/upload/actions';
 import Dropzone from '@/app/components/Dropzone';
 import Input from '@/app/components/ui/Input';
 import Wrapper from '@/app/components/Wrapper';
@@ -103,7 +103,7 @@ function UploadPageContent() {
 				}),
 			}).catch(() => {});
 
-			router.push(`/letters/${result.id}`);
+			router.push(`/dashboard/letters/${result.id}`);
 		};
 
 		generate();

@@ -47,8 +47,8 @@ export async function updateApplication(
 		return { success: false, error: 'Failed to update application.' };
 	}
 
-	revalidatePath('/applications');
-	revalidatePath(`/applications/${id}`);
+	revalidatePath('/dashboard/applications');
+	revalidatePath(`/dashboard/applications/${id}`);
 
 	return { success: true };
 }

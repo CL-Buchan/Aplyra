@@ -1,6 +1,6 @@
 'use client';
 
-import { updateUserProfile } from '@/app/(pages)/user/profile/actions';
+import { updateUserProfile } from '@/app/(pages)/dashboard/user/profile/actions';
 import { ProfileEditformProps } from '@/app/types/global.types';
 import Button from '@/app/components/ui/Button';
 import { useRouter } from 'next/navigation';

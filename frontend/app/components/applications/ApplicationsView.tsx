@@ -33,7 +33,7 @@ export default function ApplicationsView({
 						</p>
 						<Button
 							variant='secondary'
-							redirectTo='/upload'
+							redirectTo='/dashboard/upload'
 							text='Upload a document'
 						/>
 					</div>

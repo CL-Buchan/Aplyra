@@ -53,7 +53,7 @@ export default async function ApplicationDetail({
 					<div className='flex flex-col w-full gap-1'>
 						<Breadcrumb
 							items={[
-								{ label: 'Applications', href: '/applications' },
+								{ label: 'Applications', href: '/dashboard/applications' },
 								{ label: role ?? 'Untitled role' },
 							]}
 						/>
@@ -71,7 +71,7 @@ export default async function ApplicationDetail({
 								<Button
 									variant='secondary'
 									text='Generate cover letter'
-									redirectTo={`/upload?applicationId=${application.id}`}
+									redirectTo={`/dashboard/upload?applicationId=${application.id}`}
 								/>
 							</div>
 						</div>

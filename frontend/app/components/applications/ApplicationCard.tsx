@@ -37,7 +37,7 @@ export default function ApplicationCard({
 
 	return (
 		<Link
-			href={`/applications/${application.id}`}
+			href={`/dashboard/applications/${application.id}`}
 			className={clsx(
 				'group block w-full rounded-2xl border border-black/10 bg-white/60 p-6',
 				'border-l-4 transition-all duration-300 ease-in-out',

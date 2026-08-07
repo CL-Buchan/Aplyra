@@ -5,20 +5,22 @@ import { SidebarProps } from '@/app/types/global.types';
 import {
 	LayoutGrid02,
 	LogOut01,
+	Paperclip,
 	UploadCloud01,
 	UserCircle,
 } from '@untitledui/icons';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { use, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 type NavLink = { text: string; route: string; icon?: typeof LayoutGrid02 };
 
 const navLinks: NavLink[] = [
-	{ text: 'Applications', route: '/applications', icon: LayoutGrid02 },
-	{ text: 'Upload', route: '/upload', icon: UploadCloud01 },
+	{ text: 'Applications', route: '/dashboard/applications', icon: LayoutGrid02 },
+	{ text: 'Upload', route: '/dashboard/upload', icon: UploadCloud01 },
+	{ text: 'Letters', route: '/dashboard/letters', icon: Paperclip },
 ];
 
 const guestLinks: NavLink[] = [
@@ -130,7 +132,11 @@ export default function Sidebar({ initialUser, onHoverChange }: SidebarProps) {
 											: 'text-[#888888] hover:bg-white/10 hover:text-white',
 									)}>
 									{Icon && (
-										<Icon width={18} height={18} className='shrink-0' />
+										<Icon
+											width={18}
+											height={18}
+											className='shrink-0'
+										/>
 									)}
 									{isHovered && text}
 								</Link>
@@ -150,10 +156,10 @@ export default function Sidebar({ initialUser, onHoverChange }: SidebarProps) {
 								: 'flex-col justify-center gap-4',
 						)}>
 						<Link
-							href='/user/profile'
+							href='/dashboard/user/profile'
 							className={clsx(
 								'flex min-w-0 items-center gap-2.5 text-[13px] transition-colors duration-300 ease-in-out',
-								pathname === '/user/profile'
+								pathname === '/dashboard/user/profile'
 									? 'font-medium text-white'
 									: 'text-[#888888] hover:text-white',
 							)}>
