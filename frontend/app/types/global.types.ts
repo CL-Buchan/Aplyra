@@ -130,12 +130,17 @@ export interface BackButtonNavProps {
 	route?: string;
 }
 
+export interface AuthenticatedUser {
+	id: string;
+	email: string;
+}
+
 export interface NavProps {
-	initialUser: { email: string } | null;
+	initialUser: AuthenticatedUser | null;
 }
 
 export interface SidebarProps {
-	initialUser: { email: string } | null;
+	initialUser: AuthenticatedUser | null;
 	onHoverChange?: (isHovered: boolean) => void;
 }
 

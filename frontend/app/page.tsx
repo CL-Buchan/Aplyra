@@ -14,6 +14,7 @@ import ApplicationBoardPreview from './components/landing/ApplicationBoardPrevie
 import DashboardPreview from './components/landing/DashboardPreview';
 import FeatureRoadmap from './components/landing/FeatureRoadmap';
 import Footer from './components/ui/Footer';
+import { toast } from 'sonner';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -83,16 +84,18 @@ export default function Home() {
 				reason: error.code === '23505' ? 'duplicate' : 'unknown',
 			});
 			setStatus('error');
-			setErrorMessage(
+			const errorMessage =
 				error.code === '23505'
 					? "You're already on the list!"
-					: 'Something went wrong, please try again.',
-			);
+					: 'Something went wrong, please try again.';
+			setErrorMessage(errorMessage);
+			toast.error(errorMessage);
 			return;
 		}
 
 		posthog.capture('waitlist_signup');
 		setStatus('success');
+		toast.success("You're in the waitlist!");
 	}
 
 	return (

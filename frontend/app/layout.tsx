@@ -35,7 +35,9 @@ export default async function RootLayout({
 			data-scroll-behavior='smooth'>
 			<body className='min-h-full flex flex-col overflow-x-hidden'>
 				<AppShell
-					initialUser={user ? { email: user.email ?? '' } : null}>
+					initialUser={
+						user ? { id: user.id, email: user.email ?? '' } : null
+					}>
 					{children}
 				</AppShell>
 

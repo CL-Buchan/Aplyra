@@ -6,6 +6,7 @@ import Indicator from '../Indicator';
 import Input from '../ui/Input';
 import Modal from '../ui/Modal';
 import { createClient } from '@/app/services/supabase/client';
+import posthog from 'posthog-js';
 
 const REQUIRED_FIELDS: (keyof JobApplication)[] = [
 	'role',
@@ -70,6 +71,9 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 		console.log(error);
 		if (error) return console.error(error);
 
+		posthog.capture('application_created', {
+			application_count: applications.length,
+		});
 		setApplications([]);
 		onClose();
 	}

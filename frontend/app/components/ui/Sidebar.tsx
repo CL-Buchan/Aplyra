@@ -12,6 +12,7 @@ import {
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import posthog from 'posthog-js';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -99,6 +100,8 @@ export default function Sidebar({ initialUser, onHoverChange }: SidebarProps) {
 		const { error } = await supabase.auth.signOut({ scope: 'local' });
 		if (error) {
 			toast.error('Failed to sign out.');
+		} else {
+			posthog.reset();
 		}
 
 		setIsLoading(false);

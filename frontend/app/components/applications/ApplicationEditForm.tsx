@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState, useTransition } from 'react';
 import { toast } from 'sonner';
+import posthog from 'posthog-js';
 
 export default function ApplicationEditForm({
 	application,
@@ -45,6 +46,10 @@ export default function ApplicationEditForm({
 			const result = await updateApplication(application.id, payload);
 
 			if (result.success) {
+				posthog.capture('application_updated', {
+					status: payload.status,
+					is_closed: payload.closed,
+				});
 				toast.success('Application updated');
 				router.refresh();
 			} else {

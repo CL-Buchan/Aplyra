@@ -6,6 +6,7 @@ import Button from '@/app/components/ui/Button';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState, useTransition } from 'react';
 import { toast } from 'sonner';
+import posthog from 'posthog-js';
 
 export default function ProfileEditForm({ user }: ProfileEditformProps) {
 	const router = useRouter();
@@ -25,6 +26,7 @@ export default function ProfileEditForm({ user }: ProfileEditformProps) {
 			});
 
 			if (result.success) {
+				posthog.capture('profile_updated');
 				toast.success('Profile updated');
 				router.refresh();
 			} else {

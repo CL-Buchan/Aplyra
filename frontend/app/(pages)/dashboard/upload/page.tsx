@@ -7,6 +7,7 @@ import Wrapper from '@/app/components/Wrapper';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import posthog from 'posthog-js';
 
 function UploadPageContent() {
 	const router = useRouter();
@@ -58,6 +59,10 @@ function UploadPageContent() {
 			}
 
 			setParsedLetterString(parsedDocument.text);
+			posthog.capture('document_uploaded', {
+				file_type: file.type || 'unknown',
+				has_job_description: Boolean(jobDescription.trim()),
+			});
 			setSuccess(true);
 			toast.success(`${file.name} was uploaded successfully`);
 		} catch (error) {

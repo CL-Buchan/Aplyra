@@ -7,6 +7,7 @@ import { Tables } from '@/app/types/database.types';
 import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import posthog from 'posthog-js';
 
 type ApplicationOption = Pick<Tables<'applications'>, 'id' | 'role'> & {
 	company: Pick<Tables<'company'>, 'name'> | null;
@@ -62,7 +63,11 @@ export default function Letters() {
 
 		const result = await linkLetterApplication(letterId, applicationId);
 
-		if (!result.success) {
+		if (result.success) {
+			posthog.capture('letter_application_linked', {
+				is_linked: applicationId !== null,
+			});
+		} else {
 			toast.error(result.error ?? 'Failed to link letter');
 		}
 	};

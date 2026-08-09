@@ -5,6 +5,7 @@ import { NavProps } from '@/app/types/global.types';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import posthog from 'posthog-js';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import Button from './Button';
@@ -85,6 +86,8 @@ export default function Nav({ initialUser }: NavProps) {
 		const { error } = await supabase.auth.signOut({ scope: 'local' });
 		if (error) {
 			toast.error('Failed to sign out.');
+		} else {
+			posthog.reset();
 		}
 
 		setIsLoading(false);

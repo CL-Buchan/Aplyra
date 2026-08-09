@@ -5,6 +5,7 @@ import BackButton from '@/app/components/ui/BackButton';
 import { formInputs } from '@/app/data/data';
 import { createClient } from '@/app/services/supabase/client';
 import { SignupFormData } from '@/app/types/global.types';
+import posthog from 'posthog-js';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -53,7 +54,10 @@ export default function SignUp() {
 			return;
 		}
 
-		const { error } = await supabase.auth.signUp({
+		const {
+			data: { user },
+			error,
+		} = await supabase.auth.signUp({
 			email: signupData.username.trim().toLowerCase(),
 			password: signupData.password.trim(),
 			options: {
@@ -64,6 +68,11 @@ export default function SignUp() {
 		if (error) {
 			toast.error('Could not sign user up!');
 			return;
+		}
+
+		if (user) {
+			posthog.identify(user.id, { email: user.email ?? signupData.username });
+			posthog.capture('user_signed_up');
 		}
 
 		// Reset form data
