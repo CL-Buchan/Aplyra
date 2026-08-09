@@ -5,6 +5,7 @@ import { createClient } from './services/supabase/server';
 import './globals.css';
 import './styles/main.scss';
 import { Toaster } from 'sonner';
+import { Analytics } from '@vercel/analytics/next';
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 
@@ -42,6 +43,7 @@ export default async function RootLayout({
 				</AppShell>
 
 				<Toaster />
+				<Analytics />
 			</body>
 		</html>
 	);
