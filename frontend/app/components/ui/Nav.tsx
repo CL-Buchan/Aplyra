@@ -12,7 +12,7 @@ import { Mark } from './Mark';
 
 const publicLinks = [
 	{ text: 'Product', route: '/' },
-	{ text: 'How it Works', route: '#how-it-works' },
+	{ text: 'How it Works', route: '' },
 ];
 
 const authedLinks = [{ text: 'Dashboard', route: '/dashboard/applications' }];
@@ -26,6 +26,7 @@ export default function Nav({ initialUser }: NavProps) {
 	const [username, setUsername] = useState(initialUser?.email ?? '');
 	const [userLoggedIn, setUserLoggedIn] = useState(!!initialUser);
 	const [isLoading, setIsLoading] = useState(false);
+	const [selectedNavIndex, setSelectedNavIndex] = useState(0);
 	const pathname = usePathname();
 	const isInitialAuthEvent = useRef(true);
 	const supabase = createClient();
@@ -64,6 +65,16 @@ export default function Nav({ initialUser }: NavProps) {
 		return () => subscription.unsubscribe();
 	}, []);
 
+	const scrollIntoView = () => {
+		const featureSection = document.getElementById('how-it-works');
+
+		featureSection?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'center',
+			inline: 'center',
+		});
+	};
+
 	const links = userLoggedIn
 		? [...publicLinks] //, ...authedLinks
 		: [...publicLinks]; //, ...guestLinks
@@ -84,7 +95,7 @@ export default function Nav({ initialUser }: NavProps) {
 			<div className='flex w-full items-center justify-between'>
 				<div className='flex md:flex-nowrap gap-[10px] shrink-0'>
 					<Mark />
-					<Link href={'/'}>Applyra</Link>
+					<Link href={'/'}>Aplyra</Link>
 				</div>
 
 				{userLoggedIn ? (
@@ -118,15 +129,22 @@ export default function Nav({ initialUser }: NavProps) {
 				) : (
 					<nav className='hidden md:block p-[6px] rounded-[24px] bg-[#FFFFFF0D] border border-white/10 backdrop-blur-[12px] z-10'>
 						<ul className='flex flex-row gap-[4px]'>
-							{links.map(({ text, route }) => (
+							{links.map(({ text, route }, index) => (
 								<li
 									key={route}
 									className={clsx(
-										'px-[18px] py-[8px] rounded-[18px] text-[13px]',
-										pathname === route
+										'px-[18px] py-[8px] rounded-[18px] text-[13px] transition-all duration-200 ease-in-out',
+										selectedNavIndex === index
 											? 'bg-[#FFFFFF14] backdrop-blur-md'
 											: '',
-									)}>
+									)}
+									onClick={() => {
+										setSelectedNavIndex(index);
+										if (route === '') {
+											console.log(1);
+											scrollIntoView();
+										}
+									}}>
 									<Link href={route}>{text}</Link>
 								</li>
 							))}
