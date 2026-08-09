@@ -1,23 +1,26 @@
 'use client';
 
-import Pill from './components/ui/Pill';
 import Button from './components/ui/Button';
 import Input from './components/ui/Input';
 import { useEffect, useRef, useState } from 'react';
 import { AppContextProvider } from './providers/AppContext';
 import RadialGlow from './components/ui/RadialGlow';
-import Carousel from './components/Carousel';
-import { Paperclip } from '@untitledui/icons';
+import { ArrowNarrowRight } from '@untitledui/icons';
 import posthog from 'posthog-js';
 import { createClient } from './services/supabase/client';
+import { Badge } from './components/ui/Badge';
+import { Mark } from './components/ui/Mark';
+import ApplicationBoardPreview from './components/landing/ApplicationBoardPreview';
+import DashboardPreview from './components/landing/DashboardPreview';
+import FeatureRoadmap from './components/landing/FeatureRoadmap';
+import Footer from './components/ui/Footer';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function Home() {
 	const moreInfoElement = useRef<HTMLElement | null>(null);
-	const topGlowRef = useRef<HTMLDivElement | null>(null);
-	const bottomGlowRef = useRef<HTMLDivElement | null>(null);
-	const backdropImages = useRef<HTMLImageElement | null>(null);
+	const heroGlowRef = useRef<HTMLDivElement | null>(null);
+	const ctaGlowRef = useRef<HTMLDivElement | null>(null);
 
 	const [email, setEmail] = useState('');
 	const [status, setStatus] = useState<
@@ -47,26 +50,18 @@ export default function Home() {
 	// Scroll effect listener - background (radials) move slower than the content
 	useEffect(() => {
 		const handleScroll = () => {
-			if (
-				!topGlowRef.current ||
-				!bottomGlowRef.current ||
-				!backdropImages.current
-			)
-				return;
+			if (!heroGlowRef.current) return;
 
 			const speed = 0.3;
 			const scrollYPosition = window.scrollY;
-			if (scrollYPosition === 0) return;
 
 			const parallaxItemSpeed = scrollYPosition * speed;
-			topGlowRef.current.style.transform = `translateY(${parallaxItemSpeed}px)`;
-			backdropImages.current.style.transform = `translateY(${parallaxItemSpeed}px)`;
-			bottomGlowRef.current.style.transform = `translateY(-${parallaxItemSpeed}px)`;
+
+			heroGlowRef.current.style.transform = `translateY(${parallaxItemSpeed}px)`;
 		};
 
 		window.addEventListener('scroll', handleScroll);
 
-		// Removes the cleanup function
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
@@ -102,87 +97,38 @@ export default function Home() {
 
 	return (
 		<AppContextProvider>
-			<div className='relative w-full flex flex-col flex-1 items-center justify-center font-sans'>
-				{/* Radial glows */}
-				<RadialGlow ref={topGlowRef} />
-				<RadialGlow ref={bottomGlowRef} className='bottom-0 right-0' />
+			<div className='w-full flex flex-col items-center font-sans overflow-x-hidden'>
+				<main className='w-full max-w-5xl px-6 flex flex-col gap-24 md:gap-32 py-20'>
+					{/* Hero */}
+					<section className='w-full flex flex-col items-center text-center pt-[60px] pb-16 overflow-hidden'>
+						<RadialGlow
+							ref={heroGlowRef}
+							width={900}
+							height={600}
+							className='-top-50 left-1/2 -translate-x-1/2 opacity-35 pointer-events-none'
+						/>
 
-				{/* Main content */}
-				<main className='max-w-200 py-20 flex flex-col justify-start items-center gap-15 z-20'>
-					<div className='relative py-31.25 card card--col card--center'>
-						<div className='flex flex-col'>
-							<h1 className='text-muted tracking-tight font-semibold'>
+						<div className='relative z-10 flex flex-col items-center'>
+							<Badge className='mb-7'>
+								Early access opening soon
+							</Badge>
+
+							<h1 className='text-muted text-4xl! md:text-6xl! leading-[1.12]! font-semibold tracking-tighter'>
 								Job hunting is overwhelming.
 							</h1>
-							<h1 className='tracking-tighter font-semibold'>
-								Trove keeps you{' '}
+							<h1 className='text-4xl! md:text-6xl! leading-[1.12]! font-semibold tracking-tighter'>
+								Aplyra keeps you{' '}
 								<span className='underline'>organised.</span>
 							</h1>
-						</div>
 
-						<Button
-							onClick={() => {
-								posthog.capture('waitlist_cta_clicked', {
-									location: 'hero',
-								});
-								moreInfoElement.current?.scrollIntoView({
-									behavior: 'smooth',
-									block: 'center',
-								});
-							}}
-							variant='secondary'
-							className='mt-5 bg-brand-blue'
-							redirectTo=''
-							text='Join the Waitlist'
-						/>
-
-						{/* Icon for background */}
-						<Paperclip
-							className='right-0 bottom-0 absolute z-0 translate-x-125 translate-y-50'
-							opacity={0.025}
-							height={800}
-							width={800}
-						/>
-					</div>
-
-					<div className='py-31.25 w-full flex flex-col justify-center items-center gap-10'>
-						<Carousel textPosition='top' content={[]}>
-							<div className='w-full flex flex-row justify-between items-end'>
-								<h2 className='text-3xl!'>
-									Simplify. Track. <br />
-									<span className='text-5xl! tracking-tighter! font-semibold'>
-										Apply for More
-									</span>
-								</h2>
-
-								<Pill
-									text='Limited Spots'
-									styles={{
-										hexColour: '0000FF',
-										opacity: '100%',
-									}}
-								/>
-							</div>
-						</Carousel>
-					</div>
-
-					<div className='py-31.25'>
-						<div
-							id='more-information'
-							className='w-full card card--col card--start banner-card backdrop-blur-3xl gap-5'>
-							<h2 className='tracking-tighter'>
-								Be first through the door.
-							</h2>
-							<p>
-								Trove is in the works — one place to track every
-								application, follow-up, and offer, instead of a
-								spreadsheet you forget to update. Join the
-								waitlist and we&apos;ll email you the moment
-								early access opens.
+							<p className='mt-6 max-w-md text-[#888888] text-base leading-relaxed'>
+								AI writes a tailored cover letter for every role
+								in seconds, and tracks each application from
+								submit to offer — no spreadsheet required.
 							</p>
 
 							{status === 'success' ? (
-								<p className='text-brand-blue font-semibold'>
+								<p className='mt-8 text-brand-blue font-semibold'>
 									You&apos;re on the list — we&apos;ll be in
 									touch.
 								</p>
@@ -192,7 +138,116 @@ export default function Home() {
 										e.preventDefault();
 										handleWaitlistSubmit();
 									}}
-									className='w-full flex flex-col sm:flex-row items-start sm:items-center gap-2.5'>
+									className='mt-8 w-full max-w-sm flex gap-2 bg-surface border border-border rounded-[9px] p-1.25'>
+									<input
+										type='email'
+										name='waitlist-email-hero'
+										placeholder='you@example.com'
+										value={email}
+										onChange={(e) => {
+											setEmail(e.target.value);
+											if (status === 'error') {
+												setStatus('idle');
+											}
+										}}
+										className='flex-1 min-w-0 bg-transparent border-none h-[38px] px-3 text-white text-sm placeholder:text-[#595959] focus:outline-none'
+									/>
+									<button
+										type='submit'
+										disabled={status === 'loading'}
+										aria-label='Join the waitlist'
+										className='shrink-0 w-[38px] h-[38px] rounded-[6px] bg-brand-blue text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed'>
+										<ArrowNarrowRight
+											width={16}
+											height={16}
+										/>
+									</button>
+								</form>
+							)}
+
+							{status === 'error' && (
+								<p className='mt-3 text-red-500 text-sm'>
+									{errorMessage}
+								</p>
+							)}
+						</div>
+
+						{/* Product preview */}
+						<DashboardPreview />
+					</section>
+
+					{/* From job post to letter */}
+					<section id='how-it-works' className='pt-[64px] pb-[100px]'>
+						<div className='grid md:grid-cols-2 gap-10 mb-16'>
+							<h2 className='text-3xl! md:text-5xl! leading-[1.05]! font-semibold tracking-tighter text-white'>
+								From job post to
+								<br />
+								personalised letter.
+							</h2>
+							<p className='max-w-md text-[#888888] text-base leading-relaxed'>
+								Paste in a listing, get a letter written for
+								that exact role, and watch the application move
+								across one board until it&apos;s done.
+							</p>
+						</div>
+
+						<FeatureRoadmap />
+					</section>
+
+					{/* Application board preview */}
+					<section
+						aria-hidden
+						className='relative pt-[20px] pb-[90px] flex flex-col items-center'>
+						<Badge className='mb-8'>
+							One board, from application to offer
+						</Badge>
+
+						<ApplicationBoardPreview />
+					</section>
+
+					{/* Final CTA */}
+					<section
+						id='more-information'
+						className='relative pb-[110px] flex flex-col items-center text-center'>
+						<RadialGlow
+							ref={ctaGlowRef}
+							width={700}
+							height={500}
+							className='-top-10 left-1/2 -translate-x-1/2 opacity-40 pointer-events-none'
+						/>
+
+						<div className='relative z-10 flex flex-col items-center'>
+							<Mark size={40} className='mb-7' />
+
+							<Badge
+								indicator={false}
+								bgColour='grey'
+								className='mb-7'>
+								Join the Waitlist
+							</Badge>
+
+							<h2 className='text-3xl md:text-4xl leading-[1.15] font-semibold tracking-tighter text-white'>
+								Your spot is <em className='italic'>waiting</em>
+								.
+							</h2>
+							<p className='mt-3 max-w-sm text-sm text-[#888888] leading-relaxed'>
+								One place to track every application, follow-up
+								and offer. We&apos;ll email you the moment early
+								access opens.
+							</p>
+
+							{status === 'success' ? (
+								<p className='mt-8 text-brand-blue font-semibold'>
+									You&apos;re on the list — we&apos;ll be in
+									touch.
+								</p>
+							) : (
+								<form
+									onSubmit={(e) => {
+										e.preventDefault();
+										handleWaitlistSubmit();
+									}}
+									className='mt-8 w-full max-w-md flex gap-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-[20px] p-2.5'>
 									<Input
 										type='email'
 										name='waitlist-email'
@@ -204,29 +259,32 @@ export default function Home() {
 												setStatus('idle');
 											}
 										}}
+										className='rounded-xl'
 									/>
 									<Button
 										type='submit'
 										variant='secondary'
-										className='bg-brand-blue shrink-0'
+										className='bg-brand-blue shrink-0 rounded-xl'
 										disabled={status === 'loading'}
 										text={
 											status === 'loading'
 												? 'Joining...'
-												: 'Join the Waitlist'
+												: 'Join'
 										}
 									/>
 								</form>
 							)}
 
 							{status === 'error' && (
-								<p className='text-red-500 text-sm'>
+								<p className='mt-3 text-red-500 text-sm'>
 									{errorMessage}
 								</p>
 							)}
 						</div>
-					</div>
+					</section>
 				</main>
+
+				<Footer />
 			</div>
 		</AppContextProvider>
 	);

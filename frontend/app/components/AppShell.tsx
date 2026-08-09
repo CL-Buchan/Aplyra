@@ -27,9 +27,9 @@ export default function AppShell({ initialUser, children }: Props) {
 
 			<div
 				className={clsx(
-					'w-full flex-1 flex flex-col justify-center items-center transition-[padding-left] duration-200 ease-in-out',
+					'relative w-full flex-1 flex flex-col justify-center items-center transition-[padding-left] duration-200 ease-in-out',
 					isRoot
-						? 'mt-10'
+						? ''
 						: clsx(
 								'py-10 pr-6',
 								isSidebarHovered ? 'pl-72' : 'pl-29',

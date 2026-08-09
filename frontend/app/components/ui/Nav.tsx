@@ -8,15 +8,19 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import Button from './Button';
+import { Mark } from './Mark';
 
-const publicLinks = [{ text: 'Home', route: '/' }];
+const publicLinks = [
+	{ text: 'Product', route: '/' },
+	{ text: 'How it Works', route: '#how-it-works' },
+];
 
 const authedLinks = [{ text: 'Dashboard', route: '/dashboard/applications' }];
 
-const guestLinks = [
-	{ text: 'Login', route: '/auth/login' },
-	{ text: 'Sign Up', route: '/auth/sign-up' },
-];
+// const guestLinks = [
+// 	{ text: 'Login', route: '/auth/login' },
+// 	{ text: 'Sign Up', route: '/auth/sign-up' },
+// ];
 
 export default function Nav({ initialUser }: NavProps) {
 	const [username, setUsername] = useState(initialUser?.email ?? '');
@@ -61,8 +65,8 @@ export default function Nav({ initialUser }: NavProps) {
 	}, []);
 
 	const links = userLoggedIn
-		? [...publicLinks, ...authedLinks]
-		: [...publicLinks, ...guestLinks];
+		? [...publicLinks] //, ...authedLinks
+		: [...publicLinks]; //, ...guestLinks
 
 	async function signUserOut() {
 		setIsLoading(true);
@@ -76,18 +80,51 @@ export default function Nav({ initialUser }: NavProps) {
 	}
 
 	return (
-		<div className='relative w-full flex justify-center mt-10 z-50'>
-			{userLoggedIn ? (
-				<div className='fixed flex flex-col md:flex-row justify-center items-center gap-20'>
-					<nav className='px-10 py-2 rounded-3xl bg-white/5 backdrop-blur-md z-10'>
-						<ul className='flex flex-col md:flex-row gap-10'>
+		<div className='fixed top-0 left-0 z-50 w-[100vw] max-w-[100vw] px-4 sm:px-6 md:px-12 py-6'>
+			<div className='flex w-full items-center justify-between'>
+				<div className='flex md:flex-nowrap gap-[10px] shrink-0'>
+					<Mark />
+					<Link href={'/'}>Applyra</Link>
+				</div>
+
+				{userLoggedIn ? (
+					<div className='hidden md:flex items-center gap-20'>
+						<nav className='px-10 py-2 rounded-[24px] bg-[#FFFFFF0D] backdrop-blur-[12px] z-10'>
+							<ul className='flex flex-col md:flex-row gap-10'>
+								{links.map(({ text, route }) => (
+									<li
+										key={route}
+										className={clsx(
+											'px-5 py-0.5 rounded-2xl text-center text-[13px]',
+											pathname === route
+												? 'bg-white/10 backdrop-blur-md'
+												: '',
+										)}>
+										<Link href={route}>{text}</Link>
+									</li>
+								))}
+							</ul>
+						</nav>
+
+						<div className='flex items-center gap-5 px-10 py-2 rounded-3xl bg-white/5 backdrop-blur-md z-10'>
+							<p>
+								Welcome, {username.slice(0, 5) ?? 'Username'}...
+							</p>
+							<Button onClick={signUserOut} disabled={isLoading}>
+								Sign Out
+							</Button>
+						</div>
+					</div>
+				) : (
+					<nav className='hidden md:block p-[6px] rounded-[24px] bg-[#FFFFFF0D] border border-white/10 backdrop-blur-[12px] z-10'>
+						<ul className='flex flex-row gap-[4px]'>
 							{links.map(({ text, route }) => (
 								<li
 									key={route}
 									className={clsx(
-										'px-5 py-0.5 rounded-2xl text-center',
+										'px-[18px] py-[8px] rounded-[18px] text-[13px]',
 										pathname === route
-											? 'bg-white/10 backdrop-blur-md'
+											? 'bg-[#FFFFFF14] backdrop-blur-md'
 											: '',
 									)}>
 									<Link href={route}>{text}</Link>
@@ -95,32 +132,14 @@ export default function Nav({ initialUser }: NavProps) {
 							))}
 						</ul>
 					</nav>
+				)}
 
-					<div className='flex items-center gap-5 px-10 py-2 rounded-3xl bg-white/5 backdrop-blur-md z-10'>
-						<p>Welcome, {username.slice(0, 5) ?? 'Username'}...</p>
-						<Button onClick={signUserOut} disabled={isLoading}>
-							Sign Out
-						</Button>
-					</div>
-				</div>
-			) : (
-				<nav className='fixed px-10 py-2 rounded-3xl bg-white/5 backdrop-blur-md z-10'>
-					<ul className='flex flex-col md:flex-row gap-10'>
-						{links.map(({ text, route }) => (
-							<li
-								key={route}
-								className={clsx(
-									'px-5 py-0.5 rounded-2xl',
-									pathname === route
-										? 'bg-white/10 backdrop-blur-md'
-										: '',
-								)}>
-								<Link href={route}>{text}</Link>
-							</li>
-						))}
-					</ul>
-				</nav>
-			)}
+				<Button
+					text='Join Waitlist'
+					className='shrink-0 px-[20px] h-[36px] bg-[#1A1AFF] rounded-[16px] text-[13px] font-normal'
+					redirectTo='#more-information'
+				/>
+			</div>
 		</div>
 	);
 }
