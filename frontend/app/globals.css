@@ -6,7 +6,7 @@
 	--muted: #4e4e4e;
 
 	/* Brand styles */
-	--brand-blue: #0000ff;
+	--brand-purple: #7c5cfc;
 }
 
 @theme inline {
@@ -15,7 +15,7 @@
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
 	--color-muted: var(--muted);
-	--color-brand-blue: var(--brand-blue);
+	--color-brand-purple: var(--brand-purple);
 	--color-surface: #101010;
 	--color-border: rgba(255, 255, 255, 0.1);
 }

@@ -130,7 +130,7 @@ export default function Nav({ initialUser }: NavProps) {
 						</div>
 					</div>
 				) : (
-					<nav className='hidden md:block p-[6px] rounded-[24px] bg-[#FFFFFF0D] border border-white/10 backdrop-blur-[12px] z-10'>
+					<nav className='hidden md:block p-[6px] rounded-[24px] bg-[#0000000D] dark:bg-[#FFFFFF0D] border border-black/10 dark:border-white/10 backdrop-blur-[12px] z-10'>
 						<ul className='flex flex-row gap-[4px]'>
 							{links.map(({ text, route }, index) => (
 								<li
@@ -138,7 +138,7 @@ export default function Nav({ initialUser }: NavProps) {
 									className={clsx(
 										'px-[18px] py-[8px] rounded-[18px] text-[13px] transition-all duration-200 ease-in-out',
 										selectedNavIndex === index
-											? 'bg-[#FFFFFF14] backdrop-blur-md'
+											? 'bg-[#00000014] dark:bg-[#FFFFFF14] backdrop-blur-md'
 											: '',
 									)}
 									onClick={() => {
@@ -148,16 +148,17 @@ export default function Nav({ initialUser }: NavProps) {
 											scrollIntoView();
 										}
 									}}>
-									<Link href={route}>{text}</Link>
+									<Link href={route} className='text-black dark:text-white'>
+										{text}
+									</Link>
 								</li>
 							))}
 						</ul>
 					</nav>
 				)}
-
 				<Button
 					text='Join Waitlist'
-					className='shrink-0 px-[20px] h-[36px] bg-[#1A1AFF] rounded-[16px] text-[13px] font-normal'
+					className='shrink-0 px-[20px] h-[36px] bg-brand-purple rounded-[16px] text-[13px] font-normal text-white dark:text-black'
 					redirectTo='#more-information'
 				/>
 			</div>

@@ -15,7 +15,7 @@ export default function ApplicationBoardPreview() {
 						<p className='text-[11px] font-medium text-[#595959] uppercase tracking-wide mb-1'>
 							Applications
 						</p>
-						<div className='flex justify-between items-center bg-brand-blue/[0.08] border border-[#5C8FF7]/40 rounded-lg py-3.5 px-4'>
+						<div className='flex justify-between items-center bg-brand-purple/[0.08] border border-[#5C8FF7]/40 rounded-lg py-3.5 px-4'>
 							<div>
 								<p className='text-[13px] font-medium text-white'>
 									Senior Product Designer
@@ -58,7 +58,7 @@ export default function ApplicationBoardPreview() {
 							</span>
 						</div>
 					</div>
-					<div className='flex-1 p-6 bg-gradient-to-b from-brand-blue/5 to-transparent'>
+					<div className='flex-1 p-6 bg-gradient-to-b from-brand-purplelue/5 to-transparent'>
 						<div className='flex items-center gap-2 mb-1'>
 							<span className='w-1.5 h-1.5 rounded-full bg-[#5C8FF7] shadow-[0_0_8px_#5C8FF7]' />
 							<p className='text-[13px] font-medium text-white'>
@@ -80,7 +80,7 @@ export default function ApplicationBoardPreview() {
 						<button
 							type='button'
 							tabIndex={-1}
-							className='mt-7 bg-brand-blue text-white rounded-[7px] px-4 h-8 text-xs font-semibold'>
+							className='mt-7 bg-brand-purple text-white rounded-[7px] px-4 h-8 text-xs font-semibold'>
 							Export PDF
 						</button>
 					</div>

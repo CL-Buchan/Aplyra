@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: 'Trove - job application tracker',
+	title: 'Aplyra - AI cover letter generator and job tracker',
 	description:
-		'Keep on top of your current job applications, see them all in one place, review, delete, follow up. Everything you need, here, at Trove.',
+		'Keep on top of your current job applications, see them all in one place, review, delete, follow up. Everything you need, here, at Aplyra.',
 };
 
 export default async function RootLayout({

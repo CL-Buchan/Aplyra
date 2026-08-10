@@ -103,7 +103,7 @@ export default function Home() {
 			<div className='w-full flex flex-col items-center font-sans overflow-x-hidden'>
 				<main className='w-full max-w-5xl px-6 flex flex-col gap-24 md:gap-32 py-20'>
 					{/* Hero */}
-					<section className='w-full flex flex-col items-center text-center pt-[60px] pb-16 overflow-hidden'>
+					<section className='w-full flex flex-col items-center text-center pt-[60px] pb-16'>
 						<RadialGlow
 							ref={heroGlowRef}
 							width={900}
@@ -131,7 +131,7 @@ export default function Home() {
 							</p>
 
 							{status === 'success' ? (
-								<p className='mt-8 text-brand-blue font-semibold'>
+								<p className='mt-8 text-brand-purple font-semibold'>
 									You&apos;re on the list — we&apos;ll be in
 									touch.
 								</p>
@@ -141,7 +141,7 @@ export default function Home() {
 										e.preventDefault();
 										handleWaitlistSubmit();
 									}}
-									className='mt-8 w-full max-w-sm flex gap-2 bg-surface border border-border rounded-[9px] p-1.25'>
+									className='mt-8 w-full max-w-sm flex gap-2 backdrop-blur-3xl dark:backdrop-blur-none bg-white/30 dark:bg-surface border border-border rounded-[9px] p-1.25'>
 									<input
 										type='email'
 										name='waitlist-email-hero'
@@ -159,7 +159,7 @@ export default function Home() {
 										type='submit'
 										disabled={status === 'loading'}
 										aria-label='Join the waitlist'
-										className='shrink-0 w-[38px] h-[38px] rounded-[6px] bg-brand-blue text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed'>
+										className='shrink-0 w-[38px] h-[38px] rounded-[6px] bg-brand-purple text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed'>
 										<ArrowNarrowRight
 											width={16}
 											height={16}
@@ -182,7 +182,7 @@ export default function Home() {
 					{/* From job post to letter */}
 					<section id='how-it-works' className='pt-[64px] pb-[100px]'>
 						<div className='grid md:grid-cols-2 gap-10 mb-16'>
-							<h2 className='text-3xl! md:text-5xl! leading-[1.05]! font-semibold tracking-tighter text-white'>
+							<h2 className='text-3xl! md:text-5xl! leading-[1.05]! font-semibold tracking-tighter text-black dark:text-white'>
 								From job post to
 								<br />
 								personalised letter.
@@ -229,7 +229,7 @@ export default function Home() {
 								Join the Waitlist
 							</Badge>
 
-							<h2 className='text-3xl md:text-4xl leading-[1.15] font-semibold tracking-tighter text-white'>
+							<h2 className='text-3xl md:text-4xl leading-[1.15] font-semibold tracking-tighter text-black dark:text-white'>
 								Your spot is <em className='italic'>waiting</em>
 								.
 							</h2>
@@ -240,7 +240,7 @@ export default function Home() {
 							</p>
 
 							{status === 'success' ? (
-								<p className='mt-8 text-brand-blue font-semibold'>
+								<p className='mt-8 text-brand-purple font-semibold'>
 									You&apos;re on the list — we&apos;ll be in
 									touch.
 								</p>
@@ -262,12 +262,12 @@ export default function Home() {
 												setStatus('idle');
 											}
 										}}
-										className='rounded-xl'
+										className='w-full max-w-sm flex gap-2 backdrop-blur-3xl dark:backdrop-blur-none bg-white/30 dark:bg-surface border border-border rounded-[9px] p-1.25'
 									/>
 									<Button
 										type='submit'
 										variant='secondary'
-										className='bg-brand-blue shrink-0 rounded-xl'
+										className='bg-brand-purple shrink-0 rounded-xl text-white dark:text-black'
 										disabled={status === 'loading'}
 										text={
 											status === 'loading'

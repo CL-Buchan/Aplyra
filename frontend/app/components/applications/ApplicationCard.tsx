@@ -43,7 +43,7 @@ export default function ApplicationCard({
 				'border-l-4 transition-all duration-300 ease-in-out',
 				'dark:border-white/15 dark:bg-white/5',
 				'hover:border-black/20 hover:bg-white/80 dark:hover:border-white/25 dark:hover:bg-white/10',
-				'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue',
+				'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple',
 				urgencyAccent[urgency],
 			)}>
 			<div className='flex items-start justify-between gap-4'>

@@ -54,7 +54,7 @@ export default function Button({
 
 	// Get brand colour and invert text colouring accordingly
 	const brandColours: Record<string, string> = {
-		'brand-blue': '#0000ff',
+		'brand-purple': '#7c5cfc',
 		'bttn-primary-bg': '#FFFFFF',
 		'bttn-ghost-bg': '#1A1A1A',
 	};

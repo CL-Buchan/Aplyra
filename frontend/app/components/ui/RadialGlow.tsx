@@ -24,7 +24,7 @@ const RadialGlow = forwardRef<HTMLDivElement, RadialGlowProps>(
 					width,
 					height,
 					transform: `${translateY} ${translateX}`.trim(),
-					background: `radial-gradient(${hexColour}, transparent)`,
+					background: `radial-gradient(ellipse closest-side, ${hexColour}, transparent)`,
 				}}
 				className={clsx(
 					'absolute blur-3xl z-0',
