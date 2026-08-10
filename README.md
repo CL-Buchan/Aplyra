@@ -1,4 +1,4 @@
-# Welcome to Trove
+# Welcome to Aplyra
 
 ## Who are we?
 
@@ -6,7 +6,7 @@ Trove is a central job tracking application to store applications, review applic
 
 ## Features
 
-See current features for Trove:
+See current features for Aplyra:
 
 - Add applied jobs and their details
 - Update statuses to know what has succeeded or is unsuccessful
@@ -20,5 +20,5 @@ Here are some upcoming features:
 - Cover letter or resume assistant - parse your PDF, Docx or Txt file and our assistant will do the rest
 
 ## Accessing the Repo
-
+More to come...
 
