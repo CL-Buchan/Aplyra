@@ -7,7 +7,6 @@ import { AppContextProvider } from './providers/AppContext';
 import RadialGlow from './components/ui/RadialGlow';
 import { ArrowNarrowRight } from '@untitledui/icons';
 import posthog from 'posthog-js';
-import { createClient } from './services/supabase/client';
 import { Badge } from './components/ui/Badge';
 import { Mark } from './components/ui/Mark';
 import ApplicationBoardPreview from './components/landing/ApplicationBoardPreview';
@@ -76,20 +75,22 @@ export default function Home() {
 		}
 
 		setStatus('loading');
-		const supabase = createClient();
-		const { error } = await supabase.from('waitlist').insert({ email });
+		const res = await fetch('/api/waitlist', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ email }),
+		});
 
-		if (error) {
+		if (!res.ok) {
+			const { error, code } = await res
+				.json()
+				.catch(() => ({ error: 'Something went wrong, please try again.' }));
 			posthog.capture('waitlist_signup_failed', {
-				reason: error.code === '23505' ? 'duplicate' : 'unknown',
+				reason: code === '23505' ? 'duplicate' : 'unknown',
 			});
 			setStatus('error');
-			const errorMessage =
-				error.code === '23505'
-					? "You're already on the list!"
-					: 'Something went wrong, please try again.';
-			setErrorMessage(errorMessage);
-			toast.error(errorMessage);
+			setErrorMessage(error);
+			toast.error(error);
 			return;
 		}
 
