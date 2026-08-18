@@ -48,7 +48,6 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 			setLoading(false);
 			return console.error('You must be logged in to add applications.');
 		}
-		console.log('id:', user.id);
 
 		const { error } = await supabase
 			.from('applications')
@@ -68,7 +67,6 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 			);
 		setLoading(false);
 
-		console.log(error);
 		if (error) return console.error(error);
 
 		posthog.capture('application_created', {

@@ -60,8 +60,6 @@ export default function Nav({ initialUser }: NavProps) {
 	}
 
 	useEffect(() => {
-		console.log(selectedNavIndex);
-
 		if (selectedNavIndex === 1) {
 			scrollIntoView();
 		}

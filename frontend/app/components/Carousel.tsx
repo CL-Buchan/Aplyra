@@ -24,7 +24,6 @@ export default function Carousel({
 
 		// Watch for changes in container width/dimensions
 		const observer = new ResizeObserver((entries) => {
-			console.log('reporting container change');
 			const width = entries[0].contentRect.width;
 			const remainingWidth = (width ?? 0) - 24 * 2;
 			setContainerWidth(remainingWidth);
