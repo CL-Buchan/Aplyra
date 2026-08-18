@@ -34,6 +34,7 @@ export interface InputProps {
 	placeholder?: string;
 	className?: string;
 	value?: string;
+	required?: boolean;
 	onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 

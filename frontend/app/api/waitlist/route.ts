@@ -7,7 +7,7 @@ const resend = new Resend(process.env.RESEND_KEY);
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
-	const { email } = await req.json();
+	const { email, name } = await req.json();
 
 	if (typeof email !== 'string' || !EMAIL_REGEX.test(email)) {
 		return NextResponse.json(
@@ -37,10 +37,7 @@ export async function POST(req: NextRequest) {
 			template: {
 				id: process.env.RESEND_WAITLIST_TEMPLATE_ID!,
 				variables: {
-					company_name: 'Aplyra',
-					first_name: 'there',
-					product_name: 'Aplyra',
-					referral_link: '',
+					first_name: name,
 					unsubscribe_link: `${req.nextUrl.origin}/api/email/unsubscribe?email=${encodeURIComponent(email)}`,
 				},
 			},

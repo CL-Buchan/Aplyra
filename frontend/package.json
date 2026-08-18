@@ -23,7 +23,8 @@
 		"react-dom": "19.2.8",
 		"react-email": "6.9.2",
 		"resend": "^6.18.1",
-		"sonner": "^2.0.7"
+		"sonner": "^2.0.7",
+		"vercel": "^59.1.4"
 	},
 	"devDependencies": {
 		"@react-email/ui": "6.9.2",

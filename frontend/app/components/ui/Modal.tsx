@@ -22,7 +22,7 @@ export default function Modal({
 		<div
 			onClick={onClose}
 			className={clsx(
-				'min-h-screen absolute inset-0 flex justify-center items-center',
+				'min-h-screen fixed inset-0 z-[100] flex justify-center items-center',
 				!isOpen ? 'hidden' : 'backdrop-blur-xl',
 			)}>
 			{/* Modal itself */}

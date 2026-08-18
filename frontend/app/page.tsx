@@ -14,6 +14,7 @@ import DashboardPreview from './components/landing/DashboardPreview';
 import FeatureRoadmap from './components/landing/FeatureRoadmap';
 import Footer from './components/ui/Footer';
 import { toast } from 'sonner';
+import Modal from './components/ui/Modal';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -22,11 +23,14 @@ export default function Home() {
 	const heroGlowRef = useRef<HTMLDivElement | null>(null);
 	const ctaGlowRef = useRef<HTMLDivElement | null>(null);
 
+	const [firstName, setFirstName] = useState('');
 	const [email, setEmail] = useState('');
 	const [status, setStatus] = useState<
 		'idle' | 'loading' | 'success' | 'error'
 	>('idle');
 	const [errorMessage, setErrorMessage] = useState('');
+	const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+	const [nameError, setNameError] = useState('');
 
 	useEffect(() => {
 		moreInfoElement.current = document.getElementById('more-information');
@@ -65,7 +69,7 @@ export default function Home() {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
-	async function handleWaitlistSubmit() {
+	function handleWaitlistSubmit() {
 		if (status === 'loading') return;
 
 		if (!EMAIL_REGEX.test(email)) {
@@ -74,17 +78,39 @@ export default function Home() {
 			return;
 		}
 
+		if (!firstName.trim()) {
+			setIsNameModalOpen(true);
+			return;
+		}
+
+		submitWaitlist();
+	}
+
+	function handleNameModalContinue() {
+		if (!firstName.trim()) {
+			setNameError('Enter your first name to continue.');
+			return;
+		}
+
+		setNameError('');
+		setIsNameModalOpen(false);
+		submitWaitlist();
+	}
+
+	async function submitWaitlist() {
 		setStatus('loading');
 		const res = await fetch('/api/waitlist', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ email }),
+			body: JSON.stringify({ email, name: firstName }),
 		});
 
 		if (!res.ok) {
 			const { error, code } = await res
 				.json()
-				.catch(() => ({ error: 'Something went wrong, please try again.' }));
+				.catch(() => ({
+					error: 'Something went wrong, please try again.',
+				}));
 			posthog.capture('waitlist_signup_failed', {
 				reason: code === '23505' ? 'duplicate' : 'unknown',
 			});
@@ -101,7 +127,7 @@ export default function Home() {
 
 	return (
 		<AppContextProvider>
-			<div className='w-full flex flex-col items-center font-sans overflow-x-hidden'>
+			<div className='relative w-full flex flex-col items-center font-sans overflow-x-hidden'>
 				<main className='w-full max-w-5xl px-6 flex flex-col gap-24 md:gap-32 py-20'>
 					{/* Hero */}
 					<section className='w-full flex flex-col items-center text-center pt-[60px] pb-16'>
@@ -290,6 +316,46 @@ export default function Home() {
 
 				<Footer />
 			</div>
+
+			<Modal
+				isOpen={isNameModalOpen}
+				onClose={() => setIsNameModalOpen(false)}
+				header={{
+					title: 'What should we call you?',
+					description:
+						'We use your first name to personalise your emails.',
+				}}
+				isLoading={status === 'loading'}
+				footer={{
+					buttons: [
+						{
+							text: 'Cancel',
+							onClick: () => setIsNameModalOpen(false),
+						},
+						{
+							text: 'Continue',
+							disabled: false,
+							onClick: handleNameModalContinue,
+						},
+					],
+				}}>
+				<div className='w-full flex flex-col gap-1.5'>
+					<Input
+						type='text'
+						name='waitlist-first-name'
+						placeholder='Jane'
+						required
+						value={firstName}
+						onChange={(e) => {
+							setFirstName(e.target.value);
+							if (nameError) setNameError('');
+						}}
+					/>
+					{nameError && (
+						<p className='text-red-500 text-xs'>{nameError}</p>
+					)}
+				</div>
+			</Modal>
 		</AppContextProvider>
 	);
 }

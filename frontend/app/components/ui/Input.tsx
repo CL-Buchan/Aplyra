@@ -9,6 +9,7 @@ export default function Input({
 	placeholder = 'Enter something...',
 	className,
 	value,
+	required,
 	onChange,
 }: InputProps) {
 	return type === 'textarea' ? (
@@ -21,6 +22,7 @@ export default function Input({
 			className={className}
 			style={{ width: '100%' }}
 			value={value ?? ''}
+			required={required}
 			onChange={onChange}
 		/>
 	) : (
@@ -30,6 +32,7 @@ export default function Input({
 			name={name}
 			placeholder={placeholder}
 			value={value ?? ''}
+			required={required}
 			onChange={onChange}
 			className={clsx(
 				'min-h-[32px] px-[16px] py-[9px] text-start bg-surface border border-border rounded-[7px] text-white placeholder:text-[#595959]',
