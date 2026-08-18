@@ -13,6 +13,7 @@ type Props = NavProps & { children: React.ReactNode };
 export default function AppShell({ initialUser, children }: Props) {
 	const pathname = usePathname();
 	const isRoot = pathname === '/';
+	const isUnsubscribed = pathname === '/email/confirmation'
 	const [isSidebarHovered, setIsSidebarHovered] = useState(false);
 	const identifiedUserId = useRef<string | null>(null);
 
@@ -25,7 +26,7 @@ export default function AppShell({ initialUser, children }: Props) {
 
 	return (
 		<>
-			{isRoot ? (
+			{(isRoot || isUnsubscribed) ? (
 				<Nav initialUser={initialUser} />
 			) : (
 				<Sidebar
@@ -37,7 +38,7 @@ export default function AppShell({ initialUser, children }: Props) {
 			<div
 				className={clsx(
 					'relative w-full flex-1 flex flex-col justify-center items-center transition-[padding-left] duration-200 ease-in-out',
-					isRoot
+					isRoot || isUnsubscribed
 						? ''
 						: clsx(
 								'py-10 pr-6',

@@ -13,7 +13,7 @@ import { Mark } from './Mark';
 
 const publicLinks = [
 	{ text: 'Product', route: '/' },
-	{ text: 'How it Works', route: '' },
+	{ text: 'How it Works', route: '/' },
 ];
 
 const authedLinks = [{ text: 'Dashboard', route: '/dashboard/applications' }];
@@ -31,6 +31,41 @@ export default function Nav({ initialUser }: NavProps) {
 	const pathname = usePathname();
 	const isInitialAuthEvent = useRef(true);
 	const supabase = createClient();
+
+	const scrollIntoView = () => {
+		const featureSection = document.getElementById('how-it-works');
+
+		featureSection?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'center',
+			inline: 'center',
+		});
+	};
+
+	const links = userLoggedIn
+		? [...publicLinks] //, ...authedLinks
+		: [...publicLinks]; //, ...guestLinks
+
+	async function signUserOut() {
+		setIsLoading(true);
+
+		const { error } = await supabase.auth.signOut({ scope: 'local' });
+		if (error) {
+			toast.error('Failed to sign out.');
+		} else {
+			posthog.reset();
+		}
+
+		setIsLoading(false);
+	}
+
+	useEffect(() => {
+		console.log(selectedNavIndex);
+
+		if (selectedNavIndex === 1) {
+			scrollIntoView();
+		}
+	}, [pathname, selectedNavIndex]);
 
 	useEffect(() => {
 		const {
@@ -66,33 +101,6 @@ export default function Nav({ initialUser }: NavProps) {
 		return () => subscription.unsubscribe();
 	}, []);
 
-	const scrollIntoView = () => {
-		const featureSection = document.getElementById('how-it-works');
-
-		featureSection?.scrollIntoView({
-			behavior: 'smooth',
-			block: 'center',
-			inline: 'center',
-		});
-	};
-
-	const links = userLoggedIn
-		? [...publicLinks] //, ...authedLinks
-		: [...publicLinks]; //, ...guestLinks
-
-	async function signUserOut() {
-		setIsLoading(true);
-
-		const { error } = await supabase.auth.signOut({ scope: 'local' });
-		if (error) {
-			toast.error('Failed to sign out.');
-		} else {
-			posthog.reset();
-		}
-
-		setIsLoading(false);
-	}
-
 	return (
 		<div className='fixed top-0 left-0 z-50 w-[100vw] max-w-[100vw] px-4 sm:px-6 md:px-12 py-6'>
 			<div className='flex w-full items-center justify-between'>
@@ -105,9 +113,9 @@ export default function Nav({ initialUser }: NavProps) {
 					<div className='hidden md:flex items-center gap-20'>
 						<nav className='px-10 py-2 rounded-[24px] bg-[#FFFFFF0D] backdrop-blur-[12px] z-10'>
 							<ul className='flex flex-col md:flex-row gap-10'>
-								{links.map(({ text, route }) => (
+								{links.map(({ text, route }, index) => (
 									<li
-										key={route}
+										key={index}
 										className={clsx(
 											'px-5 py-0.5 rounded-2xl text-center text-[13px]',
 											pathname === route
@@ -134,7 +142,7 @@ export default function Nav({ initialUser }: NavProps) {
 						<ul className='flex flex-row gap-[4px]'>
 							{links.map(({ text, route }, index) => (
 								<li
-									key={route}
+									key={index}
 									className={clsx(
 										'px-[18px] py-[8px] rounded-[18px] text-[13px] transition-all duration-200 ease-in-out',
 										selectedNavIndex === index
@@ -143,12 +151,13 @@ export default function Nav({ initialUser }: NavProps) {
 									)}
 									onClick={() => {
 										setSelectedNavIndex(index);
-										if (route === '') {
-											console.log(1);
+										if (selectedNavIndex === 1) {
 											scrollIntoView();
 										}
 									}}>
-									<Link href={route} className='text-black dark:text-white'>
+									<Link
+										href={route}
+										className='text-black dark:text-white'>
 										{text}
 									</Link>
 								</li>
