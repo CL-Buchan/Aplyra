@@ -66,6 +66,9 @@ export interface ModalProps extends Modal {
 	children?: React.ReactNode;
 	isInputsFilled?: boolean;
 	isLoading?: boolean;
+	styles?: {
+		titleSize?: number | string;
+	}
 }
 
 export interface CarouselProps {

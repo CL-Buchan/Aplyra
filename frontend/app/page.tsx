@@ -338,12 +338,13 @@ export default function Home() {
 							onClick: handleNameModalContinue,
 						},
 					],
-				}}>
+				}}
+				styles={{ titleSize: 24 }}>
 				<div className='w-full flex flex-col gap-1.5'>
 					<Input
 						type='text'
 						name='waitlist-first-name'
-						placeholder='Jane'
+						placeholder='e.g. Jane'
 						required
 						value={firstName}
 						onChange={(e) => {

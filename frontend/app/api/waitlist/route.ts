@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { PostHog } from 'posthog-node';
 import { createClient } from '@/app/services/supabase/server';
 
 const resend = new Resend(process.env.RESEND_KEY);
+
+const posthog = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN!, {
+	host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+});
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -38,12 +43,23 @@ export async function POST(req: NextRequest) {
 				id: process.env.RESEND_WAITLIST_TEMPLATE_ID!,
 				variables: {
 					first_name: name,
-					unsubscribe_link: `${req.nextUrl.origin}/api/email/unsubscribe?email=${encodeURIComponent(email)}`,
+					unsubscribe_url: `${req.nextUrl.origin}/api/email/unsubscribe?email=${encodeURIComponent(email)}`,
 				},
 			},
 		});
 	} catch (emailError) {
 		console.error('Failed to send waitlist welcome email', emailError);
+		posthog.capture({
+			distinctId: email,
+			event: 'waitlist_email_failed',
+			properties: {
+				error:
+					emailError instanceof Error
+						? emailError.message
+						: String(emailError),
+			},
+		});
+		await posthog.shutdown();
 	}
 
 	return NextResponse.json({ success: true });

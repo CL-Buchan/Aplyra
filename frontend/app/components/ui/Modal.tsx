@@ -14,6 +14,7 @@ export default function Modal({
 	isOpen,
 	isInputsFilled = false,
 	isLoading,
+	styles: { titleSize = 15 } = {},
 }: ModalProps) {
 	if (!children || (body && !body?.children))
 		throw new Error('Modal body neeeds content - add child elements');
@@ -32,7 +33,11 @@ export default function Modal({
 				{/* Header */}
 				<div className='px-[24px] py-[20px] w-full flex justify-between items-center'>
 					<div className='flex flex-col justify-start items-start gap-[3px]'>
-						<p className='font-semibold text-[15px]!'>{title}</p>
+						<p
+							style={{ fontSize: titleSize }}
+							className='font-semibold'>
+							{title}
+						</p>
 						<p className='font-[13px] text-[#888888]'>
 							{description}
 						</p>
