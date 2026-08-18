@@ -75,6 +75,13 @@ export type Database = {
 				};
 				Relationships: [
 					{
+						foreignKeyName: 'applications_company_id_fkey';
+						columns: ['company_id'];
+						isOneToOne: true;
+						referencedRelation: 'company';
+						referencedColumns: ['id'];
+					},
+					{
 						foreignKeyName: 'applications_user_id_fkey';
 						columns: ['user_id'];
 						isOneToOne: false;
@@ -102,15 +109,7 @@ export type Database = {
 					name?: string | null;
 					updated_at?: string | null;
 				};
-				Relationships: [
-					{
-						foreignKeyName: 'company_id_fkey';
-						columns: ['id'];
-						isOneToOne: true;
-						referencedRelation: 'applications';
-						referencedColumns: ['company_id'];
-					},
-				];
+				Relationships: [];
 			};
 			letters: {
 				Row: {

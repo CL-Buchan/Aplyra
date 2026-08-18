@@ -30,6 +30,7 @@ export async function GET(
 	{ params }: { params: Promise<{ id: string }> },
 ) {
 	const { id } = await params;
+	const letterId = Number(id);
 	const supabase = await createClient();
 	const {
 		data: { user },
@@ -42,7 +43,7 @@ export async function GET(
 	const { data: letter, error } = await supabase
 		.from('letters')
 		.select('letter, status')
-		.eq('id', id)
+		.eq('id', letterId)
 		.eq('user_id', user.id)
 		.single();
 

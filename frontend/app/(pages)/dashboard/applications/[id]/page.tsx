@@ -21,6 +21,7 @@ export default async function ApplicationDetail({
 	params: Promise<{ id: string }>;
 }) {
 	const { id } = await params;
+	const applicationId = Number(id);
 	const supabase = await createClient();
 	const {
 		data: { user },
@@ -31,7 +32,7 @@ export default async function ApplicationDetail({
 	const { data, error } = await supabase
 		.from('applications')
 		.select('*, company:company_id (name, location)')
-		.eq('id', id)
+		.eq('id', applicationId)
 		.eq('user_id', user.id)
 		.single();
 
