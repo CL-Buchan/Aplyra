@@ -22,7 +22,9 @@ export async function POST(req: NextRequest) {
 	}
 
 	const supabase = await createClient();
-	const { error } = await supabase.from('waitlist').insert({ email });
+	const { error } = await supabase
+		.from('waitlist')
+		.insert({ email, first_name: name });
 
 	if (error) {
 		const errorMessage =

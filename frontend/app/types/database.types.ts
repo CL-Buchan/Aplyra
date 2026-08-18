@@ -188,18 +188,21 @@ export type Database = {
 				Row: {
 					created_at: string;
 					email: string;
+					first_name: string | null;
 					id: number;
 					subscribed: boolean;
 				};
 				Insert: {
 					created_at?: string;
 					email: string;
+					first_name?: string | null;
 					id?: never;
 					subscribed?: boolean;
 				};
 				Update: {
 					created_at?: string;
 					email?: string;
+					first_name?: string | null;
 					id?: never;
 					subscribed?: boolean;
 				};
