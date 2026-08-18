@@ -118,11 +118,11 @@ export default function Home() {
 							</Badge>
 
 							<h1 className='text-muted text-4xl! md:text-6xl! leading-[1.12]! font-semibold tracking-tighter'>
-								Job hunting is overwhelming.
+								Writing cover letters is a chore.
 							</h1>
 							<h1 className='text-4xl! md:text-6xl! leading-[1.12]! font-semibold tracking-tighter'>
-								Aplyra keeps you{' '}
-								<span className='underline'>organised.</span>
+								Aplyra writes them{' '}
+								<span className='underline'>for you.</span>
 							</h1>
 
 							<p className='mt-6 max-w-md text-[#888888] text-base leading-relaxed'>

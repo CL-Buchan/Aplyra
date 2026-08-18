@@ -189,16 +189,19 @@ export type Database = {
 					created_at: string;
 					email: string;
 					id: number;
+					subscribed: boolean;
 				};
 				Insert: {
 					created_at?: string;
 					email: string;
 					id?: never;
+					subscribed?: boolean;
 				};
 				Update: {
 					created_at?: string;
 					email?: string;
 					id?: never;
+					subscribed?: boolean;
 				};
 				Relationships: [];
 			};

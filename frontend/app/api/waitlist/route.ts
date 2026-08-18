@@ -41,6 +41,7 @@ export async function POST(req: NextRequest) {
 					first_name: 'there',
 					product_name: 'Aplyra',
 					referral_link: '',
+					unsubscribe_link: `${req.nextUrl.origin}/api/email/unsubscribe?email=${encodeURIComponent(email)}`,
 				},
 			},
 		});
