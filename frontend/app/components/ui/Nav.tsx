@@ -136,7 +136,7 @@ export default function Nav({ initialUser }: NavProps) {
 						</div>
 					</div>
 				) : (
-					<nav className='hidden md:block p-[6px] rounded-[24px] bg-[#0000000D] dark:bg-[#FFFFFF0D] border border-black/10 dark:border-white/10 backdrop-blur-[12px] z-10'>
+					<nav className='hidden md:block p-[6px] rounded-[24px] bg-muted/10 dark:bg-[#FFFFFF0D] border border-black/10 dark:border-white/10 backdrop-blur-[12px] z-10'>
 						<ul className='flex flex-row gap-[4px]'>
 							{links.map(({ text, route }, index) => (
 								<li
@@ -144,7 +144,7 @@ export default function Nav({ initialUser }: NavProps) {
 									className={clsx(
 										'px-[18px] py-[8px] rounded-[18px] text-[13px] transition-all duration-200 ease-in-out',
 										selectedNavIndex === index
-											? 'bg-[#00000014] dark:bg-[#FFFFFF14] backdrop-blur-md'
+											? 'bg-muted/15 dark:bg-[#FFFFFF14] backdrop-blur-md'
 											: '',
 									)}
 									onClick={() => {
@@ -155,7 +155,7 @@ export default function Nav({ initialUser }: NavProps) {
 									}}>
 									<Link
 										href={route}
-										className='text-black dark:text-white'>
+										className='text-muted dark:text-white'>
 										{text}
 									</Link>
 								</li>

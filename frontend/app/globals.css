@@ -4,6 +4,8 @@
 	--background: var(--color-zinc-50);
 	--foreground: #000000;
 	--muted: #4e4e4e;
+	--surface: #ffffff;
+	--border: rgba(0, 0, 0, 0.1);
 
 	/* Brand styles */
 	--brand-purple: #7c5cfc;
@@ -16,8 +18,8 @@
 	--font-mono: var(--font-geist-mono);
 	--color-muted: var(--muted);
 	--color-brand-purple: var(--brand-purple);
-	--color-surface: #101010;
-	--color-border: rgba(255, 255, 255, 0.1);
+	--color-surface: var(--surface);
+	--color-border: var(--border);
 }
 
 @layer base {
@@ -26,6 +28,13 @@
 		transition-property: color, background-color, border-color;
 		transition-duration: 300ms;
 		transition-timing-function: ease-in-out;
+		color: black;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		input {
+			color: white;
+		}
 	}
 }
 
@@ -33,6 +42,8 @@
 	:root {
 		--background: #000000;
 		--foreground: var(--color-zinc-50);
+		--surface: #101010;
+		--border: rgba(255, 255, 255, 0.1);
 	}
 }
 

@@ -180,7 +180,7 @@ export default function Home() {
 												setStatus('idle');
 											}
 										}}
-										className='flex-1 min-w-0 bg-transparent border-none h-[38px] px-3 text-white text-sm placeholder:text-[#595959] focus:outline-none'
+										className='flex-1 min-w-0 bg-transparent border-none h-[38px] px-3 text-sm placeholder:text-[#595959] focus:outline-none'
 									/>
 									<button
 										type='submit'
@@ -207,7 +207,9 @@ export default function Home() {
 					</section>
 
 					{/* From job post to letter */}
-					<section id='how-it-works' className='pt-[64px] pb-[100px]'>
+					<section
+						id='how-it-works'
+						className='pt-[64px] pb-0 md:pb-[100px]'>
 						<div className='grid md:grid-cols-2 gap-10 mb-16'>
 							<h2 className='text-3xl! md:text-5xl! leading-[1.05]! font-semibold tracking-tighter text-black dark:text-white'>
 								From job post to
@@ -227,7 +229,7 @@ export default function Home() {
 					{/* Application board preview */}
 					<section
 						aria-hidden
-						className='relative pt-[20px] pb-[90px] flex flex-col items-center'>
+						className='relative pt-0 md:pt-[20px] pb-[90px] flex flex-col items-center'>
 						<Badge className='mb-8'>
 							One board, from application to offer
 						</Badge>
