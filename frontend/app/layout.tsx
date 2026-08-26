@@ -17,7 +17,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
 	title: 'Aplyra - AI cover letter generator and job tracker',
 	description:
-		'Keep on top of your current job applications, see them all in one place, review, delete, follow up. Everything you need, here, at Aplyra.',
+		'Get tailored, AI cover letters so you can spend less time writing and more time applying. Join our waitlist now.',
+	openGraph: {
+		type: 'website',
+		url: 'https://www.aplyra.io',
+		title: 'Aplyra - AI cover letter generator and job tracker',
+		description:
+			'Get tailored, AI cover letters so you can spend less time writing and more time applying. Join our waitlist now.',
+		siteName: 'Aplyra',
+	},
 };
 
 export default async function RootLayout({
