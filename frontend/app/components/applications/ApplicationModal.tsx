@@ -7,6 +7,7 @@ import Input from '../ui/Input';
 import Modal from '../ui/Modal';
 import { createClient } from '@/app/services/supabase/client';
 import posthog from 'posthog-js';
+import { toast } from 'sonner';
 
 const REQUIRED_FIELDS: (keyof JobApplication)[] = [
 	'role',
@@ -49,6 +50,17 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 			return console.error('You must be logged in to add applications.');
 		}
 
+		const { data: company_names, error: companyError } = await supabase
+			.from('company')
+			.select('name')
+			.eq('name', application.company || '');
+
+		if (companyError) return console.error();
+		if (!company_names || company_names.length === 0)
+			return console.error('Company name is not found.');
+
+		toast.error('Company name is not found.');
+
 		const { error } = await supabase
 			.from('applications')
 			.insert(
@@ -72,6 +84,7 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 		posthog.capture('application_created', {
 			application_count: applications.length,
 		});
+		toast.success('Your application was successfully created!');
 		setApplications([]);
 		onClose();
 	}

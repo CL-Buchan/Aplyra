@@ -25,7 +25,7 @@ export default function Dropzone({
 					? 'border-red-600 bg-red-600/5 hover:bg-red-600/10'
 					: success
 						? 'border-green-600 bg-green-600/5 hover:bg-green-600/10'
-						: 'border-white bg-white/5 hover:bg-white/10',
+						: 'border-muted bg-white/5 hover:bg-white/10',
 			)}>
 			<input
 				type='file'
@@ -52,7 +52,7 @@ export default function Dropzone({
 					<CheckCircle color='green' width={20} height={20} />
 				</div>
 			) : (
-				<p>No file chosen, Select a .pdf or .docx file</p>
+				<p className='text-muted'>No file chosen, Select a .pdf or .docx file</p>
 			)}
 		</div>
 	);
