@@ -69,11 +69,13 @@ export default function ProfileEditForm({ user }: ProfileEditformProps) {
 				/>
 			</label>
 
-			<Button
-				type='submit'
-				text={isPending ? 'Saving…' : 'Update'}
-				variant='primary'
-			/>
+			<div className='flex flex-row gap-2.5'>
+				<Button
+					type='submit'
+					text={isPending ? 'Saving…' : 'Update'}
+					variant='primary'
+				/>
+			</div>
 		</form>
 	);
 }

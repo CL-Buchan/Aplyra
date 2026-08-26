@@ -29,7 +29,7 @@ export default function Modal({
 			{/* Modal itself */}
 			<div
 				onClick={(e) => e.stopPropagation()}
-				className='md:min-w-[520px] bg-[#151515] border border-[#FFFFFF]/10 rounded-[12px]'>
+				className='md:min-w-[520px] bg-muted/5 dark:bg-[#151515] border border-black/15 dark:border-[#FFFFFF]/10 rounded-[12px]'>
 				{/* Header */}
 				<div className='px-[24px] py-[20px] w-full flex justify-between items-center'>
 					<div className='flex flex-col justify-start items-start gap-[3px]'>

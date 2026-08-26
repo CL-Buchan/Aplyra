@@ -40,7 +40,7 @@ export default async function UserProfile() {
 					</div>
 
 					<div className='w-full flex justify-center'>
-						<p className='text-muted text-center'>
+						<p className='text-muted text-center text-sm'>
 							Stuck? <br />
 							Simply change your details by entering your new
 							username or email.

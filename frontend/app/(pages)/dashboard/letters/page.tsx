@@ -84,7 +84,7 @@ export default function Letters() {
 					<div className='table-wrap w-full'>
 						<table className='w-full table-fixed'>
 							<colgroup>
-								<col className='w-16' />
+								<col className='w-16' /> 
 								<col className='w-[calc(33.33%-2rem)]' />
 								<col className='w-[calc(33.33%-2rem)]' />
 								<col className='w-[calc(33.33%-2rem)]' />
