@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const host_site = 'https://aplyra.io/'
+    const host_site = 'https://aplyra.io/';
 	return [
 		{
 			url: `${host_site}`,
