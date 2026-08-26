@@ -26,6 +26,9 @@ export const metadata: Metadata = {
 			'Get tailored, AI cover letters so you can spend less time writing and more time applying. Join our waitlist now.',
 		siteName: 'Aplyra',
 	},
+	keywords: ['Apply', 'Letter', 'Job', 'Jobs', 'AI', 'Employment'],
+	authors: { name: 'Callam' },
+	publisher: 'Callam Buchan',
 };
 
 export default async function RootLayout({
