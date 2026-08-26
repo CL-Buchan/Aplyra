@@ -16,7 +16,7 @@ const publicLinks = [
 	{ text: 'How it Works', route: '/' },
 ];
 
-const authedLinks = [{ text: 'Dashboard', route: '/dashboard/applications' }];
+// const authedLinks = [{ text: 'Dashboard', route: '/dashboard/applications' }];
 
 // const guestLinks = [
 // 	{ text: 'Login', route: '/auth/login' },
@@ -97,19 +97,19 @@ export default function Nav({ initialUser }: NavProps) {
 		});
 
 		return () => subscription.unsubscribe();
-	}, []);
+	}, [supabase.auth]);
 
 	return (
-		<div className='fixed top-0 left-0 z-50 w-[100vw] max-w-[100vw] px-4 sm:px-6 md:px-12 py-6'>
+		<div className='fixed top-0 left-0 z-50 w-screen max-w-[100vw] px-4 sm:px-6 md:px-12 py-6'>
 			<div className='flex w-full items-center justify-between'>
-				<div className='flex md:flex-nowrap gap-[10px] shrink-0'>
+				<div className='flex md:flex-nowrap gap-2.5 shrink-0'>
 					<Mark />
 					<Link href={'/'}>Aplyra</Link>
 				</div>
 
 				{userLoggedIn ? (
 					<div className='hidden md:flex items-center gap-20'>
-						<nav className='px-10 py-2 rounded-[24px] bg-[#FFFFFF0D] backdrop-blur-[12px] z-10'>
+						<nav className='px-10 py-2 rounded-3xl bg-[#FFFFFF0D] backdrop-blur-md z-10'>
 							<ul className='flex flex-col md:flex-row gap-10'>
 								{links.map(({ text, route }, index) => (
 									<li
@@ -136,13 +136,13 @@ export default function Nav({ initialUser }: NavProps) {
 						</div>
 					</div>
 				) : (
-					<nav className='hidden md:block p-[6px] rounded-[24px] bg-muted/10 dark:bg-[#FFFFFF0D] border border-black/10 dark:border-white/10 backdrop-blur-[12px] z-10'>
-						<ul className='flex flex-row gap-[4px]'>
+					<nav className='hidden md:block p-1.5 rounded-3xl bg-muted/10 dark:bg-[#FFFFFF0D] border border-black/10 dark:border-white/10 backdrop-blur-md z-10'>
+						<ul className='flex flex-row gap-1'>
 							{links.map(({ text, route }, index) => (
 								<li
 									key={index}
 									className={clsx(
-										'px-[18px] py-[8px] rounded-[18px] text-[13px] transition-all duration-200 ease-in-out',
+										'px-4.5 py-2 rounded-[18px] text-[13px] transition-all duration-200 ease-in-out',
 										selectedNavIndex === index
 											? 'bg-muted/15 dark:bg-[#FFFFFF14] backdrop-blur-md'
 											: '',
@@ -165,7 +165,7 @@ export default function Nav({ initialUser }: NavProps) {
 				)}
 				<Button
 					text='Join Waitlist'
-					className='shrink-0 px-[20px] h-[36px] bg-brand-purple rounded-[16px] text-[13px] font-normal text-white dark:text-black'
+					className='shrink-0 px-5 h-9 bg-brand-purple rounded-2xl text-[13px] font-normal text-white dark:text-black'
 					redirectTo='#more-information'
 				/>
 			</div>

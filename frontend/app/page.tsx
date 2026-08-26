@@ -130,7 +130,7 @@ export default function Home() {
 			<div className='relative w-full flex flex-col items-center font-sans overflow-x-hidden'>
 				<main className='w-full max-w-5xl px-6 flex flex-col gap-24 md:gap-32 py-20'>
 					{/* Hero */}
-					<section className='w-full flex flex-col items-center text-center pt-[60px] pb-16'>
+					<section className='w-full flex flex-col items-center text-center pt-15 pb-16'>
 						<RadialGlow
 							ref={heroGlowRef}
 							width={900}
@@ -180,13 +180,13 @@ export default function Home() {
 												setStatus('idle');
 											}
 										}}
-										className='flex-1 min-w-0 bg-transparent border-none h-[38px] px-3 text-sm placeholder:text-[#595959] focus:outline-none'
+										className='flex-1 min-w-0 bg-transparent border-none h-9.5 px-3 text-sm placeholder:text-[#595959] focus:outline-none'
 									/>
 									<button
 										type='submit'
 										disabled={status === 'loading'}
 										aria-label='Join the waitlist'
-										className='shrink-0 w-[38px] h-[38px] rounded-[6px] bg-brand-purple text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed'>
+										className='shrink-0 w-9.5 h-9.5 rounded-md bg-brand-purple text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed'>
 										<ArrowNarrowRight
 											width={16}
 											height={16}
@@ -209,7 +209,7 @@ export default function Home() {
 					{/* From job post to letter */}
 					<section
 						id='how-it-works'
-						className='pt-[64px] pb-0 md:pb-[100px]'>
+						className='pt-16 pb-0 md:pb-25'>
 						<div className='grid md:grid-cols-2 gap-10 mb-16'>
 							<h2 className='text-3xl! md:text-5xl! leading-[1.05]! font-semibold tracking-tighter text-black dark:text-white'>
 								From job post to
@@ -229,7 +229,7 @@ export default function Home() {
 					{/* Application board preview */}
 					<section
 						aria-hidden
-						className='relative pt-0 md:pt-[20px] pb-[90px] flex flex-col items-center'>
+						className='relative pt-0 md:pt-5 pb-22.5 flex flex-col items-center'>
 						<Badge className='mb-8'>
 							One board, from application to offer
 						</Badge>
@@ -240,7 +240,7 @@ export default function Home() {
 					{/* Final CTA */}
 					<section
 						id='more-information'
-						className='relative pb-[110px] flex flex-col items-center text-center'>
+						className='relative pb-27.5 flex flex-col items-center text-center'>
 						<RadialGlow
 							ref={ctaGlowRef}
 							width={700}
