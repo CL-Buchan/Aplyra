@@ -1,5 +1,6 @@
 'use server';
 
+import { getCurrentUser } from '@/app/services/auth/getCurrentUser';
 import { createClient } from '@/app/services/supabase/server';
 
 export async function startLetterGeneration(
@@ -7,14 +8,13 @@ export async function startLetterGeneration(
 	jobDescription: string,
 	applicationId?: number,
 ): Promise<{ id: number; error?: undefined } | { id?: undefined; error: string }> {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+	const user = await getCurrentUser();
 
 	if (!user) {
 		return { error: 'You must be logged in to generate a cover letter.' };
 	}
+
+	const supabase = await createClient();
 
 	const { data, error } = await supabase
 		.from('letters')

@@ -196,3 +196,7 @@ export interface LetterRequest {
 export interface LetterResponse {
 	letter: string;
 }
+
+export type ApplicationOption = Pick<Tables<'applications'>, 'id' | 'role'> & {
+	company: Pick<Tables<'company'>, 'name'> | null;
+};

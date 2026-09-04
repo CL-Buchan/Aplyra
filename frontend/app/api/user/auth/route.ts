@@ -1,95 +1,114 @@
 import { createClient } from '@/app/services/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
+export async function POST(req: NextRequest) {
 	try {
-		const supabase = await createClient();
-		const { data, error: getUserError } = await supabase.auth.getUser();
-
-		if (getUserError)
+		const { user: userDetails, mode } = await req.json();
+		if (!userDetails)
 			return NextResponse.json(
-				{ error: 'Error - authentication error, could not fetch user' },
-				{ status: 401 },
-			);
-
-		if (!data || !data.user.id || data.user.role !== 'authenticated')
-			return NextResponse.json(
-				{ error: 'Error - no user was returned' },
+				{
+					error: `Data was not complete for ${mode} method`,
+					user: null,
+				},
 				{ status: 400 },
 			);
 
-		const user = data;
-		return NextResponse.json(user, { status: 200 });
-	} catch (error) {
-		return NextResponse.json(
-			{ error: error instanceof Error ? error.message : `${error}` },
-			{ status: 500 },
-		);
-	}
-}
+		const { username, password } = userDetails;
 
-export async function POST(req: NextRequest) {
-	const { user, mode } = await req.json();
+		if (!username || username === '' || !password || password === '')
+			return NextResponse.json(
+				{ error: 'Please enter a username and password', user: null },
+				{ status: 400 },
+			);
 
-	if (!user)
-		return NextResponse.json(
-			{ error: `Data was not complete for ${mode} method` },
-			{ status: 400 },
-		);
-
-	try {
 		const supabase = await createClient();
-		const { username, password } = user;
+
+		if (!username.trim())
+			return NextResponse.json(
+				{ error: 'Enter username', user: null },
+				{ status: 400 },
+			);
+
+		const emailHosts = ['gmail', 'outlook', 'icloud', 'yahoo', 'student'];
+		if (
+			!username.trim().includes('@') ||
+			!emailHosts.some((host) =>
+				username.trim().toLowerCase().includes(host),
+			)
+		)
+			return NextResponse.json(
+				{
+					error: 'Username needs to be your email and include an @ symbol',
+					user: null,
+				},
+				{ status: 400 },
+			);
+
+		if (!password.trim())
+			return NextResponse.json(
+				{ error: 'Enter password', user: null },
+				{ status: 400 },
+			);
+
+		if (password.trim().length <= 6 || !/[!#$%^&*]/.test(password.trim()))
+			return NextResponse.json(
+				{
+					error: 'Password length is not greater than 6 characters, and or does not contain special characters',
+					user: null,
+				},
+				{ status: 400 },
+			);
 
 		// Handle login flow
 		if (mode === 'login') {
 			const { data: LoginResponse, error: LoginError } =
 				await supabase.auth.signInWithPassword({
-					email: username,
-					password: password,
+					email: username.trim(),
+					password: password.trim(),
 				});
 
-			if (LoginError)
-				return NextResponse.json(
-					{ error: 'Error - user was not logged in' },
-					{ status: 401 },
-				);
 			if (
+				LoginError ||
 				!LoginResponse.user?.id ||
 				LoginResponse.user?.role !== 'authenticated'
 			)
 				return NextResponse.json(
 					{
 						error: 'Could not log user in - username or password may have been incorrect',
+						user: null,
 					},
 					{ status: 401 },
 				);
 
 			return NextResponse.json(
-				{ success: 'User was successfully logged in' },
+				{ error: null, user: LoginResponse.user },
 				{ status: 200 },
 			);
 		}
 
-		// Handle signup flow
-		const { data, error: SignUpError } = await supabase.auth.signUp({
-			email: username,
-			password: password,
+		const origin = req.nextUrl.origin;
+		const {
+			data: { user },
+			error: SignUpError,
+		} = await supabase.auth.signUp({
+			email: username.trim().toLowerCase(),
+			password: password.trim(),
+			options: { emailRedirectTo: `${origin}/api/supabase/auth` },
 		});
 
-		if (SignUpError)
+		if (SignUpError || !user)
 			return NextResponse.json(
-				{ error: 'Error - could not sign user up' },
+				{ error: 'Error - could not sign user up', user: null },
 				{ status: 401 },
 			);
 
-		return NextResponse.json(
-			{ success: 'User was successfully signed up' },
-			{ status: 200 },
-		);
+		return NextResponse.json({ error: null, user }, { status: 200 });
 	} catch (error) {
 		return NextResponse.json(
-			{ error: error instanceof Error ? error.message : `${error}` },
+			{
+				error: error instanceof Error ? error.message : `${error}`,
+				user: null,
+			},
 			{ status: 500 },
 		);
 	}

@@ -1,5 +1,6 @@
 'use server';
 
+import { getCurrentUser } from '@/app/services/auth/getCurrentUser';
 import { createClient } from '@/app/services/supabase/server';
 import { revalidatePath } from 'next/cache';
 
@@ -7,10 +8,7 @@ export async function linkLetterApplication(
 	letterId: number,
 	applicationId: number | null,
 ): Promise<{ success: boolean; error?: string }> {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+	const user = await getCurrentUser();
 
 	if (!user) {
 		return {
@@ -18,6 +16,8 @@ export async function linkLetterApplication(
 			error: 'You must be logged in to link a letter.',
 		};
 	}
+
+	const supabase = await createClient();
 
 	const { data: existing, error: fetchError } = await supabase
 		.from('letters')

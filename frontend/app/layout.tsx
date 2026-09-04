@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import AppShell from './components/AppShell';
-import { createClient } from './services/supabase/server';
+import { getCurrentUser } from './services/auth/getCurrentUser';
 import './globals.css';
 import './styles/main.scss';
 import { Toaster } from 'sonner';
@@ -34,11 +34,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
-	const supabase = await createClient();
-
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+	const user = await getCurrentUser();
 
 	return (
 		<html

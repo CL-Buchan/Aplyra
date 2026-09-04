@@ -13,6 +13,7 @@ export default function ApplicationsView({
 	applications: ApplicationWithCompany[];
 }) {
 	const [modalOpen, setModalOpen] = useState(false);
+	const [selectedApplications, setSelectedApplications] = useState<string[]>([]);
 	const jobCount = applications.length;
 
 	return (

@@ -75,7 +75,7 @@ export default function Form<T>({
 					{bttnText ?? 'Add text'}
 				</Button>
 			</form>
-				
+
 			{isError && (
 				<p className='mt-5 text-red-500 text-center'>{errorMsg}</p>
 			)}

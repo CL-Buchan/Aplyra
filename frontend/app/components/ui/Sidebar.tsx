@@ -3,7 +3,9 @@
 import { createClient } from '@/app/services/supabase/client';
 import { SidebarProps } from '@/app/types/global.types';
 import {
+	Key01,
 	LayoutGrid02,
+	LogIn01,
 	LogOut01,
 	Paperclip,
 	UploadCloud01,
@@ -11,7 +13,7 @@ import {
 } from '@untitledui/icons';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 import posthog from 'posthog-js';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -19,21 +21,24 @@ import { toast } from 'sonner';
 type NavLink = { text: string; route: string; icon?: typeof LayoutGrid02 };
 
 const navLinks: NavLink[] = [
-	{ text: 'Applications', route: '/dashboard/applications', icon: LayoutGrid02 },
 	{ text: 'Upload', route: '/dashboard/upload', icon: UploadCloud01 },
 	{ text: 'Letters', route: '/dashboard/letters', icon: Paperclip },
+	{
+		text: 'Applications',
+		route: '/dashboard/applications',
+		icon: LayoutGrid02,
+	},
 ];
 
 const guestLinks: NavLink[] = [
-	{ text: 'Login', route: '/auth/login' },
-	{ text: 'Sign Up', route: '/auth/sign-up' },
+	{ text: 'Login', route: '/auth/login', icon: LogIn01 },
+	{ text: 'Sign Up', route: '/auth/sign-up', icon: Key01 },
 ];
 
-export default function Sidebar({ initialUser, onHoverChange }: SidebarProps) {
+export default function Sidebar({ initialUser }: SidebarProps) {
 	const [email, setEmail] = useState(initialUser?.email ?? '');
 	const [userLoggedIn, setUserLoggedIn] = useState(!!initialUser);
 	const [isLoading, setIsLoading] = useState(false);
-	const [isHovered, setIsHovered] = useState(false);
 	const pathname = usePathname();
 	const isInitialAuthEvent = useRef(true);
 	const supabase = createClient();
@@ -70,29 +75,7 @@ export default function Sidebar({ initialUser, onHoverChange }: SidebarProps) {
 		});
 
 		return () => subscription.unsubscribe();
-	}, []);
-
-	useEffect(() => {
-		const sidebar = document.getElementById('sidebar');
-		if (!sidebar) return;
-
-		const handleMouseEnter = () => {
-			setIsHovered(true);
-			onHoverChange?.(true);
-		};
-		const handleMouseLeave = () => {
-			setIsHovered(false);
-			onHoverChange?.(false);
-		};
-
-		sidebar.addEventListener('mouseenter', handleMouseEnter);
-		sidebar.addEventListener('mouseleave', handleMouseLeave);
-
-		return () => {
-			sidebar.removeEventListener('mouseenter', handleMouseEnter);
-			sidebar.removeEventListener('mouseleave', handleMouseLeave);
-		};
-	}, [onHoverChange]);
+	});
 
 	async function signUserOut() {
 		setIsLoading(true);
@@ -107,7 +90,7 @@ export default function Sidebar({ initialUser, onHoverChange }: SidebarProps) {
 		setIsLoading(false);
 
 		setTimeout(() => {
-			window.location.href = '/';
+			redirect('/');
 		}, 900);
 	}
 
@@ -116,10 +99,9 @@ export default function Sidebar({ initialUser, onHoverChange }: SidebarProps) {
 	return (
 		<aside
 			id='sidebar'
-			className={clsx(
-				`fixed top-6 bottom-6 left-6 z-50 flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-white/5 px-4 py-5 backdrop-blur-md shadow-[0_24px_60px_-8px_rgba(0,0,0,0.6)] transition-[width] duration-200 ease-in-out`,
-				isHovered ? 'w-60' : 'w-[68px]',
-			)}>
+			className={
+				'w-40 min-h-screen z-50 flex flex-col justify-between overflow-hidden border-r border-white/10 bg-white/5 backdrop-blur-md shadow-[0_24px_60px_-8px_rgba(0,0,0,0.6)]'
+			}>
 			<div className='flex flex-col gap-7'>
 				<ul className='flex flex-col gap-5'>
 					{links.map(({ text, route, icon: Icon }) => {
@@ -141,52 +123,13 @@ export default function Sidebar({ initialUser, onHoverChange }: SidebarProps) {
 											className='shrink-0'
 										/>
 									)}
-									{isHovered && text}
+									{text}
 								</Link>
 							</li>
 						);
 					})}
 				</ul>
 			</div>
-
-			{userLoggedIn && (
-				<div className='flex flex-col gap-2 border-t border-white/10 pt-4'>
-					<div
-						className={clsx(
-							'flex items-center gap-2 rounded-[7px] px-2.5 py-2',
-							isHovered
-								? 'flex-row justify-between'
-								: 'flex-col justify-center gap-4',
-						)}>
-						<Link
-							href='/dashboard/user/profile'
-							className={clsx(
-								'flex min-w-0 items-center gap-2.5 text-[13px] transition-colors duration-300 ease-in-out',
-								pathname === '/dashboard/user/profile'
-									? 'font-medium text-white'
-									: 'text-[#888888] hover:text-white',
-							)}>
-							<UserCircle
-								width={18}
-								height={18}
-								className='shrink-0'
-							/>
-							{isHovered && (
-								<span className='truncate'>{email}</span>
-							)}
-						</Link>
-
-						<button
-							type='button'
-							onClick={signUserOut}
-							disabled={isLoading}
-							aria-label='Sign out'
-							className='shrink-0 text-[#888888] transition-colors duration-300 ease-in-out hover:text-white disabled:opacity-50'>
-							<LogOut01 width={16} height={16} />
-						</button>
-					</div>
-				</div>
-			)}
 		</aside>
 	);
 }

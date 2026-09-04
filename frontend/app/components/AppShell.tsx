@@ -3,18 +3,17 @@
 import Nav from '@/app/components/ui/Nav';
 import Sidebar from '@/app/components/ui/Sidebar';
 import { NavProps } from '@/app/types/global.types';
-import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 import posthog from 'posthog-js';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import Profile from './Profile';
 
 type Props = NavProps & { children: React.ReactNode };
 
 export default function AppShell({ initialUser, children }: Props) {
 	const pathname = usePathname();
 	const isRoot = pathname === '/';
-	const isUnsubscribed = pathname === '/email/confirmation'
-	const [isSidebarHovered, setIsSidebarHovered] = useState(false);
+	const isUnsubscribed = pathname === '/email/confirmation';
 	const identifiedUserId = useRef<string | null>(null);
 
 	useEffect(() => {
@@ -25,28 +24,19 @@ export default function AppShell({ initialUser, children }: Props) {
 	}, [initialUser]);
 
 	return (
-		<>
-			{(isRoot || isUnsubscribed) ? (
+		<div className='flex flex-row'>
+			{isRoot || isUnsubscribed ? (
 				<Nav initialUser={initialUser} />
 			) : (
-				<Sidebar
-					initialUser={initialUser}
-					onHoverChange={setIsSidebarHovered}
-				/>
+				<Sidebar initialUser={initialUser} />
 			)}
 
 			<div
-				className={clsx(
-					'relative w-full flex-1 flex flex-col justify-center items-center transition-[padding-left] duration-200 ease-in-out',
-					isRoot || isUnsubscribed
-						? ''
-						: clsx(
-								'py-10 pr-6',
-								isSidebarHovered ? 'pl-72' : 'pl-29',
-							),
-				)}>
+				className={
+					'relative w-full flex-1 flex flex-col justify-center items-center overflow-y-scroll'
+				}>
 				{children}
 			</div>
-		</>
+		</div>
 	);
 }

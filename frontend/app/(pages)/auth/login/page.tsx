@@ -50,6 +50,7 @@ export default function Login() {
 			errorMsg = 'User could not be logged in';
 			setError(errorMsg);
 			toast.error(errorMsg);
+			setLoading(false);
 			return;
 		}
 
@@ -80,7 +81,7 @@ export default function Login() {
 							isLoading={isLoading}
 						/>
 
-						{error && <p className='mt-5 text-red-500'>{error}</p>}
+						{error && <p className='mt-5 text-red-500 text-center'>{error}</p>}
 					</div>
 
 					<div className='flex flex-col items-center gap-1'>

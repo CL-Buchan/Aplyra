@@ -23,6 +23,7 @@ function UploadPageContent() {
 	const [success, setSuccess] = useState(false);
 	const [error, setError] = useState('');
 	const [disabled, setDisabled] = useState(false);
+	const availableCredits = 0;
 
 	const handleFileUpload = async (file: File | undefined) => {
 		setError('');
@@ -117,6 +118,13 @@ function UploadPageContent() {
 	return (
 		<Wrapper>
 			<div className='w-full flex flex-col flex-1 items-center justify-center font-sans'>
+				<div className='w-full flex justify-between items-center h-10 border-b border-b-white/10'>
+					<input type='text' name='search' placeholder='Search...' />
+					<div>
+						<div>{availableCredits} credits remaining</div>
+						{/* Insert profile badge */}
+					</div>
+				</div>
 				<main className='relative max-w-200 py-25 flex flex-col justify-start items-start gap-12.5 w-full px-6'>
 					<div className='w-full h-full card card--col card--center'>
 						<div className='flex flex-col gap-10'>

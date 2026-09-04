@@ -1,5 +1,6 @@
 'use server';
 
+import { getCurrentUser } from '@/app/services/auth/getCurrentUser';
 import { createClient } from '@/app/services/supabase/server';
 import { Tables } from '@/app/types/database.types';
 import { revalidatePath } from 'next/cache';
@@ -7,10 +8,7 @@ import { revalidatePath } from 'next/cache';
 export async function updateUserProfile(
 	data: Pick<Tables<'users'>, 'name' | 'email'>,
 ): Promise<{ success: boolean; error?: string }> {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+	const user = await getCurrentUser();
 
 	if (!user) {
 		return {
@@ -18,6 +16,8 @@ export async function updateUserProfile(
 			error: 'You must be logged in to update your profile.',
 		};
 	}
+
+	const supabase = await createClient();
 
 	const { error: updateError } = await supabase
 		.from('users')

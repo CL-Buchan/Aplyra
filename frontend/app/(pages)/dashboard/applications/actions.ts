@@ -1,5 +1,6 @@
 'use server';
 
+import { getCurrentUser } from '@/app/services/auth/getCurrentUser';
 import { createClient } from '@/app/services/supabase/server';
 import { ApplicationUpdatePayload } from '@/app/types/application.types';
 import { revalidatePath } from 'next/cache';
@@ -8,10 +9,7 @@ export async function updateApplication(
 	id: number,
 	data: ApplicationUpdatePayload,
 ): Promise<{ success: boolean; error?: string }> {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+	const user = await getCurrentUser();
 
 	if (!user) {
 		return {
@@ -19,6 +17,8 @@ export async function updateApplication(
 			error: 'You must be logged in to update an application.',
 		};
 	}
+
+	const supabase = await createClient();
 
 	const { data: existing, error: fetchError } = await supabase
 		.from('applications')

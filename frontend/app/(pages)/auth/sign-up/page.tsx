@@ -3,7 +3,6 @@
 import Form from '@/app/components/Form';
 import BackButton from '@/app/components/ui/BackButton';
 import { formInputs } from '@/app/data/data';
-import { createClient } from '@/app/services/supabase/client';
 import { SignupFormData } from '@/app/types/global.types';
 import posthog from 'posthog-js';
 import { useState } from 'react';
@@ -16,63 +15,46 @@ export default function SignUp() {
 		name: '',
 		acceptsPrivacyPolicy: false,
 	});
+	const [errorMsg, setErrorMsg] = useState('');
 	const [isLoading, setLoading] = useState(false);
 
-	const supabase = createClient();
-
-	const emailHosts = ['gmail', 'outlook', 'icloud', 'yahoo', 'student'];
-
 	const handleSignup = async () => {
+		setErrorMsg('');
 		setLoading(true);
 
-		if (!signupData.username.trim()) {
-			toast.error('Enter username');
-			return;
-		}
-		if (
-			!signupData.username.trim().includes('@') ||
-			!emailHosts.some((host) =>
-				signupData.username.trim().toLowerCase().includes(host),
-			)
-		) {
+		try {
+			const resp = await fetch('/api/user/auth', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					user: {
+						username: signupData.username ?? '',
+						password: signupData.password ?? '',
+					},
+					mode: 'sign-up',
+				}),
+			});
+			const data = await resp.json();
+
+			if (!resp.ok || data.error) {
+				setErrorMsg(data.error ?? `Request failed (${resp.status})`);
+				setLoading(false);
+				return;
+			}
+
+			const { user } = data;
+			if (user) {
+				posthog.identify(user.id, {
+					email: user.email ?? signupData.username,
+				});
+				posthog.capture('user_signed_up');
+			}
+		} catch (error) {
 			toast.error(
-				'Username needs to be your email and include an @ symbol',
+				`Error: ${error instanceof Error ? error.message : error}`,
 			);
+			setLoading(false);
 			return;
-		}
-		if (!signupData.password.trim()) {
-			toast.error('Enter password');
-			return;
-		}
-		if (
-			signupData.password.trim().length <= 6 ||
-			!/[!#$%^&*]/.test(signupData.password.trim())
-		) {
-			toast.error(
-				'Password length is not greater than 6 characters, and or does not contain special characters',
-			);
-			return;
-		}
-
-		const {
-			data: { user },
-			error,
-		} = await supabase.auth.signUp({
-			email: signupData.username.trim().toLowerCase(),
-			password: signupData.password.trim(),
-			options: {
-				emailRedirectTo: `${window.location.origin}/api/supabase/auth`,
-			},
-		});
-
-		if (error) {
-			toast.error('Could not sign user up!');
-			return;
-		}
-
-		if (user) {
-			posthog.identify(user.id, { email: user.email ?? signupData.username });
-			posthog.capture('user_signed_up');
 		}
 
 		// Reset form data
@@ -82,7 +64,6 @@ export default function SignUp() {
 			name: '',
 			acceptsPrivacyPolicy: false,
 		});
-
 		setLoading(false);
 		return;
 	};
@@ -103,6 +84,7 @@ export default function SignUp() {
 							formData={signupData}
 							setFormData={setSignupData}
 							isLoading={isLoading}
+							errorMsg={errorMsg}
 						/>
 					</div>
 

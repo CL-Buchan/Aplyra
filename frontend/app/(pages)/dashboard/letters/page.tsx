@@ -4,19 +4,18 @@ import { linkLetterApplication } from '@/app/(pages)/dashboard/letters/actions';
 import Wrapper from '@/app/components/Wrapper';
 import { createClient } from '@/app/services/supabase/client';
 import { Tables } from '@/app/types/database.types';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import posthog from 'posthog-js';
-
-type ApplicationOption = Pick<Tables<'applications'>, 'id' | 'role'> & {
-	company: Pick<Tables<'company'>, 'name'> | null;
-};
+import { ApplicationOption } from '@/app/types/global.types';
+import Profile from '@/app/components/Profile';
+import Button from '@/app/components/ui/Button';
 
 export default function Letters() {
-	const [selectedRow, setSelectedRow] = useState(0);
 	const [letters, setLetters] = useState<Tables<'letters'>[]>([]);
 	const [applications, setApplications] = useState<ApplicationOption[]>([]);
+	const router = useRouter();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -75,6 +74,22 @@ export default function Letters() {
 	return (
 		<Wrapper>
 			<div className='w-full flex flex-col flex-1 items-center justify-center font-sans'>
+				<div className='w-full flex justify-between items-center h-10 border-b border-b-white/10'>
+					<p>
+						Letters |{' '}
+						<span className='bg-white/5 border border-white/20 rounded-xl uppercase font-mono'>
+							Templates: {letters.length}
+						</span>
+					</p>
+					<div className='flex flex-row items-center'>
+						<input
+							type='text'
+							name='search'
+							placeholder='Search...'
+						/>
+						<Button variant='primary' text='New Letter' />
+					</div>
+				</div>
 				<main className='relative max-w-200 py-25 flex flex-col justify-start items-start gap-12.5 w-full px-6'>
 					<div>
 						<h2>Your Cover Letters</h2>
@@ -84,7 +99,7 @@ export default function Letters() {
 					<div className='table-wrap w-full'>
 						<table className='w-full table-fixed'>
 							<colgroup>
-								<col className='w-16' /> 
+								<col className='w-16' />
 								<col className='w-[calc(33.33%-2rem)]' />
 								<col className='w-[calc(33.33%-2rem)]' />
 								<col className='w-[calc(33.33%-2rem)]' />
@@ -107,7 +122,14 @@ export default function Letters() {
 										job_description,
 										letter,
 									}) => (
-										<tr key={id}>
+										<tr
+											key={id}
+											onClick={() =>
+												router.push(
+													`/dashboard/letters/${id}`,
+												)
+											}
+											className='hover:bg-white/5 transition-all duration-200 ease-in-out'>
 											<td>{id}</td>
 											<td>
 												<select

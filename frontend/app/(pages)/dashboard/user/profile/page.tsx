@@ -1,17 +1,16 @@
 import ProfileEditForm from '@/app/components/profile/ProfileEditForm';
 import Pill from '@/app/components/ui/Pill';
 import Wrapper from '@/app/components/Wrapper';
+import { getCurrentUser } from '@/app/services/auth/getCurrentUser';
 import { createClient } from '@/app/services/supabase/server';
 import { redirect } from 'next/navigation';
 
 export default async function UserProfile() {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+	const user = await getCurrentUser();
 
 	if (!user) redirect('/auth/login');
 
+	const supabase = await createClient();
 	const { data: userRow, error: userRowError } = await supabase
 		.from('users')
 		.select('*')
