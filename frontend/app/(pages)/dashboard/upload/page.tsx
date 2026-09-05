@@ -8,9 +8,15 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import posthog from 'posthog-js';
+import { Coins03, SearchMd } from '@untitledui/icons';
+import Pill from '@/app/components/ui/Pill';
+import ProfileBadge from '@/app/components/ProfileBadge';
+import { createClient } from '@/app/services/supabase/client';
+import { AuthenticatedUser } from '@/app/types/global.types';
 
 function UploadPageContent() {
 	const router = useRouter();
+	const supabase = createClient();
 	const searchParams = useSearchParams();
 	const applicationIdParam = searchParams.get('applicationId');
 	const applicationId = applicationIdParam
@@ -23,14 +29,39 @@ function UploadPageContent() {
 	const [success, setSuccess] = useState(false);
 	const [error, setError] = useState('');
 	const [disabled, setDisabled] = useState(false);
+	const [checkingAuth, setCheckingAuth] = useState(true);
+	const [authUser, setAuthUser] = useState<AuthenticatedUser | null>(null);
 	const availableCredits = 0;
+
+	useEffect(() => {
+		const checkUser = async () => {
+			const { data, error } = await supabase.auth.getUser();
+			if (error || !data.user) return router.push('/auth/login');
+			setAuthUser({ id: data.user.id, email: data.user.email ?? '' });
+			setCheckingAuth(false);
+		};
+		checkUser();
+
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((event) => {
+			switch (event) {
+				case 'SIGNED_OUT':
+					router.push('/auth/login');
+					break;
+				default:
+					break;
+			}
+		});
+
+		return () => subscription.unsubscribe();
+	}, [supabase.auth]);
 
 	const handleFileUpload = async (file: File | undefined) => {
 		setError('');
 		setSuccess(false);
 		setDisabled(true);
 		setLoading(true);
-		// For access on the client ie. filename
 		setFile(file);
 
 		if (!file) {
@@ -115,22 +146,49 @@ function UploadPageContent() {
 		generate();
 	}, [success, parsedLetterString, jobDescription, applicationId, router]);
 
+	if (checkingAuth) {
+		return null;
+	}
+
 	return (
 		<Wrapper>
-			<div className='w-full flex flex-col flex-1 items-center justify-center font-sans'>
-				<div className='w-full flex justify-between items-center h-10 border-b border-b-white/10'>
-					<input type='text' name='search' placeholder='Search...' />
-					<div>
-						<div>{availableCredits} credits remaining</div>
-						{/* Insert profile badge */}
+			<div className='w-full h-screen flex flex-col flex-1 items-start justify-center font-sans'>
+				{/* Top bar */}
+				<div className='w-full h-16 py-4 px-8 flex justify-between items-center border-b border-b-white/10 glass'>
+					<div className='relative w-[320px]'>
+						<SearchMd
+							size={20}
+							color='var(--color-muted)'
+							className='absolute left-3 top-1/2 -translate-y-1/2'
+						/>
+						<input
+							type='text'
+							name='search'
+							placeholder='Search applications...'
+							className='w-full py-2 pl-9 pr-4 border border-white/20 rounded-lg text-sm'
+						/>
+					</div>
+					<div className='flex flex-row items-center gap-2.5'>
+						<Pill
+							variant='primary'
+							className='py-1.5! px-3! flex flex-row items-center gap-2 text-xs text-muted rounded-full! bg-white/5! border border-[#27272a]!'
+							styles={{ hexColour: '121214', opacity: '100%' }}>
+							<Coins03
+								size={20}
+								color='var(--color-purple-500)'
+							/>
+							<p>{availableCredits} credits remaining</p>
+						</Pill>
+						<ProfileBadge initialUser={authUser} />
 					</div>
 				</div>
-				<main className='relative max-w-200 py-25 flex flex-col justify-start items-start gap-12.5 w-full px-6'>
-					<div className='w-full h-full card card--col card--center'>
+
+				<main className='relative w-full px-10 py-8 flex-1 flex flex-col justify-start items-start gap-12.5'>
+					<div className='max-w-200 h-full card card--col card--start'>
 						<div className='flex flex-col gap-10'>
 							<div>
-								<h2 className='tracking-tighter'>
-									Upload File
+								<h2 className='tracking-tighter text-lg'>
+									Upload Documents
 								</h2>
 								<p>
 									Take advantage of our AI model and file

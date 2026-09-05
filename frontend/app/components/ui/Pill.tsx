@@ -3,12 +3,15 @@
 import { hexToRgb } from '@/app/helpers/hexToRgb';
 import { invertTextColour } from '@/app/helpers/invertTextColour';
 import { PillProps } from '@/app/types/global.types';
+import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Pill({
 	text = 'Default',
 	variant = 'primary',
 	styles: { hexColour = 'FFFFFF', opacity = '25%' } = {},
+	children,
+	className,
 }: PillProps) {
 	const [formattedWords, setFormattedWords] = useState<string[]>([]);
 	const [newText, setNewText] = useState('');
@@ -55,11 +58,11 @@ export default function Pill({
 	let style = '';
 	switch (variant) {
 		case 'primary':
-			style =
-				'bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/20';
+			style = '';
 			break;
 		case 'secondary':
-			style = 'bg-black dark:bg-white';
+			style =
+				'';
 			break;
 		default:
 			break;
@@ -72,8 +75,12 @@ export default function Pill({
 				backgroundColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
 				borderColor: `rgba(${borderR}, ${borderG}, ${borderB}, 0.5)`,
 			}}
-			className={`max-h-fit max-w-fit py-px px-5 flex items-center rounded-xl tracking-tight ${style}`}>
-			{newText}
+			className={clsx(
+				'max-h-fit max-w-fit py-px px-5 rounded-xl tracking-tight',
+				className,
+				style,
+			)}>
+			{children ? children : newText}
 		</div>
 	);
 }

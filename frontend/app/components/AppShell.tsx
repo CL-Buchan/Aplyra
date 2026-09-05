@@ -1,12 +1,10 @@
 'use client';
 
 import Nav from '@/app/components/ui/Nav';
-import Sidebar from '@/app/components/ui/Sidebar';
 import { NavProps } from '@/app/types/global.types';
 import { usePathname } from 'next/navigation';
 import posthog from 'posthog-js';
 import { useEffect, useRef } from 'react';
-import Profile from './Profile';
 
 type Props = NavProps & { children: React.ReactNode };
 
@@ -25,11 +23,7 @@ export default function AppShell({ initialUser, children }: Props) {
 
 	return (
 		<div className='flex flex-row'>
-			{isRoot || isUnsubscribed ? (
-				<Nav initialUser={initialUser} />
-			) : (
-				<Sidebar initialUser={initialUser} />
-			)}
+			{(isRoot || isUnsubscribed) && <Nav initialUser={initialUser} />}
 
 			<div
 				className={

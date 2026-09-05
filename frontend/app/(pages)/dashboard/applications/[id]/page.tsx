@@ -26,7 +26,6 @@ export default async function ApplicationDetail({
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
-
 	if (!user) notFound();
 
 	const { data, error } = await supabase

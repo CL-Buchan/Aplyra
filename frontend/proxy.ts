@@ -2,6 +2,17 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function proxy(request: NextRequest) {
+	const safeRoutes = ['/', '/auth', '/api'];
+	const pathname = request.nextUrl.pathname;
+	const isHitSafeRoute = safeRoutes.some((route) => {
+		if (route === '/') return pathname === '/';
+		return pathname === route || pathname.startsWith(route + '/');
+	});
+
+	if (isHitSafeRoute) {
+		return NextResponse.next({ request });
+	}
+
 	let supabaseResponse = NextResponse.next({ request });
 
 	const supabase = createServerClient(
@@ -25,7 +36,13 @@ export async function proxy(request: NextRequest) {
 		},
 	);
 
-	await supabase.auth.getClaims();
+	const { data, error } = await supabase.auth.getClaims();
+
+	if (error || !data?.claims) {
+		const url = request.nextUrl.clone();
+		url.pathname = '/auth/login';
+		return NextResponse.redirect(url);
+	}
 
 	return supabaseResponse;
 }

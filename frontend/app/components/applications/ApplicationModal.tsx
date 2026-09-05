@@ -8,6 +8,7 @@ import Modal from '../ui/Modal';
 import { createClient } from '@/app/services/supabase/client';
 import posthog from 'posthog-js';
 import { toast } from 'sonner';
+import { redirect } from 'next/navigation';
 
 const REQUIRED_FIELDS: (keyof JobApplication)[] = [
 	'role',
@@ -44,11 +45,7 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 		const {
 			data: { user },
 		} = await supabase.auth.getUser();
-
-		if (!user) {
-			setLoading(false);
-			return console.error('You must be logged in to add applications.');
-		}
+		if (!user) redirect('/auth/login');
 
 		const { data: company_names, error: companyError } = await supabase
 			.from('company')

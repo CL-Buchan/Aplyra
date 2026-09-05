@@ -145,3 +145,7 @@ __pycache__/
 
 #Claude
 .claude
+
+#Vercel
+.vercel
+.env*.local
