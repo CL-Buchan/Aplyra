@@ -11,8 +11,6 @@ export async function getCurrentUser() {
 		data: { user },
 		error,
 	} = await supabase.auth.getUser();
-
 	if (error || !user?.id || user.role !== 'authenticated') return null;
-
 	return user;
 }

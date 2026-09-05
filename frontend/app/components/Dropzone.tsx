@@ -1,6 +1,9 @@
+'use client';
+
 import { CheckCircle, XCircle } from '@untitledui/icons';
 import { DropzoneProps } from '../types/global.types';
 import clsx from 'clsx';
+import { useEffect, useMemo } from 'react';
 
 export default function Dropzone({
 	file,
@@ -10,7 +13,21 @@ export default function Dropzone({
 	size = 'sm',
 	disabled,
 	onFileSelect,
+	accept = '.pdf, .docx',
+	label = 'No file chosen, Select a .pdf or .docx file',
 }: DropzoneProps) {
+	const isImage = file?.type.startsWith('image/');
+	const previewUrl = useMemo(
+		() => (isImage && file ? URL.createObjectURL(file) : undefined),
+		[isImage, file],
+	);
+
+	useEffect(() => {
+		return () => {
+			if (previewUrl) URL.revokeObjectURL(previewUrl);
+		};
+	}, [previewUrl]);
+
 	const sizeMap = {
 		sm: 'min-w-100 min-h-50',
 		md: 'min-w-150 min-h-100',
@@ -31,7 +48,7 @@ export default function Dropzone({
 				type='file'
 				name='dropzone'
 				disabled={disabled}
-				accept='.pdf, .docx'
+				accept={accept}
 				className='inset-0 absolute opacity-0'
 				onChange={(e) => onFileSelect(e.target.files?.[0])}
 			/>
@@ -43,6 +60,13 @@ export default function Dropzone({
 				</div>
 			) : loading ? (
 				<p>Loading...</p>
+			) : file && previewUrl ? (
+				// eslint-disable-next-line @next/next/no-img-element
+				<img
+					src={previewUrl}
+					alt={file.name}
+					className='size-full rounded-xl object-cover'
+				/>
 			) : file ? (
 				<div>
 					<p>
@@ -52,7 +76,7 @@ export default function Dropzone({
 					<CheckCircle color='green' width={20} height={20} />
 				</div>
 			) : (
-				<p className='text-muted'>No file chosen, Select a .pdf or .docx file</p>
+				<p className='text-muted'>{label}</p>
 			)}
 		</div>
 	);

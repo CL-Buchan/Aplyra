@@ -7,6 +7,16 @@ type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
 export type Content = { path: string | StaticImageData; imgDesc: string };
 
 // -- Prop types --
+export interface ProfileBadgeProps {
+	initialUser: AuthenticatedUser | null;
+	profileImage?: HTMLImageElement | string | null;
+}
+
+export interface DashboardLayoutProps {
+	initialUser: AuthenticatedUser | null;
+	children: React.ReactNode;
+}
+
 export interface ProfileEditformProps {
 	user: Tables<'users'>;
 }
@@ -66,9 +76,7 @@ export interface ModalProps extends Modal {
 	children?: React.ReactNode;
 	isInputsFilled?: boolean;
 	isLoading?: boolean;
-	styles?: {
-		titleSize?: number | string;
-	}
+	styles?: { titleSize?: number | string };
 }
 
 export interface CarouselProps {
@@ -81,12 +89,13 @@ export interface CarouselProps {
 }
 
 export interface RadialGlowProps {
-	height?: number;
-	width?: number;
+	height?: number | string;
+	width?: number | string;
 	positionX?: number;
 	positionY?: number;
 	className?: string;
 	hexColour?: string;
+	opacity?: number | string;
 }
 
 export interface FormProps<T> {
@@ -116,6 +125,8 @@ export interface DropzoneProps {
 	size?: 'sm' | 'md' | 'lg';
 	disabled: boolean;
 	onFileSelect: (file: File | undefined) => void;
+	accept?: string;
+	label?: string;
 }
 
 export interface ButtonProps {
@@ -166,9 +177,11 @@ export interface CardProps {
 }
 
 export interface PillProps {
-	text: string;
+	text?: string;
 	variant?: 'primary' | 'secondary';
 	styles?: { hexColour?: string; opacity?: frequentOpacityValues };
+	children?: React.ReactNode;
+	className?: string;
 }
 
 // Providers

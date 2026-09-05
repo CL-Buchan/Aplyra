@@ -22,7 +22,7 @@ export default async function UserProfile() {
 	return (
 		<Wrapper>
 			<div className='w-full flex flex-col flex-1 items-center justify-center font-sans'>
-				<main className='relative max-w-200 py-25 flex flex-col justify-start items-start gap-12.5 w-full px-6'>
+				<main className='relative max-w-200 py-25 flex flex-col justify-start items-start gap-12.5 w-full px-6 overflow-y-scroll'>
 					<div>
 						<Pill text='Account' />
 						<h2>Profile</h2>

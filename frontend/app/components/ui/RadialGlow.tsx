@@ -11,11 +11,13 @@ const RadialGlow = forwardRef<HTMLDivElement, RadialGlowProps>(
 			positionY,
 			className,
 			hexColour = '#0000FF',
+			opacity = 100,
 		},
 		ref,
 	) => {
 		const translateY = positionY ? `translateY(${positionY})` : '';
 		const translateX = positionX ? `translateX(${positionX})` : '';
+		const normalisedOpacity = Number(opacity) / 100;
 
 		return (
 			<div
@@ -25,9 +27,10 @@ const RadialGlow = forwardRef<HTMLDivElement, RadialGlowProps>(
 					height,
 					transform: `${translateY} ${translateX}`.trim(),
 					background: `radial-gradient(ellipse closest-side, ${hexColour}, transparent)`,
+					opacity: normalisedOpacity,
 				}}
 				className={clsx(
-					'absolute blur-3xl z-0',
+					'absolute blur-3xl z-0 pointer-events-none',
 					className ?? 'top-0 left-0',
 				)}
 			/>

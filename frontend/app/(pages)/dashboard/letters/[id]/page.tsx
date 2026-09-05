@@ -14,7 +14,6 @@ export default async function LetterPage({
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
-
 	if (!user) notFound();
 
 	const { data: letter, error } = await supabase
