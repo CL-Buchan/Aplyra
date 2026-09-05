@@ -125,6 +125,8 @@ export interface DropzoneProps {
 	size?: 'sm' | 'md' | 'lg';
 	disabled: boolean;
 	onFileSelect: (file: File | undefined) => void;
+	accept?: string;
+	label?: string;
 }
 
 export interface ButtonProps {

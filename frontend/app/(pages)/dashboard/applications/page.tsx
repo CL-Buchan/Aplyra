@@ -46,7 +46,7 @@ export default async function Applications() {
 					</div>
 				</div>
 
-				<main className='relative w-full px-10 py-8 flex-1 flex flex-col justify-start items-start gap-6 overflow-y-auto'>
+				<main className='relative w-full min-h-0 px-10 py-8 flex-1 flex flex-col justify-start items-start gap-6 overflow-y-auto'>
 					<div className='w-full flex justify-between items-center'>
 						<div className='flex items-center gap-2'>
 							<h2 className='tracking-tighter text-lg'>

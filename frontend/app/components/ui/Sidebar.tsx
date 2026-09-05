@@ -7,6 +7,7 @@ import {
 	LogIn01,
 	Paperclip,
 	UploadCloud01,
+	User01,
 } from '@untitledui/icons';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -23,6 +24,10 @@ const navLinks: NavLink[] = [
 		route: '/dashboard/applications',
 		icon: LayoutGrid02,
 	},
+];
+
+const extraLinks: NavLink[] = [
+	{ text: 'Profile', route: '/dashboard/user/profile', icon: User01 },
 ];
 
 const guestLinks: NavLink[] = [
@@ -74,6 +79,40 @@ export default function Sidebar({ initialUser }: SidebarProps) {
 						);
 					})}
 				</ul>
+				<div className='flex flex-col gap-2.5'>
+					<p className='text-[10px] font-semibold tracking-widest! uppercase text-muted'>Organization</p>
+					<ul>
+						{extraLinks.map(({ text, route, icon: Icon }) => {
+							const active = pathname === route;
+							return (
+								<li key={route}>
+									<Link
+										href={route}
+										className={clsx(
+											'flex items-center gap-2.5 rounded-[7px] px-2.5 py-2 text-[13px] transition-colors duration-300 ease-in-out',
+											active
+												? 'bg-white/10 font-medium text-white'
+												: 'text-[#888888] hover:bg-white/10 hover:text-white',
+										)}>
+										{Icon && (
+											<Icon
+												width={18}
+												height={18}
+												color={
+													active
+														? 'var(--color-purple-500)'
+														: 'grey'
+												}
+												className='shrink-0'
+											/>
+										)}
+										{text}
+									</Link>
+								</li>
+							);
+						})}
+					</ul>
+				</div>
 			</div>
 
 			<UsageCard />

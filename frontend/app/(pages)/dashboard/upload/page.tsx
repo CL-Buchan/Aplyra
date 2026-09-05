@@ -8,11 +8,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import posthog from 'posthog-js';
-import { Coins03, SearchMd } from '@untitledui/icons';
+import { Coins01, Coins02, Coins03, Coins04, CoinsStacked01, CoinsStacked02, CoinsStacked03, SearchMd } from '@untitledui/icons';
 import Pill from '@/app/components/ui/Pill';
 import ProfileBadge from '@/app/components/ProfileBadge';
 import { createClient } from '@/app/services/supabase/client';
 import { AuthenticatedUser } from '@/app/types/global.types';
+import { CoinsStacked04 } from '@untitledui/icons';
 
 function UploadPageContent() {
 	const router = useRouter();
@@ -173,7 +174,7 @@ function UploadPageContent() {
 							variant='primary'
 							className='py-1.5! px-3! flex flex-row items-center gap-2 text-xs text-muted rounded-full! bg-white/5! border border-[#27272a]!'
 							styles={{ hexColour: '121214', opacity: '100%' }}>
-							<Coins03
+							<CoinsStacked04
 								size={20}
 								color='var(--color-purple-500)'
 							/>
@@ -183,7 +184,7 @@ function UploadPageContent() {
 					</div>
 				</div>
 
-				<main className='relative w-full px-10 py-8 flex-1 flex flex-col justify-start items-start gap-12.5'>
+				<main className='relative w-full min-h-0 px-10 py-8 flex-1 flex flex-col justify-start items-start gap-12.5 overflow-y-auto'>
 					<div className='max-w-200 h-full card card--col card--start'>
 						<div className='flex flex-col gap-10'>
 							<div>

@@ -9,16 +9,10 @@ export type Json =
 export type Database = {
 	// Allows to automatically instantiate createClient with right options
 	// instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-	__InternalSupabase: {
-		PostgrestVersion: '14.5';
-	};
+	__InternalSupabase: { PostgrestVersion: '14.5' };
 	graphql_public: {
-		Tables: {
-			[_ in never]: never;
-		};
-		Views: {
-			[_ in never]: never;
-		};
+		Tables: { [_ in never]: never };
+		Views: { [_ in never]: never };
 		Functions: {
 			graphql: {
 				Args: {
@@ -30,12 +24,8 @@ export type Database = {
 				Returns: Json;
 			};
 		};
-		Enums: {
-			[_ in never]: never;
-		};
-		CompositeTypes: {
-			[_ in never]: never;
-		};
+		Enums: { [_ in never]: never };
+		CompositeTypes: { [_ in never]: never };
 	};
 	public: {
 		Tables: {
@@ -164,18 +154,21 @@ export type Database = {
 			};
 			users: {
 				Row: {
+					profile_image?: string | null;
 					created_at: string | null;
 					email: string | null;
 					id: string;
 					name: string | null;
 				};
 				Insert: {
+					profile_image?: string | null;
 					created_at?: string | null;
 					email?: string | null;
 					id: string;
 					name?: string | null;
 				};
 				Update: {
+					profile_image?: string | null;
 					created_at?: string | null;
 					email?: string | null;
 					id?: string;
@@ -208,18 +201,10 @@ export type Database = {
 				Relationships: [];
 			};
 		};
-		Views: {
-			[_ in never]: never;
-		};
-		Functions: {
-			[_ in never]: never;
-		};
-		Enums: {
-			[_ in never]: never;
-		};
-		CompositeTypes: {
-			[_ in never]: never;
-		};
+		Views: { [_ in never]: never };
+		Functions: { [_ in never]: never };
+		Enums: { [_ in never]: never };
+		CompositeTypes: { [_ in never]: never };
 	};
 };
 
@@ -261,7 +246,8 @@ export type Tables<
 
 export type TablesInsert<
 	DefaultSchemaTableNameOrOptions extends
-		keyof DefaultSchema['Tables'] | { schema: keyof DatabaseWithoutInternals },
+		| keyof DefaultSchema['Tables']
+		| { schema: keyof DatabaseWithoutInternals },
 	TableName extends (DefaultSchemaTableNameOrOptions extends {
 		schema: keyof DatabaseWithoutInternals;
 	}
@@ -285,7 +271,8 @@ export type TablesInsert<
 
 export type TablesUpdate<
 	DefaultSchemaTableNameOrOptions extends
-		keyof DefaultSchema['Tables'] | { schema: keyof DatabaseWithoutInternals },
+		| keyof DefaultSchema['Tables']
+		| { schema: keyof DatabaseWithoutInternals },
 	TableName extends (DefaultSchemaTableNameOrOptions extends {
 		schema: keyof DatabaseWithoutInternals;
 	}
@@ -309,7 +296,8 @@ export type TablesUpdate<
 
 export type Enums<
 	DefaultSchemaEnumNameOrOptions extends
-		keyof DefaultSchema['Enums'] | { schema: keyof DatabaseWithoutInternals },
+		| keyof DefaultSchema['Enums']
+		| { schema: keyof DatabaseWithoutInternals },
 	EnumName extends (DefaultSchemaEnumNameOrOptions extends {
 		schema: keyof DatabaseWithoutInternals;
 	}
@@ -341,10 +329,6 @@ export type CompositeTypes<
 		: never;
 
 export const Constants = {
-	graphql_public: {
-		Enums: {},
-	},
-	public: {
-		Enums: {},
-	},
+	graphql_public: { Enums: {} },
+	public: { Enums: {} },
 } as const;
