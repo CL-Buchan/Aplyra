@@ -7,9 +7,26 @@ type frequentOpacityValues = '5%' | '10%' | '25%' | '50%' | '100%';
 export type Content = { path: string | StaticImageData; imgDesc: string };
 
 // -- Prop types --
+export interface UsageCardProps {
+	min: number;
+	max: number;
+	isProfileMenuOpen?: boolean;
+}
+
+export interface ProfileCircleProps {
+	profileImage: HTMLImageElement | string | null;
+	alt?: string;
+}
+
+export interface ProfileCardProps {
+	user: AuthenticatedUser | null;
+	userLoggedIn?: boolean;
+	pathname?: string;
+	onMenuOpenChange?: (open: boolean) => void;
+}
+
 export interface ProfileBadgeProps {
 	initialUser: AuthenticatedUser | null;
-	profileImage?: HTMLImageElement | string | null;
 }
 
 export interface DashboardLayoutProps {

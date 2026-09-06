@@ -35,7 +35,7 @@ export default function Input({
 			required={required}
 			onChange={onChange}
 			className={clsx(
-				'min-h-[32px] px-[16px] py-[9px] text-start bg-surface border border-border rounded-[7px] placeholder:text-[#595959]',
+				'min-h-8 px-4 py-2.25 text-start bg-surface border border-border rounded-[7px] placeholder:text-[#595959]',
 				className,
 			)}
 			style={{ width: '100%' }}

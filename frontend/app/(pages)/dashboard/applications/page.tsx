@@ -48,13 +48,13 @@ export default async function Applications() {
 
 				<main className='relative w-full min-h-0 px-10 py-8 flex-1 flex flex-col justify-start items-start gap-6 overflow-y-auto'>
 					<div className='w-full flex justify-between items-center'>
-						<div className='flex items-center gap-2'>
-							<h2 className='tracking-tighter text-lg'>
-								Applications
-							</h2>
+						<div className='flex flex-col justify-center items-start gap-2'>
 							<span className='py-1 px-2.5 text-xs uppercase font-mono bg-white/5 border border-white/20 rounded-lg text-muted'>
 								Total: {data.length}
 							</span>
+							<h2 className='tracking-tighter text-lg'>
+								Applications
+							</h2>
 						</div>
 					</div>
 

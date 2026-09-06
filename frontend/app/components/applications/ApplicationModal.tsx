@@ -20,8 +20,13 @@ const REQUIRED_FIELDS: (keyof JobApplication)[] = [
 	'jobDescription',
 ];
 
+const APPLICATION_OPTIONS = ['Applied', 'Closed', 'Rejected'];
+
+const EMPTY_APPLICATION: JobApplication = { status: APPLICATION_OPTIONS[0] };
+
 export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
-	const [application, setApplication] = useState<JobApplication>({});
+	const [application, setApplication] =
+		useState<JobApplication>(EMPTY_APPLICATION);
 	const [applications, setApplications] = useState<JobApplication[]>([]);
 	const [isLoading, setLoading] = useState(false);
 
@@ -33,11 +38,27 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 	function handleAddJob() {
 		if (!isInputsFilled) return;
 		setApplications((prev) => [...prev, application]);
-		setApplication({});
+		setApplication(EMPTY_APPLICATION);
 	}
 
 	async function submitApplications() {
-		if (applications.length === 0 || isLoading) return;
+		if (applications.length === 0 || isLoading) {
+			setLoading(false);
+			return;
+		}
+		const hasInvalidDates = applications.some(
+			(app) =>
+				app.appliedDate &&
+				app.closingDate &&
+				new Date(String(app.closingDate)) <
+					new Date(String(app.appliedDate)),
+		);
+		if (hasInvalidDates) {
+			setLoading(false);
+			return toast.error(
+				'Closing date cannot be before the applied date.',
+			);
+		}
 
 		setLoading(true);
 		const supabase = createClient();
@@ -47,16 +68,31 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 		} = await supabase.auth.getUser();
 		if (!user) redirect('/auth/login');
 
-		const { data: company_names, error: companyError } = await supabase
+		const companyNames = [
+			...new Set(
+				applications
+					.map((app) => app.company?.trim())
+					.filter((name): name is string => !!name),
+			),
+		];
+
+		const { data: companies, error: companyError } = await supabase
 			.from('company')
-			.select('name')
-			.eq('name', application.company || '');
+			.upsert(
+				companyNames.map((name) => ({ name })),
+				{ onConflict: 'name' },
+			)
+			.select('id, name');
+		console.log('error', companyError);
 
-		if (companyError) return console.error();
-		if (!company_names || company_names.length === 0)
-			return console.error('Company name is not found.');
+		if (companyError || !companies) {
+			setLoading(false);
+			return toast.error('Error saving company details');
+		}
 
-		toast.error('Company name is not found.');
+		const companyIdByName = new Map(
+			companies.map((company) => [company.name, company.id]),
+		);
 
 		const { error } = await supabase
 			.from('applications')
@@ -64,7 +100,10 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 				applications.map((application: JobApplication) => ({
 					user_id: user.id,
 					role: application.role,
-					company_id: 0,
+					company_id:
+						companyIdByName.get(
+							application.company?.trim() ?? '',
+						) ?? null,
 					applied_at: application.appliedDate,
 					closing_date: application.closingDate,
 					closed:
@@ -112,8 +151,8 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 			isOpen={isOpen}
 			isInputsFilled={isInputsFilled}
 			isLoading={isLoading}>
-			<div className='bg-[#151515] flex flex-col gap-[14px]'>
-				<div className='w-full flex flex-col items-start gap-[6px]'>
+			<div className='bg-[#151515] flex flex-col gap-3.5'>
+				<div className='w-full flex flex-col items-start gap-1.5'>
 					<label htmlFor='role'>Role</label>
 					<Input
 						type='text'
@@ -129,8 +168,8 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 					/>
 				</div>
 
-				<div className='w-full flex items-start gap-[12px]'>
-					<div className='flex flex-col items-start gap-[6px]'>
+				<div className='w-full flex items-start gap-3'>
+					<div className='flex flex-col items-start gap-1.5'>
 						<label htmlFor='company'>Company</label>
 						<Input
 							name='company'
@@ -145,7 +184,7 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 							}
 						/>
 					</div>
-					<div className='flex flex-col items-start gap-[6px]'>
+					<div className='flex flex-col items-start gap-1.5'>
 						<label htmlFor='location'>Location</label>
 						<Input
 							name='location'
@@ -162,11 +201,11 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 					</div>
 				</div>
 
-				<div className='w-full flex flex-col items-start gap-[6px]'>
+				<div className='w-full flex flex-col items-start gap-1.5'>
 					<label htmlFor='status'>Status</label>
-					<Input
+					<select
+						id='status'
 						name='status'
-						type='text'
 						value={application.status ?? ''}
 						onChange={(e) =>
 							setApplication((prev) => ({
@@ -174,11 +213,15 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 								status: e.target.value,
 							}))
 						}
-					/>
+						className='w-full min-h-8 px-4 py-2.25 text-start bg-surface border border-border rounded-[7px] focus:outline-0 focus:ring-0'>
+						{APPLICATION_OPTIONS.map((option, indx) => (
+							<option key={indx}>{option}</option>
+						))}
+					</select>
 				</div>
 
-				<div className='w-full flex items-start gap-[12px]'>
-					<div className='flex-1 flex flex-col items-start gap-[6px]'>
+				<div className='w-full flex items-start gap-3'>
+					<div className='flex-1 flex flex-col items-start gap-1.5'>
 						<label htmlFor='applied_date'>Applied Date</label>
 						<Input
 							name='applied_date'
@@ -193,7 +236,7 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 							}
 						/>
 					</div>
-					<div className='flex-1 flex flex-col items-start gap-[6px]'>
+					<div className='flex-1 flex flex-col items-start gap-1.5'>
 						<label htmlFor='closing_date'>Closing Date</label>
 						<Input
 							name='closing_date'
@@ -210,7 +253,7 @@ export default function ApplicationModal({ isOpen, onClose }: ModalProps) {
 					</div>
 				</div>
 
-				<div className='w-full flex flex-col items-start gap-[6px]'>
+				<div className='w-full flex flex-col items-start gap-1.5'>
 					<label htmlFor='job_description'>Job Description</label>
 					<Input
 						name='job_description'
