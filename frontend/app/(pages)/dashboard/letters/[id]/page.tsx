@@ -27,19 +27,19 @@ export default async function LetterPage({
 
 	return (
 		<Wrapper>
-			<div className='w-full flex flex-col flex-1 items-center justify-center font-sans'>
-				<main className='relative max-w-200 py-25 flex flex-col justify-start items-start gap-12.5 w-full px-6'>
-					<div>
-						<h2 className='tracking-tighter'>
-							Your Cover Letter
-						</h2>
+			<div className='w-full flex flex-col flex-1 items-center justify-center font-sans overflow-y-scroll'>
+				<main className='relative w-full py-10 px-12 flex flex-col justify-start items-start gap-12.5'>
+					<div className='w-full'>
+						<h2 className='tracking-tighter'>Your Cover Letter</h2>
 						<p>
 							Sit tight, your generated letter will appear below
 							once it&apos;s ready.
 						</p>
 					</div>
 
-					<LetterViewer letter={letter} />
+					<div className='w-full flex flex-col items-center'>
+						<LetterViewer letter={letter} />
+					</div>
 				</main>
 			</div>
 		</Wrapper>

@@ -13,6 +13,7 @@ export default function ProfileCard({
 	user,
 	userLoggedIn,
 	pathname,
+	onMenuOpenChange,
 }: ProfileCardProps) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -38,7 +39,11 @@ export default function ProfileCard({
 				<div className='relative w-full'>
 					<button
 						type='button'
-						onClick={() => setMenuOpen((open) => !open)}
+						onClick={() => {
+							const next = !menuOpen;
+							setMenuOpen(next);
+							onMenuOpenChange?.(next);
+						}}
 						aria-expanded={menuOpen}
 						className='flex w-full flex-row items-center justify-between gap-2 rounded-[7px] px-1.5 py-1 transition-colors duration-200 hover:bg-white/10'>
 						<div className='flex min-w-0 flex-row items-center gap-2.5'>
