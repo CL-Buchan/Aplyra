@@ -7,10 +7,26 @@ const insertMock = vi.fn(async (_rows: Record<string, unknown>[]) => ({
 	data: null,
 	error: null as { message: string } | null,
 }));
-const fromMock = vi.fn(() => ({ insert: insertMock }));
+
+const companySelectMock = vi.fn(async () => ({
+	data: [{ id: 1, name: 'Acme Corp' }],
+	error: null as { message: string } | null,
+}));
+const companyUpsertMock = vi.fn(() => ({ select: companySelectMock }));
+
+const fromMock = vi.fn((table: string) =>
+	table === 'company'
+		? { upsert: companyUpsertMock }
+		: { insert: insertMock },
+);
+
+const getUserMock = vi.fn(async () => ({
+	data: { user: { id: 'user-1' } },
+	error: null,
+}));
 
 vi.mock('@/app/services/supabase/client', () => ({
-	createClient: () => ({ from: fromMock }),
+	createClient: () => ({ from: fromMock, auth: { getUser: getUserMock } }),
 }));
 
 function addJobButton() {
@@ -25,7 +41,7 @@ async function fillValidApplication(user: ReturnType<typeof userEvent.setup>) {
 	await user.type(screen.getByLabelText('Role'), 'Frontend Engineer');
 	await user.type(screen.getByLabelText('Company'), 'Acme Corp');
 	await user.type(screen.getByLabelText('Location'), 'Remote');
-	await user.type(screen.getByLabelText('Status'), 'Applied');
+	await user.selectOptions(screen.getByLabelText('Status'), 'Applied');
 	await user.type(screen.getByLabelText('Applied Date'), '2026-07-01');
 	await user.type(screen.getByLabelText('Closing Date'), '2026-08-01');
 	await user.type(
@@ -38,6 +54,9 @@ describe('ApplicationModal', () => {
 	beforeEach(() => {
 		insertMock.mockClear();
 		fromMock.mockClear();
+		companyUpsertMock.mockClear();
+		companySelectMock.mockClear();
+		getUserMock.mockClear();
 	});
 
 	it('disables Add Job until every required field has a value', async () => {
@@ -89,11 +108,18 @@ describe('ApplicationModal', () => {
 		await waitFor(() => expect(insertMock).toHaveBeenCalledTimes(1));
 		expect(fromMock).toHaveBeenCalledWith('applications');
 
+		expect(fromMock).toHaveBeenCalledWith('company');
+		expect(companyUpsertMock).toHaveBeenCalledWith(
+			[{ name: 'Acme Corp' }],
+			{ onConflict: 'name' },
+		);
+
 		const inserted = insertMock.mock.calls[0][0];
 		expect(inserted).toHaveLength(2);
 		expect(inserted[0]).toMatchObject({
+			user_id: 'user-1',
 			role: 'Frontend Engineer',
-			company: 'Acme Corp',
+			company_id: 1,
 			applied_at: '2026-07-01',
 			closing_date: '2026-08-01',
 			status: 'Applied',

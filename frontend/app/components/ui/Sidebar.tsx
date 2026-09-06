@@ -12,6 +12,7 @@ import {
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import UsageCard from '../UsageCard';
 import ProfileCard from '../ProfileCard';
 
@@ -37,6 +38,7 @@ const guestLinks: NavLink[] = [
 export default function Sidebar({ initialUser }: SidebarProps) {
 	const pathname = usePathname();
 	const links = !!initialUser ? navLinks : guestLinks;
+	const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
 	return (
 		<aside
@@ -116,11 +118,17 @@ export default function Sidebar({ initialUser }: SidebarProps) {
 			</div>
 
 			<div className='flex flex-col items-center gap-5'>
-				<UsageCard />
+				<UsageCard
+					min={50}
+					max={100}
+					isProfileMenuOpen={isProfileMenuOpen}
+				/>
+
 				<ProfileCard
 					user={initialUser}
 					userLoggedIn={!!initialUser}
 					pathname={pathname}
+					onMenuOpenChange={setIsProfileMenuOpen}
 				/>
 			</div>
 		</aside>
