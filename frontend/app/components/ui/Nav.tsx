@@ -109,7 +109,7 @@ export default function Nav({ initialUser }: NavProps) {
 
 				{userLoggedIn ? (
 					<div className='hidden md:flex items-center gap-20'>
-						<nav className='px-10 py-2 rounded-3xl bg-[#FFFFFF0D] backdrop-blur-md z-10'>
+						<nav className='px-10 py-2 rounded-3xl border border-black/[0.07] bg-black/[0.03] dark:border-white/10 dark:bg-[#FFFFFF0D] backdrop-blur-md z-10'>
 							<ul className='flex flex-col md:flex-row gap-10'>
 								{links.map(({ text, route }, index) => (
 									<li
@@ -117,8 +117,8 @@ export default function Nav({ initialUser }: NavProps) {
 										className={clsx(
 											'px-5 py-0.5 rounded-2xl text-center text-[13px]',
 											pathname === route
-												? 'bg-white/10 backdrop-blur-md'
-												: '',
+												? 'bg-white shadow-sm text-black dark:bg-white/10 dark:text-white dark:shadow-none backdrop-blur-md'
+												: 'text-black/55 dark:text-white/70',
 										)}>
 										<Link href={route}>{text}</Link>
 									</li>
@@ -126,7 +126,7 @@ export default function Nav({ initialUser }: NavProps) {
 							</ul>
 						</nav>
 
-						<div className='flex items-center gap-5 px-10 py-2 rounded-3xl bg-white/5 backdrop-blur-md z-10'>
+						<div className='flex items-center gap-5 px-10 py-2 rounded-3xl border border-black/[0.07] bg-black/[0.03] dark:border-white/10 dark:bg-white/5 backdrop-blur-md z-10'>
 							<p>
 								Welcome, {username.slice(0, 5) ?? 'Username'}...
 							</p>
@@ -136,7 +136,7 @@ export default function Nav({ initialUser }: NavProps) {
 						</div>
 					</div>
 				) : (
-					<nav className='hidden md:block p-1.5 rounded-3xl bg-muted/10 dark:bg-[#FFFFFF0D] border border-black/10 dark:border-white/10 backdrop-blur-md z-10'>
+					<nav className='hidden md:block p-1.5 rounded-3xl bg-black/[0.03] dark:bg-[#FFFFFF0D] border border-black/[0.07] dark:border-white/10 backdrop-blur-md z-10'>
 						<ul className='flex flex-row gap-1'>
 							{links.map(({ text, route }, index) => (
 								<li
@@ -144,7 +144,7 @@ export default function Nav({ initialUser }: NavProps) {
 									className={clsx(
 										'px-4.5 py-2 rounded-[18px] text-[13px] transition-all duration-200 ease-in-out',
 										selectedNavIndex === index
-											? 'bg-muted/15 dark:bg-[#FFFFFF14] backdrop-blur-md'
+											? 'bg-white shadow-sm dark:bg-[#FFFFFF14] dark:shadow-none backdrop-blur-md'
 											: '',
 									)}
 									onClick={() => {
@@ -155,7 +155,11 @@ export default function Nav({ initialUser }: NavProps) {
 									}}>
 									<Link
 										href={route}
-										className='text-muted dark:text-white'>
+										className={clsx(
+											selectedNavIndex === index
+												? 'text-black dark:text-white'
+												: 'text-black/55 dark:text-white/70',
+										)}>
 										{text}
 									</Link>
 								</li>

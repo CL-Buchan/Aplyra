@@ -3,7 +3,7 @@
 :root {
 	--background: var(--color-zinc-50);
 	--foreground: #000000;
-	--muted: #4e4e4e;
+	--muted: #5b5b5b;
 	--surface: #ffffff;
 	--border: rgba(0, 0, 0, 0.1);
 
@@ -42,6 +42,7 @@
 	:root {
 		--background: #000000;
 		--foreground: var(--color-zinc-50);
+		--muted: #8f8f8f;
 		--surface: #101010;
 		--border: rgba(255, 255, 255, 0.1);
 	}

@@ -9,17 +9,17 @@ export default function FeatureRoadmap() {
 			<div className='grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3.5'>
 				<div className='flex items-center gap-1.5'>
 					<span className='w-1.5 h-1.5 bg-[#8fb0f9] rotate-45 shrink-0' />
-					<span className='text-xs text-[#888888]'>Job post in</span>
+					<span className='text-xs text-muted'>Job post in</span>
 				</div>
 				<div className='flex items-center gap-1.5'>
 					<span className='w-1.5 h-1.5 bg-[#85aafb] rotate-45 shrink-0' />
-					<span className='text-xs text-[#888888]'>
+					<span className='text-xs text-muted'>
 						Letter drafted
 					</span>
 				</div>
 				<div className='flex items-center gap-1.5'>
 					<span className='w-1.5 h-1.5 bg-[#78a0f6] rotate-45 shrink-0' />
-					<span className='text-xs text-[#888888]'>
+					<span className='text-xs text-muted'>
 						Tracked to offer
 					</span>
 				</div>
@@ -31,7 +31,7 @@ export default function FeatureRoadmap() {
 					<h4 className='text-base font-semibold text-black dark:text-white mb-2'>
 						Drop in the job post
 					</h4>
-					<p className='text-sm text-[#888888] leading-relaxed'>
+					<p className='text-sm text-muted leading-relaxed'>
 						Paste a listing or upload your resume. Aplyra reads the
 						role and your background.
 					</p>
@@ -41,7 +41,7 @@ export default function FeatureRoadmap() {
 					<h4 className='text-base font-semibold text-black dark:text-white mb-2'>
 						Get a tailored letter
 					</h4>
-					<p className='text-sm text-[#888888] leading-relaxed'>
+					<p className='text-sm text-muted leading-relaxed'>
 						A cover letter written for that specific company and
 						role, ready to edit and export.
 					</p>
@@ -51,7 +51,7 @@ export default function FeatureRoadmap() {
 					<h4 className='text-base font-semibold text-black dark:text-white mb-2'>
 						Track it to the offer
 					</h4>
-					<p className='text-sm text-[#888888] leading-relaxed'>
+					<p className='text-sm text-muted leading-relaxed'>
 						Every application lives in one board, with statuses,
 						follow-ups and closing dates.
 					</p>

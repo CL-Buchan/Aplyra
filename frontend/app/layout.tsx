@@ -6,6 +6,14 @@ import './globals.css';
 import './styles/main.scss';
 import { Toaster } from 'sonner';
 import { Analytics } from '@vercel/analytics/next';
+import {
+	SITE_DESCRIPTION,
+	SITE_KEYWORDS,
+	SITE_NAME,
+	SITE_TITLE,
+	SITE_URL,
+	SOCIAL,
+} from './config/site';
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 
@@ -15,20 +23,46 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: 'Aplyra - AI cover letter generator and job tracker',
-	description:
-		'Get tailored, AI cover letters so you can spend less time writing and more time applying. Join our waitlist now.',
+	metadataBase: new URL(SITE_URL),
+	title: {
+		default: SITE_TITLE,
+		template: `%s — ${SITE_NAME}`,
+	},
+	description: SITE_DESCRIPTION,
+	keywords: SITE_KEYWORDS,
+	applicationName: SITE_NAME,
+	authors: [{ name: 'Callam Buchan' }],
+	creator: 'Callam Buchan',
+	publisher: SITE_NAME,
+	category: 'technology',
+	formatDetection: { email: false, address: false, telephone: false },
+	alternates: { canonical: '/' },
 	openGraph: {
 		type: 'website',
-		url: 'https://www.aplyra.io',
-		title: 'Aplyra - AI cover letter generator and job tracker',
-		description:
-			'Get tailored, AI cover letters so you can spend less time writing and more time applying. Join our waitlist now.',
-		siteName: 'Aplyra',
+		url: SITE_URL,
+		title: SITE_TITLE,
+		description: SITE_DESCRIPTION,
+		siteName: SITE_NAME,
+		locale: 'en_US',
 	},
-	keywords: ['Apply', 'Letter', 'Job', 'Jobs', 'AI', 'Employment'],
-	authors: { name: 'Callam' },
-	publisher: 'Callam Buchan',
+	twitter: {
+		card: 'summary_large_image',
+		title: SITE_TITLE,
+		description: SITE_DESCRIPTION,
+		site: SOCIAL.twitterHandle,
+		creator: SOCIAL.twitterHandle,
+	},
+	robots: {
+		index: true,
+		follow: true,
+		googleBot: {
+			index: true,
+			follow: true,
+			'max-image-preview': 'large',
+			'max-snippet': -1,
+			'max-video-preview': -1,
+		},
+	},
 };
 
 export default async function RootLayout({

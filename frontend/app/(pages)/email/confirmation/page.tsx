@@ -11,7 +11,7 @@ export default function UnsubscribedConfirmation() {
 				<RadialGlow
 					width={700}
 					height={500}
-					className='-top-10 left-1/2 -translate-x-1/2 opacity-40 pointer-events-none'
+					className='-top-10 left-1/2 -translate-x-1/2 opacity-25 dark:opacity-40 pointer-events-none'
 				/>
 
 				<div className='relative z-10 flex flex-col items-center'>
