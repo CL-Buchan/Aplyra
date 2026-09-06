@@ -63,11 +63,19 @@ export async function uploadProfileImage(
 	}
 
 	const supabase = await createClient();
-	const path = `${user.id}/avatar`;
+
+	const { data: existingUser } = await supabase
+		.from('users')
+		.select('profile_image')
+		.eq('id', user.id)
+		.single();
+
+	const extension = file.type.split('/')[1] ?? 'png';
+	const path = `${user.id}/avatar-${Date.now()}.${extension}`;
 
 	const { error: uploadError } = await supabase.storage
 		.from(PROFILE_IMAGE_BUCKET)
-		.upload(path, file, { upsert: true, contentType: file.type });
+		.upload(path, file, { contentType: file.type });
 
 	if (uploadError) {
 		return { success: false, error: 'Failed to upload image.' };
@@ -80,6 +88,12 @@ export async function uploadProfileImage(
 
 	if (updateError) {
 		return { success: false, error: 'Failed to save profile image.' };
+	}
+
+	if (existingUser?.profile_image) {
+		await supabase.storage
+			.from(PROFILE_IMAGE_BUCKET)
+			.remove([existingUser.profile_image]);
 	}
 
 	revalidatePath('/dashboard/user/profile');

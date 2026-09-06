@@ -13,6 +13,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import UsageCard from '../UsageCard';
+import ProfileCard from '../ProfileCard';
 
 type NavLink = { text: string; route: string; icon?: typeof LayoutGrid02 };
 
@@ -25,11 +26,9 @@ const navLinks: NavLink[] = [
 		icon: LayoutGrid02,
 	},
 ];
-
 const extraLinks: NavLink[] = [
 	{ text: 'Profile', route: '/dashboard/user/profile', icon: User01 },
 ];
-
 const guestLinks: NavLink[] = [
 	{ text: 'Login', route: '/auth/login', icon: LogIn01 },
 	{ text: 'Sign Up', route: '/auth/sign-up', icon: Key01 },
@@ -37,7 +36,6 @@ const guestLinks: NavLink[] = [
 
 export default function Sidebar({ initialUser }: SidebarProps) {
 	const pathname = usePathname();
-
 	const links = !!initialUser ? navLinks : guestLinks;
 
 	return (
@@ -80,7 +78,9 @@ export default function Sidebar({ initialUser }: SidebarProps) {
 					})}
 				</ul>
 				<div className='flex flex-col gap-2.5'>
-					<p className='text-[10px] font-semibold tracking-widest! uppercase text-muted'>Organization</p>
+					<p className='text-[10px] font-semibold tracking-widest! uppercase text-muted'>
+						Organization
+					</p>
 					<ul>
 						{extraLinks.map(({ text, route, icon: Icon }) => {
 							const active = pathname === route;
@@ -115,7 +115,14 @@ export default function Sidebar({ initialUser }: SidebarProps) {
 				</div>
 			</div>
 
-			<UsageCard />
+			<div className='flex flex-col items-center gap-5'>
+				<UsageCard />
+				<ProfileCard
+					user={initialUser}
+					userLoggedIn={!!initialUser}
+					pathname={pathname}
+				/>
+			</div>
 		</aside>
 	);
 }

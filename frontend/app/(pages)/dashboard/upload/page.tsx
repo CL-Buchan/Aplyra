@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import posthog from 'posthog-js';
-import { Coins01, Coins02, Coins03, Coins04, CoinsStacked01, CoinsStacked02, CoinsStacked03, SearchMd } from '@untitledui/icons';
+import { SearchMd } from '@untitledui/icons';
 import Pill from '@/app/components/ui/Pill';
 import ProfileBadge from '@/app/components/ProfileBadge';
 import { createClient } from '@/app/services/supabase/client';
@@ -23,6 +23,8 @@ function UploadPageContent() {
 	const applicationId = applicationIdParam
 		? Number(applicationIdParam)
 		: undefined;
+	const availableCredits = 0;
+
 	const [file, setFile] = useState<File>();
 	const [jobDescription, setJobDescription] = useState('');
 	const [parsedLetterString, setParsedLetterString] = useState('');
@@ -32,7 +34,6 @@ function UploadPageContent() {
 	const [disabled, setDisabled] = useState(false);
 	const [checkingAuth, setCheckingAuth] = useState(true);
 	const [authUser, setAuthUser] = useState<AuthenticatedUser | null>(null);
-	const availableCredits = 0;
 
 	useEffect(() => {
 		const checkUser = async () => {
@@ -185,8 +186,8 @@ function UploadPageContent() {
 				</div>
 
 				<main className='relative w-full min-h-0 px-10 py-8 flex-1 flex flex-col justify-start items-start gap-12.5 overflow-y-auto'>
-					<div className='max-w-200 h-full card card--col card--start'>
-						<div className='flex flex-col gap-10'>
+					<div className='w-full h-full card card--col card--start'>
+						<div className='w-full flex flex-col gap-10'>
 							<div>
 								<h2 className='tracking-tighter text-lg'>
 									Upload Documents

@@ -6,10 +6,7 @@ import Wrapper from '@/app/components/Wrapper';
 import Pill from '@/app/components/ui/Pill';
 import { createClient } from '@/app/services/supabase/client';
 import { Tables } from '@/app/types/database.types';
-import {
-	AuthenticatedUser,
-	ApplicationOption,
-} from '@/app/types/global.types';
+import { AuthenticatedUser, ApplicationOption } from '@/app/types/global.types';
 import { FileCode01, Paperclip, Plus } from '@untitledui/icons';
 import { redirect, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -121,22 +118,30 @@ export default function Letters() {
 
 				<main className='relative w-full min-h-0 px-10 py-8 flex-1 flex flex-col justify-start items-start gap-6 overflow-y-auto'>
 					<div className='w-full flex justify-between items-center'>
-						<div className='flex items-center gap-2'>
-							<h2 className='tracking-tighter text-lg'>Letters</h2>
+						<div className='flex flex-col justify-center items-start gap-2'>
 							<span className='py-1 px-2.5 text-xs uppercase font-mono bg-white/5 border border-white/20 rounded-lg text-muted'>
 								Templates: {letters.length}
 							</span>
+							<h2 className='tracking-tighter text-lg'>
+								Letters
+							</h2>
 						</div>
 					</div>
 
 					<div className='w-full grid grid-cols-1 gap-6 md:grid-cols-3'>
 						{letters.map((letterRow) => {
-							const { id, application_id, job_description, status } =
-								letterRow;
+							const {
+								id,
+								application_id,
+								job_description,
+								status,
+							} = letterRow;
 							const linkedApplication = applications.find(
-								(application) => application.id === application_id,
+								(application) =>
+									application.id === application_id,
 							);
-							const companyName = linkedApplication?.company?.name;
+							const companyName =
+								linkedApplication?.company?.name;
 							const role = linkedApplication?.role;
 
 							const title =
@@ -183,7 +188,9 @@ export default function Letters() {
 											}}
 										/>
 										<span className='text-xs text-muted'>
-											{formatDateAdded(letterRow.created_at)}
+											{formatDateAdded(
+												letterRow.created_at,
+											)}
 										</span>
 									</div>
 

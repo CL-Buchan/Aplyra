@@ -12,6 +12,7 @@ import { FormEvent, useMemo, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 import posthog from 'posthog-js';
 import Dropzone from '../Dropzone';
+import Image from 'next/image';
 
 const PROFILE_IMAGE_BUCKET = 'profile_images';
 
@@ -29,8 +30,9 @@ export default function ProfileEditForm({ user }: ProfileEditformProps) {
 	const supabase = useMemo(() => createClient(), []);
 	const imageUrl = useMemo(() => {
 		if (!imagePath) return undefined;
-		return supabase.storage.from(PROFILE_IMAGE_BUCKET).getPublicUrl(imagePath)
-			.data.publicUrl;
+		return supabase.storage
+			.from(PROFILE_IMAGE_BUCKET)
+			.getPublicUrl(imagePath).data.publicUrl;
 	}, [imagePath, supabase]);
 
 	const handleImageSelect = async (file: File | undefined) => {
@@ -46,6 +48,7 @@ export default function ProfileEditForm({ user }: ProfileEditformProps) {
 
 		if (result.success && result.path) {
 			setImagePath(result.path);
+			router.refresh();
 			posthog.capture('profile_image_updated');
 			toast.success('Profile picture updated');
 		} else {
@@ -83,10 +86,11 @@ export default function ProfileEditForm({ user }: ProfileEditformProps) {
 				<span className='self-start'>Profile picture:</span>
 				{imageUrl ? (
 					<label className='relative size-24 cursor-pointer rounded-full'>
-						{/* eslint-disable-next-line @next/next/no-img-element */}
-						<img
+						<Image
 							src={imageUrl}
 							alt='Profile'
+							width={96}
+							height={96}
 							className='size-24 rounded-full object-cover border border-black/10 dark:border-white/15'
 						/>
 						{uploadingImage && (
@@ -115,6 +119,8 @@ export default function ProfileEditForm({ user }: ProfileEditformProps) {
 						onFileSelect={handleImageSelect}
 					/>
 				)}
+
+				{imageError && <span className='text-red-500'>{imageError}</span>}
 			</label>
 
 			<label className='w-full flex flex-col gap-2 text-sm'>
