@@ -4,6 +4,17 @@ const projectToken = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
 const host = process.env.NEXT_PUBLIC_POSTHOG_HOST;
 const isPostHogConfigured = Boolean(projectToken && host);
 
+const isLocalhost =
+	typeof window !== 'undefined' &&
+	(window.location.hostname === 'localhost' ||
+		window.location.hostname === '127.0.0.1');
+
+const isProductionDeployment =
+	process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
+
+const shouldInitPostHog =
+	isPostHogConfigured && !isLocalhost && isProductionDeployment;
+
 if (!isPostHogConfigured && process.env.NODE_ENV === 'development') {
 	if (!projectToken) {
 		console.error(
@@ -18,7 +29,7 @@ if (!isPostHogConfigured && process.env.NODE_ENV === 'development') {
 	}
 }
 
-if (projectToken && host) {
+if (shouldInitPostHog && projectToken) {
 	posthog.init(projectToken, {
 		api_host: host,
 		person_profiles: 'always',
@@ -32,7 +43,7 @@ export function onRouterTransitionStart(
 	url: string,
 	navigationType: 'push' | 'replace' | 'traverse',
 ) {
-	if (isPostHogConfigured) {
+	if (shouldInitPostHog) {
 		posthog.capture('$pageview', { url, navigation_type: navigationType });
 	}
 }
