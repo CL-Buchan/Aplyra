@@ -6,7 +6,7 @@ export default function DashboardPreview() {
 			<RadialGlow
 				width={1030}
 				height={100}
-				className='top-15 left-1/2 -translate-x-1/2 opacity-35 pointer-events-none'
+				className='top-15 left-1/2 -translate-x-1/2 opacity-20 dark:opacity-35 pointer-events-none'
 			/>
 
 			<div

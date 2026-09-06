@@ -1,9 +1,14 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from './config/site';
 
 export default function robots(): MetadataRoute.Robots {
-    const host_site = 'https://aplyra.io/';
 	return {
-		rules: { userAgent: '*', allow: '/' },
-		sitemap: `${host_site}`,
+		rules: {
+			userAgent: '*',
+			allow: '/',
+			disallow: ['/api/', '/dashboard/', '/auth/', '/email/'],
+		},
+		sitemap: `${SITE_URL}/sitemap.xml`,
+		host: SITE_URL,
 	};
 }
