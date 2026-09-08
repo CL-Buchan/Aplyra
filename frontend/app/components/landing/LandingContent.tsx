@@ -44,7 +44,7 @@ export default function LandingContent({
 		<AppContextProvider>
 			<WaitlistProvider>
 				<div className='relative w-full flex flex-col items-center font-sans overflow-x-hidden'>
-					<main className='w-full max-w-5xl px-6 flex flex-col gap-28 md:gap-36 pt-32 pb-24'>
+					<main className='relative w-full max-w-5xl px-6 flex flex-col gap-28 md:gap-36 pt-32 pb-24'>
 						{/* Hero */}
 						<section className='w-full flex flex-col items-center text-center'>
 							<RadialGlow
@@ -148,8 +148,8 @@ export default function LandingContent({
 								</h2>
 								<p className='mt-3 max-w-sm text-sm text-muted leading-relaxed'>
 									One place to track every application,
-									follow-up and offer. We&apos;ll email you the
-									moment early access opens.
+									follow-up and offer. We&apos;ll email you
+									the moment early access opens.
 								</p>
 
 								<WaitlistForm location='cta' />
