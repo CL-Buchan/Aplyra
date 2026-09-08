@@ -24,6 +24,8 @@
 
 @layer base {
 	input {
+		padding-top: 0.25rem;
+		padding-bottom: 0.25rem;
 		border-radius: 1.5rem;
 		transition-property: color, background-color, border-color;
 		transition-duration: 300ms;

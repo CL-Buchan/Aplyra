@@ -19,7 +19,6 @@ export default function Button({
 	isLoading,
 }: ButtonProps) {
 	const [isDarkMode, setDarkMode] = useState(false);
-	const [spinnerColour, setSpinnerColour] = useState('');
 
 	// Checks if darkmode is present
 	useEffect(() => {
@@ -83,7 +82,7 @@ export default function Button({
 				className ? className : style,
 			)}>
 			{isLoading ? (
-				<LoadingSpinner colour={spinnerColour} />
+				<LoadingSpinner />
 			) : children ? (
 				children
 			) : redirectTo && text ? (

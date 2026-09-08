@@ -5,6 +5,7 @@ import BackButton from '@/app/components/ui/BackButton';
 import { formInputs } from '@/app/data/data';
 import { createClient } from '@/app/services/supabase/client';
 import { LoginFormData } from '@/app/types/global.types';
+import Link from 'next/link';
 import posthog from 'posthog-js';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -64,14 +65,14 @@ export default function Login() {
 	};
 
 	return (
-		<div className='flex-1 p-10 w-full flex flex-col justify-start items-start gap-10'>
+		<div className='min-h-screen w-full p-10 flex-1 flex flex-col justify-start items-start gap-10'>
 			<BackButton />
 
-			<main className='flex-1 w-full flex flex-col justify-center items-center'>
-				<div className='flex flex-col justify-center items-center gap-5'>
+			<main className='w-full flex-1 flex flex-col justify-center items-center'>
+				<div className='w-full max-w-[40%] flex flex-col justify-center items-center gap-5'>
 					<h2>Login</h2>
 
-					<div className='flex-1 w-full'>
+					<div className='w-full'>
 						<Form
 							onSubmit={handleLogin}
 							inputs={formInputs}
@@ -81,15 +82,21 @@ export default function Login() {
 							isLoading={isLoading}
 						/>
 
-						{error && <p className='mt-5 text-red-500 text-center'>{error}</p>}
+						{error && (
+							<p className='mt-5 text-red-500 text-center'>
+								{error}
+							</p>
+						)}
 					</div>
 
-					<div className='flex flex-col items-center gap-1'>
+					<div className='w-full flex flex-col items-center gap-1'>
 						<p className='mt-5 text-muted'>
 							Do not have an account?{' '}
-							<span className='underline underline-offset-2 hover:opacity-80 transition-opacity duration-300 ease-in-out'>
+							<Link
+								href='/auth/sign-up'
+								className='underline underline-offset-2 hover:opacity-80 transition-opacity duration-300 ease-in-out'>
 								Signup
-							</span>
+							</Link>
 						</p>
 						<p className='text-muted'>
 							Forgot password?{' '}

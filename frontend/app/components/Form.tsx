@@ -17,7 +17,7 @@ export default function Form<T>({
 	errorMsg,
 }: FormProps<T>) {
 	return (
-		<div className='flex flex-col justify-center items-center gap-5'>
+		<div className='flex-1 flex flex-col justify-center items-center gap-5'>
 			{(title || description) && (
 				<div className='flex flex-col gap-2.5'>
 					<h1>{title ?? ''}</h1>
@@ -30,10 +30,12 @@ export default function Form<T>({
 					e.preventDefault();
 					onSubmit();
 				}}
-				className='flex flex-col justify-center items-center gap-5'>
+				className='w-full flex flex-col justify-center items-center gap-5'>
 				{inputs && inputs.length > 0 ? (
 					inputs.map(({ type, label, name, placeholder }, index) => (
-						<div key={index} className='flex flex-col gap-1.25'>
+						<div
+							key={index}
+							className='w-full flex flex-col gap-1.25'>
 							<label htmlFor={name} className='tracking-tight'>
 								{label}:{' '}
 							</label>
@@ -50,6 +52,7 @@ export default function Form<T>({
 								<input
 									type={type}
 									name={name}
+									autoComplete='on'
 									placeholder={placeholder}
 									value={String(
 										(formData as Record<string, unknown>)[
@@ -62,7 +65,7 @@ export default function Form<T>({
 											[e.target.name]: e.target.value,
 										}))
 									}
-									className='text-black dark:text-white'
+									className='flex-1 text-black dark:text-white px-2.5'
 								/>
 							</div>
 						</div>
@@ -71,7 +74,10 @@ export default function Form<T>({
 					<p>No form inputs</p>
 				)}
 
-				<Button isLoading={isLoading} type='submit'>
+				<Button
+					isLoading={isLoading}
+					type='submit'
+					className='mt-5 w-full dark:bg-white dark:text-black rounded-xl flex justify-center items-center'>
 					{bttnText ?? 'Add text'}
 				</Button>
 			</form>

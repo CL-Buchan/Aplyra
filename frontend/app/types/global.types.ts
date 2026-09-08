@@ -122,6 +122,7 @@ export interface FormProps<T> {
 		type: string;
 		label: string;
 		name: string;
+		autocomplete?: string;
 		placeholder: string;
 	}[];
 	styles?: { borderHexColour?: string; backgroundHexColour?: string };

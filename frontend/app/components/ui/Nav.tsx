@@ -16,12 +16,12 @@ const publicLinks = [
 	{ text: 'How it Works', route: '/' },
 ];
 
-// const authedLinks = [{ text: 'Dashboard', route: '/dashboard/applications' }];
+const authedLinks = [{ text: 'Dashboard', route: '/dashboard/applications' }];
 
-// const guestLinks = [
-// 	{ text: 'Login', route: '/auth/login' },
-// 	{ text: 'Sign Up', route: '/auth/sign-up' },
-// ];
+const guestLinks = [
+	{ text: 'Login', route: '/auth/login' },
+	{ text: 'Sign Up', route: '/auth/sign-up' },
+];
 
 export default function Nav({ initialUser }: NavProps) {
 	const [username, setUsername] = useState(initialUser?.email ?? '');
@@ -43,8 +43,8 @@ export default function Nav({ initialUser }: NavProps) {
 	};
 
 	const links = userLoggedIn
-		? [...publicLinks] //, ...authedLinks
-		: [...publicLinks]; //, ...guestLinks
+		? [...publicLinks, ...authedLinks]
+		: [...publicLinks, ...guestLinks];
 
 	async function signUserOut() {
 		setIsLoading(true);
